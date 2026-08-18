@@ -203,13 +203,46 @@
                     </div>
                 </a>
                 
+                <a href="#simulacion" class="console-btn" data-section="simulacion">
+                    <div class="btn-housing">
+                        <div class="btn-light"></div>
+                        <div class="btn-face">
+                            <span class="btn-icon">🛰️</span>
+                            <span class="btn-label">SIMULACIÓN</span>
+                            <span class="btn-code">NAV-03</span>
+                        </div>
+                    </div>
+                </a>
+                
                 <a href="#herramientas" class="console-btn" data-section="herramientas">
                     <div class="btn-housing">
                         <div class="btn-light"></div>
                         <div class="btn-face">
                             <span class="btn-icon">🔧</span>
                             <span class="btn-label">HERRAMIENTAS</span>
-                            <span class="btn-code">NAV-03</span>
+                            <span class="btn-code">NAV-04</span>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="#semilleros" class="console-btn" data-section="semilleros">
+                    <div class="btn-housing">
+                        <div class="btn-light"></div>
+                        <div class="btn-face">
+                            <span class="btn-icon">🌟</span>
+                            <span class="btn-label">SEMILLEROS</span>
+                            <span class="btn-code">NAV-05</span>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="#fundacite" class="console-btn" data-section="fundacite">
+                    <div class="btn-housing">
+                        <div class="btn-light"></div>
+                        <div class="btn-face">
+                            <span class="btn-icon">🏛️</span>
+                            <span class="btn-label">FUNDACITE</span>
+                            <span class="btn-code">NAV-06</span>
                         </div>
                     </div>
                 </a>
@@ -220,7 +253,7 @@
                         <div class="btn-face">
                             <span class="btn-icon">📡</span>
                             <span class="btn-label">DATOS</span>
-                            <span class="btn-code">NAV-04</span>
+                            <span class="btn-code">NAV-07</span>
                         </div>
                     </div>
                 </a>
@@ -500,7 +533,52 @@
         </div>
     </section>
 
-    <!-- Herramientas - Monitor 03 -->
+    <!-- Simulación Orbital - Monitor 03 -->
+    <section id="simulacion" class="section monitor-section">
+        <div class="monitor-frame wide">
+            <div class="monitor-bezel">
+                <div class="monitor-brand">ASTRO<span>PANTALLA</span></div>
+                <div class="monitor-led blink-green"></div>
+                <div class="monitor-power">◉</div>
+            </div>
+            <div class="monitor-screen">
+                <div class="screen-header">
+                    <span class="screen-id">MON-03</span>
+                    <span class="screen-title">SIMULACIÓN ORBITAL DEL SISTEMA SOLAR</span>
+                    <span class="screen-status">● SIMULANDO</span>
+                </div>
+                <div class="screen-content">
+                    <div class="container">
+                        <h2 class="section-title">Simulación <span class="gradient-text">Orbital</span></h2>
+                        <p class="section-desc">Planetas orbitando el Sol según las leyes de Kepler. Ajusta la velocidad y observa el movimiento real.</p>
+                        
+                        <div class="orbital-sim">
+                            <div class="sim-controls">
+                                <button id="sim-play" class="sim-btn">⏸ PAUSAR</button>
+                                <div class="sim-speed-wrap">
+                                    <label for="sim-speed">VELOCIDAD</label>
+                                    <input type="range" id="sim-speed" min="1" max="200" value="50">
+                                    <span id="sim-speed-label">50x</span>
+                                </div>
+                                <span class="sim-elapsed" id="sim-elapsed">AÑO 0.00</span>
+                            </div>
+                            <div class="orbital-canvas-wrap">
+                                <canvas id="orbital-canvas"></canvas>
+                                <div class="sim-info" id="sim-info">Pasa el cursor sobre un planeta para ver sus datos</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="monitor-scanline"></div>
+            </div>
+            <div class="monitor-stand">
+                <div class="stand-neck"></div>
+                <div class="stand-base"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Herramientas - Monitor 04 -->
     <section id="herramientas" class="section monitor-section">
         <div class="monitor-frame wide">
             <div class="monitor-bezel">
@@ -510,7 +588,7 @@
             </div>
             <div class="monitor-screen">
                 <div class="screen-header">
-                    <span class="screen-id">MON-03</span>
+                    <span class="screen-id">MON-04</span>
                     <span class="screen-title">CONSOLA DE CÁLCULO ORBITAL</span>
                     <span class="screen-status">● ACTIVO</span>
                 </div>
@@ -673,7 +751,156 @@
         </div>
     </section>
 
-    <!-- Datos Curiosos - Monitor 04 -->
+    <!-- Semilleros Científicos - Monitor 05 -->
+    <section id="semilleros" class="section monitor-section">
+        <div class="monitor-frame wide">
+            <div class="monitor-bezel">
+                <div class="monitor-brand">ASTRO<span>PANTALLA</span></div>
+                <div class="monitor-led blink-green"></div>
+                <div class="monitor-power">◉</div>
+            </div>
+            <div class="monitor-screen">
+                <div class="screen-header">
+                    <span class="screen-id">MON-05</span>
+                    <span class="screen-title">SEMILLEROS CIENTÍFICOS EN ASTRONOMÍA</span>
+                    <span class="screen-status">● ACTIVO</span>
+                </div>
+                <div class="screen-content">
+                    <div class="container">
+                        <h2 class="section-title">Semilleros <span class="gradient-text">Científicos</span></h2>
+                        <p class="section-desc">Espacios de formación para jóvenes interesados en la exploración del cosmos y las ciencias del espacio.</p>
+                        
+                        <div class="semilleros-grid">
+                            <div class="semillero-card">
+                                <div class="semillero-icon">🔭</div>
+                                <div class="semillero-content">
+                                    <h3>Observación Astronómica</h3>
+                                    <p>Talleres prácticos de manejo de telescopios, identificación de constelaciones y observación de planetas y estrellas.</p>
+                                    <span class="semillero-tag">NIVEL INICIAL</span>
+                                </div>
+                            </div>
+                            <div class="semillero-card">
+                                <div class="semillero-icon">🌌</div>
+                                <div class="semillero-content">
+                                    <h3>Astrofísica Juvenil</h3>
+                                    <p>Introducción a la física estelar, formación estelar y estudio de las propiedades de las estrellas y galaxias.</p>
+                                    <span class="semillero-tag">NIVEL INTERMEDIO</span>
+                                </div>
+                            </div>
+                            <div class="semillero-card">
+                                <div class="semillero-icon">🛰️</div>
+                                <div class="semillero-content">
+                                    <h3>Exploración Espacial</h3>
+                                    <p>Estudio de las misiones espaciales, tecnología de cohetes, satélites y la exploración robótica del sistema solar.</p>
+                                    <span class="semillero-tag">NIVEL INTERMEDIO</span>
+                                </div>
+                            </div>
+                            <div class="semillero-card">
+                                <div class="semillero-icon">🪐</div>
+                                <div class="semillero-content">
+                                    <h3>Planetología</h3>
+                                    <p>Análisis de la formación planetaria, geología de los planetas rocosos y estudio de los gigantes gaseosos.</p>
+                                    <span class="semillero-tag">NIVEL AVANZADO</span>
+                                </div>
+                            </div>
+                            <div class="semillero-card">
+                                <div class="semillero-icon">💫</div>
+                                <div class="semillero-content">
+                                    <h3>Cosmología</h3>
+                                    <p>Exploración del origen y evolución del universo, el Big Bang, la materia oscura y los agujeros negros.</p>
+                                    <span class="semillero-tag">NIVEL AVANZADO</span>
+                                </div>
+                            </div>
+                            <div class="semillero-card">
+                                <div class="semillero-icon">📡</div>
+                                <div class="semillero-content">
+                                    <h3>Radioastronomía</h3>
+                                    <p>Iniciación al estudio del universo a través de ondas de radio, y la búsqueda de señales cósmicas.</p>
+                                    <span class="semillero-tag">NIVEL AVANZADO</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="semillero-note">
+                            <span class="note-icon">ℹ️</span>
+                            <p>Los semilleros científicos son programas de formación complementaria donde jóvenes desarrollan habilidades de investigación, pensamiento crítico y trabajo en equipo, bajo la guía de profesionales del área.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="monitor-scanline"></div>
+            </div>
+            <div class="monitor-stand">
+                <div class="stand-neck"></div>
+                <div class="stand-base"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fundacite Caracas - Monitor 06 -->
+    <section id="fundacite" class="section monitor-section">
+        <div class="monitor-frame wide">
+            <div class="monitor-bezel">
+                <div class="monitor-brand">ASTRO<span>PANTALLA</span></div>
+                <div class="monitor-led blink-amber"></div>
+                <div class="monitor-power">◉</div>
+            </div>
+            <div class="monitor-screen">
+                <div class="screen-header">
+                    <span class="screen-id">MON-06</span>
+                    <span class="screen-title">FUNDACITE CARACAS - CIENCIA Y TECNOLOGÍA</span>
+                    <span class="screen-status">● VINCULADO</span>
+                </div>
+                <div class="screen-content">
+                    <div class="container">
+                        <h2 class="section-title">Fundacite <span class="gradient-text">Caracas</span></h2>
+                        <p class="section-desc">Promoviendo la ciencia, la tecnología y la astronomía como motor de desarrollo.</p>
+                        
+                        <div class="fundacite-banner">
+                            <div class="fundacite-logo">
+                                <span class="logo-atom">⚛️</span>
+                                <span class="logo-text-sm">FUNDACITE</span>
+                                <span class="logo-city">CARACAS</span>
+                            </div>
+                            <div class="fundacite-desc">
+                                <h3>Fundación para el Desarrollo de la Ciencia y la Tecnología</h3>
+                                <p>Institución dedicada a la divulgación científica, la formación de talento humano y el fomento de vocaciones tempranas en ciencia y tecnología, incluyendo la astronomía.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="fundacite-features">
+                            <div class="fundacite-feature">
+                                <span class="feat-icon">🎓</span>
+                                <h4>Formación</h4>
+                                <p>Programas educativos y talleres para estudiantes y docentes.</p>
+                            </div>
+                            <div class="fundacite-feature">
+                                <span class="feat-icon">🔬</span>
+                                <h4>Investigación</h4>
+                                <p>Impulso a proyectos de investigación y desarrollo tecnológico.</p>
+                            </div>
+                            <div class="fundacite-feature">
+                                <span class="feat-icon">🌟</span>
+                                <h4>Divulgación</h4>
+                                <p>Eventos, ferias científicas y actividades de acercamiento a la ciencia.</p>
+                            </div>
+                            <div class="fundacite-feature">
+                                <span class="feat-icon">🤝</span>
+                                <h4>Comunidad</h4>
+                                <p>Vinculación entre escuelas, universidades e instituciones científicas.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="monitor-scanline"></div>
+            </div>
+            <div class="monitor-stand">
+                <div class="stand-neck"></div>
+                <div class="stand-base"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Datos Curiosos - Monitor 07 -->
     <section id="datos" class="section monitor-section">
         <div class="monitor-frame">
             <div class="monitor-bezel">
@@ -683,7 +910,7 @@
             </div>
             <div class="monitor-screen">
                 <div class="screen-header">
-                    <span class="screen-id">MON-04</span>
+                    <span class="screen-id">MON-07</span>
                     <span class="screen-title">REGISTRO DE DATOS CÓSMICOS</span>
                     <span class="screen-status">● RECIBIENDO</span>
                 </div>

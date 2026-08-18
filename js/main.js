@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initConsoleButtons();
     initHUDAnimation();
     initRealData();
+    initOrbitalSim();
 });
 
 // =============================================
@@ -748,4 +749,192 @@ function initScrollAnimations() {
         card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
         observer.observe(card);
     });
+}
+
+// =============================================
+// SIMULACIÓN ORBITAL DEL SISTEMA SOLAR
+// =============================================
+function initOrbitalSim() {
+    const canvas = document.getElementById('orbital-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    
+    const playBtn = document.getElementById('sim-play');
+    const speedSlider = document.getElementById('sim-speed');
+    const speedLabel = document.getElementById('sim-speed-label');
+    const elapsedEl = document.getElementById('sim-elapsed');
+    const infoEl = document.getElementById('sim-info');
+    
+    // Datos de los planetas: distancia (UA), periodo (años), color, radio visual
+    const planets = [
+        { name: 'Mercurio', dist: 0.39, period: 0.24, color: '#a0a0a0', radius: 3, desc: '58 millones km' },
+        { name: 'Venus', dist: 0.72, period: 0.62, color: '#e8c07a', radius: 5, desc: '108 millones km' },
+        { name: 'Tierra', dist: 1.0, period: 1.0, color: '#4d8fac', radius: 5.5, desc: '150 millones km' },
+        { name: 'Marte', dist: 1.52, period: 1.88, color: '#cc5533', radius: 4, desc: '228 millones km' },
+        { name: 'Júpiter', dist: 5.2, period: 11.86, color: '#d8a95c', radius: 11, desc: '778 millones km' },
+        { name: 'Saturno', dist: 9.58, period: 29.46, color: '#e8d98a', radius: 9.5, desc: '1.434 millones km' },
+        { name: 'Urano', dist: 19.2, period: 84.01, color: '#66ccff', radius: 7, desc: '2.871 millones km' },
+        { name: 'Neptuno', dist: 30.05, period: 164.8, color: '#6666ff', radius: 6.5, desc: '4.495 millones km' }
+    ];
+    
+    // Velocidad angular en grados por año (360 / periodo)
+    planets.forEach(p => p.angularSpeed = 360 / p.period);
+    
+    // Ángulos iniciales aleatorios
+    planets.forEach(p => p.angle = Math.random() * 360);
+    
+    let year = 0;
+    let speed = 50;
+    let running = true;
+    let hoverPlanet = null;
+    
+    function resize() {
+        const wrap = canvas.parentElement;
+        canvas.width = wrap.clientWidth;
+        canvas.height = Math.min(480, Math.max(320, wrap.clientWidth * 0.5));
+    }
+    
+    function toPixel(distUA) {
+        // Mapear distancia UA a píxeles usando raíz cuadrada para comprimir distancias lejanas
+        const cx = canvas.width / 2;
+        const cy = canvas.height / 2;
+        const maxR = Math.min(cx, cy) - 40;
+        const r = Math.pow(distUA, 0.55) / Math.pow(30.05, 0.55) * maxR;
+        return { r, cx, cy };
+    }
+    
+    function draw() {
+        ctx.fillStyle = 'rgba(5, 8, 16, 1)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        const { cx, cy, r: maxR } = toPixel(30.05);
+        
+        // Órbitas
+        planets.forEach(p => {
+            const { r } = toPixel(p.dist);
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.strokeStyle = 'rgba(0,212,255,0.12)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+        });
+        
+        // Cinturón de asteroides
+        ctx.beginPath();
+        ctx.arc(cx, cy, toPixel(2.3).r, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(255,170,0,0.08)';
+        ctx.setLineDash([2, 6]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        
+        // Sol con brillo
+        const sunGlow = ctx.createRadialGradient(cx, cy, 2, cx, cy, 30);
+        sunGlow.addColorStop(0, 'rgba(255,220,120,1)');
+        sunGlow.addColorStop(0.3, 'rgba(255,180,60,0.6)');
+        sunGlow.addColorStop(1, 'rgba(255,140,20,0)');
+        ctx.fillStyle = sunGlow;
+        ctx.beginPath();
+        ctx.arc(cx, cy, 30, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#ffcc33';
+        ctx.beginPath();
+        ctx.arc(cx, cy, 12, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Planetas
+        planets.forEach(p => {
+            const { cx, cy } = toPixel(p.dist);
+            const { r } = toPixel(p.dist);
+            const rad = p.angle * Math.PI / 180;
+            const x = cx + r * Math.cos(rad);
+            const y = cy + r * Math.sin(rad);
+            
+            // Detección de hover
+            const mouseDistance = hoverPlanet && hoverPlanet === p ? 0 : Infinity;
+            
+            ctx.beginPath();
+            ctx.arc(x, y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+            ctx.shadowColor = p.color;
+            ctx.shadowBlur = 8;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        });
+        
+        // Etiqueta del planeta en hover
+        if (hoverPlanet) {
+            const { cx, cy } = toPixel(hoverPlanet.dist);
+            const { r } = toPixel(hoverPlanet.dist);
+            const rad = hoverPlanet.angle * Math.PI / 180;
+            const x = cx + r * Math.cos(rad);
+            const y = cy + r * Math.sin(rad);
+            ctx.fillStyle = 'rgba(5,8,16,0.9)';
+            ctx.fillRect(x + 15, y - 10, 90, 20);
+            ctx.strokeStyle = hoverPlanet.color;
+            ctx.strokeRect(x + 15, y - 10, 90, 20);
+            ctx.fillStyle = '#e0f0ff';
+            ctx.font = '10px monospace';
+            ctx.fillText(hoverPlanet.name + ' · ' + hoverPlanet.desc, x + 20, y + 4);
+        }
+    }
+    
+    function animate() {
+        if (running) {
+            year += speed / 365 / 1000 * 0.1;
+            planets.forEach(p => {
+                p.angle = (p.angle + p.angularSpeed * speed / 365 / 1000 * 0.1) % 360;
+            });
+            if (elapsedEl) {
+                elapsedEl.textContent = 'AÑO ' + year.toFixed(2);
+            }
+        }
+        draw();
+        requestAnimationFrame(animate);
+    }
+    
+    // Controles
+    playBtn.addEventListener('click', () => {
+        running = !running;
+        playBtn.textContent = running ? '? PAUSAR' : '? REANUDAR';
+    });
+    
+    speedSlider.addEventListener('input', () => {
+        speed = parseInt(speedSlider.value);
+        speedLabel.textContent = speed + 'x';
+    });
+    
+    // Hover en planetas
+    canvas.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const mx = e.clientX - rect.left;
+        const my = e.clientY - rect.top;
+        const { cx, cy } = toPixel(1);
+        hoverPlanet = null;
+        for (const p of planets) {
+            const { r } = toPixel(p.dist);
+            const rad = p.angle * Math.PI / 180;
+            const x = cx + r * Math.cos(rad);
+            const y = cy + r * Math.sin(rad);
+            const dist = Math.sqrt((mx - x) ** 2 + (my - y) ** 2);
+            if (dist < p.radius + 8) {
+                hoverPlanet = p;
+                if (infoEl) infoEl.textContent = p.name + ' · ' + p.desc;
+                break;
+            }
+        }
+        if (!hoverPlanet && infoEl) infoEl.textContent = 'Pasa el cursor sobre un planeta';
+    });
+    
+    canvas.addEventListener('mouseleave', () => {
+        hoverPlanet = null;
+        if (infoEl) infoEl.textContent = 'Pasa el cursor sobre un planeta';
+    });
+    
+    window.addEventListener('resize', () => {
+        resize();
+    });
+    
+    resize();
+    animate();
 }
