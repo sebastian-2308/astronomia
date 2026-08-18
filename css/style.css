@@ -1,0 +1,2219 @@
+/* =============================================
+   CABINA DE NAVE ESPACIAL - ASTRO-NASA v3.0
+   Diseño industrial de estación de comando
+   ============================================= */
+
+/* Variables industriales de nave */
+:root {
+    --metal-dark: #0d1117;
+    --metal-mid: #161b22;
+    --metal-light: #21262d;
+    --metal-border: #30363d;
+    --panel-bg: #11161d;
+    --screen-bg: #0a0f16;
+    --screen-green: #00ff88;
+    --screen-amber: #ffaa00;
+    --screen-blue: #4d8fac;
+    --screen-red: #ff3333;
+    --screen-cyan: #00d4ff;
+    --text-primary: #c9d1d9;
+    --text-muted: #8b949e;
+    --led-green: #238636;
+    --led-amber: #d29922;
+    --led-red: #da3633;
+    --metal-shine: rgba(255,255,255,0.05);
+    --shadow-deep: rgba(0,0,0,0.6);
+    --font-title: 'Orbitron', sans-serif;
+    --font-body: 'Exo 2', sans-serif;
+    --font-mono: 'Share Tech Mono', 'Courier New', monospace;
+    --transition: all 0.2s ease;
+}
+
+/* Reset */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--metal-dark);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* =============================================
+   CANVAS DE ESTRELLAS (VENTANA ESPACIAL)
+   ============================================= */
+#starfield {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* =============================================
+   MARCO PRINCIPAL DE CABINA
+   ============================================= */
+.cockpit-frame {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, var(--metal-dark) 0%, var(--metal-mid) 50%, var(--metal-dark) 100%);
+}
+
+/* Panel superior de estado */
+.top-status-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.6rem 2rem;
+    background: linear-gradient(180deg, var(--metal-light) 0%, var(--metal-mid) 100%);
+    border-bottom: 2px solid var(--metal-border);
+    box-shadow: 0 2px 10px var(--shadow-deep);
+    flex-wrap: wrap;
+}
+
+.status-led {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--led-green);
+    box-shadow: 0 0 8px var(--led-green);
+}
+
+.status-led.blink-amber {
+    background: var(--led-amber);
+    box-shadow: 0 0 8px var(--led-amber);
+    animation: blinkLed 1.5s ease-in-out infinite;
+}
+
+.status-led.blink-green {
+    animation: blinkLed 2s ease-in-out infinite;
+}
+
+@keyframes blinkLed {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+.status-text {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+}
+
+.status-divider {
+    width: 1px;
+    height: 12px;
+    background: var(--metal-border);
+}
+
+/* =============================================
+   VENTANA/VIEWPORT CENTRAL
+   ============================================= */
+.main-viewport {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 220px;
+    position: relative;
+    min-height: 60vh;
+}
+
+.viewport-frame {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    border: 12px solid var(--metal-light);
+    border-radius: 20px;
+    background: var(--metal-mid);
+    box-shadow: 
+        inset 0 0 30px var(--shadow-deep),
+        0 0 40px var(--shadow-deep),
+        inset 0 0 0 2px var(--metal-border);
+    overflow: hidden;
+}
+
+.viewport-bolt {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: var(--metal-border);
+    border-radius: 50%;
+    z-index: 10;
+    box-shadow: inset 0 1px 3px var(--shadow-deep);
+}
+
+.viewport-bolt::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 2px;
+    background: var(--metal-dark);
+    transform: translate(-50%, -50%);
+}
+
+.viewport-bolt.top-left { top: -6px; left: -6px; }
+.viewport-bolt.top-right { top: -6px; right: -6px; }
+.viewport-bolt.bottom-left { bottom: -6px; left: -6px; }
+.viewport-bolt.bottom-right { bottom: -6px; right: -6px; }
+
+.viewport-seal {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    border: 2px solid var(--metal-border);
+    border-radius: 12px;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Mira de navegación */
+.nav-crosshair {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+.crosshair-h,
+.crosshair-v {
+    position: absolute;
+    background: var(--screen-cyan);
+    box-shadow: 0 0 5px var(--screen-cyan);
+}
+
+.crosshair-h {
+    width: 100%;
+    height: 1px;
+    top: 50%;
+    left: 0;
+}
+
+.crosshair-v {
+    width: 1px;
+    height: 100%;
+    left: 50%;
+    top: 0;
+}
+
+.crosshair-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    border: 1px solid var(--screen-cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 5px var(--screen-cyan);
+}
+
+.crosshair-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    border: 1px dashed var(--screen-cyan);
+    border-radius: 50%;
+    animation: rotateRing 20s linear infinite;
+}
+
+@keyframes rotateRing {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.distance-marker {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--screen-cyan);
+    white-space: nowrap;
+}
+
+/* Contenido del viewport */
+.viewport-content {
+    position: relative;
+    z-index: 2;
+    padding: 4rem 3rem;
+    text-align: center;
+}
+
+.viewport-glare {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 50%, rgba(255,255,255,0.02) 100%);
+    pointer-events: none;
+    z-index: 6;
+}
+
+.viewport-badge {
+    display: inline-block;
+    padding: 0.4rem 1.2rem;
+    background: var(--metal-dark);
+    border: 1px solid var(--metal-border);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--screen-amber);
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+    box-shadow: inset 0 0 10px var(--shadow-deep);
+}
+
+.hero-title {
+    font-family: var(--font-title);
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 900;
+    margin-bottom: 1rem;
+    letter-spacing: 3px;
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, var(--screen-cyan), var(--screen-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.stat-panel {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.8rem 1.2rem;
+    background: var(--metal-dark);
+    border: 1px solid var(--metal-border);
+    border-radius: 6px;
+    box-shadow: inset 0 0 10px var(--shadow-deep);
+}
+
+.stat-icon {
+    font-size: 1.5rem;
+    color: var(--screen-cyan);
+    text-shadow: 0 0 5px var(--screen-cyan);
+}
+
+.stat-data {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.stat-number {
+    font-family: var(--font-title);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--screen-cyan);
+    text-shadow: 0 0 5px rgba(0, 212, 255, 0.3);
+}
+
+.stat-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+}
+
+.viewport-warning {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 170, 0, 0.1);
+    border: 1px solid var(--screen-amber);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--screen-amber);
+}
+
+.warning-icon {
+    font-size: 1rem;
+}
+
+/* =============================================
+   CONSOLA INFERIOR - BOTONES DE NAVEGACIÓN
+   ============================================= */
+.bottom-console {
+    background: linear-gradient(180deg, var(--metal-light) 0%, var(--metal-mid) 100%);
+    border-top: 3px solid var(--metal-border);
+    padding: 1.5rem 2rem;
+    position: relative;
+    box-shadow: 0 -5px 20px var(--shadow-deep);
+}
+
+.console-ridge {
+    position: absolute;
+    top: -3px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--screen-cyan), transparent);
+    opacity: 0.3;
+}
+
+.console-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.console-btn {
+    text-decoration: none;
+    display: block;
+}
+
+.btn-housing {
+    position: relative;
+    width: 140px;
+    background: linear-gradient(180deg, var(--metal-light) 0%, var(--metal-dark) 100%);
+    border: 2px solid var(--metal-border);
+    border-radius: 8px;
+    padding: 3px;
+    box-shadow: 
+        0 4px 8px var(--shadow-deep),
+        inset 0 1px 0 var(--metal-shine);
+    transition: var(--transition);
+}
+
+.btn-housing:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 6px 12px var(--shadow-deep),
+        inset 0 1px 0 var(--metal-shine);
+    border-color: var(--screen-cyan);
+}
+
+.console-btn.active .btn-housing {
+    border-color: var(--screen-green);
+    box-shadow: 
+        0 0 15px rgba(0, 255, 136, 0.2),
+        inset 0 1px 0 var(--metal-shine);
+}
+
+.btn-light {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--metal-border);
+    transition: var(--transition);
+}
+
+.console-btn.active .btn-light {
+    background: var(--screen-green);
+    box-shadow: 0 0 8px var(--screen-green);
+}
+
+.btn-face {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.8rem 0.5rem;
+    background: linear-gradient(180deg, var(--metal-mid) 0%, var(--metal-dark) 100%);
+    border-radius: 5px;
+    box-shadow: inset 0 2px 4px var(--shadow-deep);
+}
+
+.btn-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.3rem;
+}
+
+.btn-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-primary);
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.btn-code {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+}
+
+.console-detail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--metal-border);
+}
+
+.detail-line {
+    width: 50px;
+    height: 2px;
+    background: var(--metal-border);
+}
+
+.detail-grill {
+    display: flex;
+    gap: 3px;
+}
+
+.grill-hole {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--metal-dark);
+    border: 1px solid var(--metal-border);
+    box-shadow: inset 0 1px 2px var(--shadow-deep);
+}
+
+.console-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 3px;
+}
+
+/* =============================================
+   SEPARADORES DE SECCIÓN
+   ============================================= */
+.section-separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem 2rem;
+    background: var(--metal-dark);
+    border-top: 1px solid var(--metal-border);
+    border-bottom: 1px solid var(--metal-border);
+}
+
+.sep-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--metal-border), transparent);
+    max-width: 200px;
+}
+
+.sep-light {
+    width: 8px;
+    height: 8px;
+    background: var(--screen-cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--screen-cyan);
+    animation: blinkLed 2s ease-in-out infinite;
+}
+
+/* =============================================
+   SECCIONES - MONITORES DE CABINA
+   ============================================= */
+.monitor-section {
+    padding: 3rem 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.monitor-frame {
+    max-width: 1000px;
+    width: 100%;
+    position: relative;
+}
+
+.monitor-frame.wide {
+    max-width: 1200px;
+}
+
+/* Marco del monitor */
+.monitor-bezel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 1.2rem;
+    background: linear-gradient(180deg, var(--metal-light) 0%, var(--metal-mid) 100%);
+    border: 2px solid var(--metal-border);
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    box-shadow: inset 0 1px 0 var(--metal-shine);
+}
+
+.monitor-brand {
+    font-family: var(--font-title);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+}
+
+.monitor-brand span {
+    color: var(--screen-cyan);
+}
+
+.monitor-led {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.monitor-led.blink-green {
+    background: var(--screen-green);
+    box-shadow: 0 0 8px var(--screen-green);
+    animation: blinkLed 2s ease-in-out infinite;
+}
+
+.monitor-led.blink-amber {
+    background: var(--screen-amber);
+    box-shadow: 0 0 8px var(--screen-amber);
+    animation: blinkLed 1.5s ease-in-out infinite;
+}
+
+.monitor-power {
+    font-size: 0.8rem;
+    color: var(--screen-green);
+    text-shadow: 0 0 5px var(--screen-green);
+}
+
+/* Pantalla del monitor */
+.monitor-screen {
+    background: var(--screen-bg);
+    border: 2px solid var(--metal-border);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+        inset 0 0 30px var(--shadow-deep),
+        0 5px 20px var(--shadow-deep);
+}
+
+.screen-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: rgba(0, 20, 40, 0.5);
+    border-bottom: 1px solid var(--metal-border);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+}
+
+.screen-id {
+    color: var(--text-muted);
+    letter-spacing: 1px;
+}
+
+.screen-title {
+    color: var(--screen-cyan);
+    letter-spacing: 2px;
+}
+
+.screen-status {
+    color: var(--screen-green);
+}
+
+.screen-content {
+    padding: 2rem;
+}
+
+/* Scanline CRT */
+.monitor-scanline {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.03) 2px,
+        rgba(0, 0, 0, 0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Base del monitor */
+.monitor-stand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stand-neck {
+    width: 30px;
+    height: 20px;
+    background: linear-gradient(180deg, var(--metal-mid), var(--metal-light));
+    border: 1px solid var(--metal-border);
+}
+
+.stand-base {
+    width: 80px;
+    height: 8px;
+    background: linear-gradient(180deg, var(--metal-light), var(--metal-mid));
+    border: 1px solid var(--metal-border);
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 2px 5px var(--shadow-deep);
+}
+
+/* =============================================
+   CONTENIDO DE SECCIONES (dentro de monitores)
+   ============================================= */
+.section-title {
+    font-family: var(--font-title);
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    text-align: center;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+}
+
+.section-desc {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Astrónomos Grid */
+.astronomers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.astronomer-card {
+    background: var(--metal-dark);
+    border: 1px solid var(--metal-border);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.astronomer-card:hover {
+    border-color: var(--screen-cyan);
+    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.1);
+    transform: translateY(-3px);
+}
+
+.card-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--metal-border);
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(30%);
+    transition: var(--transition);
+}
+
+.astronomer-card:hover .card-image img {
+    filter: grayscale(0%);
+    transform: scale(1.05);
+}
+
+.card-content {
+    padding: 1rem;
+}
+
+.card-content h3 {
+    font-family: var(--font-title);
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+    color: var(--screen-cyan);
+}
+
+.years {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--screen-amber);
+    margin-bottom: 0.5rem;
+}
+
+.card-content p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 0.8rem;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.tag {
+    background: rgba(0, 212, 255, 0.08);
+    color: var(--screen-cyan);
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    border: 1px solid rgba(0, 212, 255, 0.15);
+}
+
+/* Sistema Solar */
+.planet-selector {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-bottom: 2rem;
+}
+
+.planet-btn {
+    padding: 0.5rem 1rem;
+    background: var(--metal-dark);
+    border: 1px solid var(--metal-border);
+    color: var(--text-muted);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    box-shadow: inset 0 0 5px var(--shadow-deep);
+}
+
+.planet-btn:hover,
+.planet-btn.active {
+    background: rgba(0, 212, 255, 0.1);
+    color: var(--screen-cyan);
+    border-color: var(--screen-cyan);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+}
+
+.planet-display {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.planet-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    position: relative;
+}
+
+.planet-visual::before {
+    content: '';
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border: 1px dashed var(--metal-border);
+    border-radius: 50%;
+    animation: rotateRing 20s linear infinite;
+}
+
+.planet-sphere {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    transition: var(--transition);
+    animation: planetFloat 6s ease-in-out infinite;
+    position: relative;
+    z-index: 2;
+}
+
+.sun-sphere {
+    background: radial-gradient(circle at 30% 30%, #fff7e6, #ffcc00, #ff6600, #ff3300);
+    box-shadow: 0 0 50px #ff6600, 0 0 100px rgba(255, 102, 0, 0.3);
+}
+
+.mercury-sphere {
+    background: radial-gradient(circle at 30% 30%, #e8e8e8, #a0a0a0, #707070);
+    box-shadow: 0 0 20px rgba(160, 160, 160, 0.5);
+}
+
+.venus-sphere {
+    background: radial-gradient(circle at 30% 30%, #fff5e6, #ffcc80, #cc9933);
+    box-shadow: 0 0 20px rgba(204, 153, 51, 0.5);
+}
+
+.earth-sphere {
+    background: radial-gradient(circle at 30% 30%, #87ceeb, #228b22, #1a5276);
+    box-shadow: 0 0 20px rgba(135, 206, 235, 0.5);
+}
+
+.mars-sphere {
+    background: radial-gradient(circle at 30% 30%, #ff9980, #cc3300, #990000);
+    box-shadow: 0 0 20px rgba(204, 51, 0, 0.5);
+}
+
+.jupiter-sphere {
+    background: radial-gradient(circle at 30% 30%, #ffddcc, #cc9966, #996633, #663300);
+    box-shadow: 0 0 20px rgba(204, 153, 102, 0.5);
+}
+
+.saturn-sphere {
+    background: radial-gradient(circle at 30% 30%, #fff8dc, #f0e68c, #bdb76b);
+    box-shadow: 0 0 20px rgba(240, 230, 140, 0.5);
+    position: relative;
+}
+
+.saturn-sphere::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotateX(75deg);
+    width: 280px;
+    height: 280px;
+    border: 15px solid rgba(210, 180, 140, 0.6);
+    border-radius: 50%;
+}
+
+.uranus-sphere {
+    background: radial-gradient(circle at 30% 30%, #b3e0ff, #66ccff, #3399cc);
+    box-shadow: 0 0 20px rgba(102, 204, 255, 0.5);
+}
+
+.neptune-sphere {
+    background: radial-gradient(circle at 30% 30%, #b3b3ff, #6666ff, #3333cc);
+    box-shadow: 0 0 20px rgba(102, 102, 255, 0.5);
+}
+
+.planet-info h3 {
+    font-family: var(--font-title);
+    font-size: 1.5rem;
+    color: var(--screen-cyan);
+    margin-bottom: 0.8rem;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    padding: 0.6rem;
+    background: rgba(0, 20, 40, 0.3);
+    border-radius: 4px;
+    border: 1px solid var(--metal-border);
+}
+
+.info-label {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+    letter-spacing: 1px;
+}
+
+.info-value {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+}
+
+.planet-description {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.6;
+}
+
+.solar-facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.fact-card {
+    background: var(--metal-dark);
+    border: 1px solid var(--metal-border);
+    border-radius: 6px;
+    padding: 1.2rem;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.fact-card:hover {
+    border-color: var(--screen-cyan);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.1);
+}
+
+.fact-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.fact-card h4 {
+    font-family: var(--font-title);
+    color: var(--screen-cyan);
+    margin-bottom: 0.3rem;
+    font-size: 0.85rem;
+}
+
+.fact-card p {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+/* Herramientas */
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.tool-card {
+    background: var(--metal-dark);
+    border: 1px solid var(--metal-border);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.tool-card.wide {
+    grid-column: 1 / -1;
+}
+
+.tool-header {
+    padding: 1rem;
+    background: rgba(0, 20, 40, 0.3);
+    border-bottom: 1px solid var(--metal-border);
+}
+
+.tool-header h3 {
+    font-family: var(--font-title);
+    font-size: 0.9rem;
+    margin-bottom: 0.2rem;
+    color: var(--screen-cyan);
+}
+
+.tool-header p {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+.tool-body {
+    padding: 1rem;
+}
+
+.input-group {
+    margin-bottom: 0.8rem;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.3rem;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    letter-spacing: 1px;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: 0.6rem;
+    background: var(--screen-bg);
+    border: 1px solid var(--metal-border);
+    border-radius: 4px;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    transition: var(--transition);
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    outline: none;
+    border-color: var(--screen-cyan);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+}
+
+.weight-results,
+.age-results {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+}
+
+.weight-item,
+.age-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+    background: rgba(0, 20, 40, 0.3);
+    border-radius: 3px;
+    border: 1px solid var(--metal-border);
+}
+
+.planet-name {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+}
+
+.weight-value,
+.age-value {
+    color: var(--screen-cyan);
+    font-weight: 600;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+}
+
+.convert-btn {
+    padding: 0.7rem;
+    background: rgba(0, 212, 255, 0.1);
+    border: 1px solid var(--screen-cyan);
+    border-radius: 4px;
+    color: var(--screen-cyan);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+}
+
+.convert-btn:hover {
+    background: rgba(0, 212, 255, 0.2);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+}
+
+/* Botones de presets del conversor */
+.preset-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.8rem;
+}
+
+.preset-btn {
+    flex: 1;
+    min-width: 110px;
+    padding: 0.5rem;
+    background: var(--metal-dark);
+    border: 1px solid var(--metal-border);
+    border-radius: 4px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.preset-btn:hover {
+    color: var(--screen-amber);
+    border-color: var(--screen-amber);
+    background: rgba(255, 170, 0, 0.1);
+    box-shadow: 0 0 10px rgba(255, 170, 0, 0.15);
+}
+
+.result-box {
+    padding: 1.2rem;
+    background: rgba(0, 212, 255, 0.05);
+    border: 1px solid var(--screen-cyan);
+    border-radius: 6px;
+    text-align: center;
+    margin-top: 0.8rem;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.1);
+}
+
+.result-number {
+    display: block;
+    font-family: var(--font-title);
+    font-size: 1.5rem;
+    color: var(--screen-cyan);
+    font-weight: 700;
+    text-shadow: 0 0 5px rgba(0, 212, 255, 0.3);
+}
+
+.result-unit {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+}
+
+.context-info {
+    text-align: center;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    font-style: italic;
+    font-family: var(--font-mono);
+}
+
+/* Escala */
+.scale-container {
+    padding: 1.5rem 0;
+}
+
+.scale-axis-labels {
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-muted);
+    font-size: 0.65rem;
+    font-family: var(--font-mono);
+    margin-bottom: 0.5rem;
+    padding: 0 2%;
+}
+
+.scale-track {
+    position: relative;
+    height: 60px;
+    background: linear-gradient(90deg, rgba(255,160,0,0.25) 0%, rgba(255,100,0,0.1) 20%, rgba(0,100,255,0.05) 60%, rgba(0,50,150,0.05) 100%);
+    border-radius: 30px;
+    margin: 0.5rem 0;
+    border: 1px solid var(--metal-border);
+    box-shadow: inset 0 0 15px var(--shadow-deep);
+}
+
+/* Marcas de escala logarítmica */
+.scale-track::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 8%;
+    width: 1px;
+    background: rgba(255,255,255,0.15);
+}
+
+.scale-track::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: rgba(255,255,255,0.1);
+}
+
+.scale-planet {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+    z-index: 10;
+}
+
+.scale-planet:hover {
+    transform: translate(-50%, -50%) scale(1.6);
+    filter: drop-shadow(0 0 10px var(--screen-cyan));
+}
+
+.scale-planet::after {
+    content: attr(data-name);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    font-size: 0.6rem;
+    color: var(--screen-cyan);
+    background: var(--metal-dark);
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    border: 1px solid var(--metal-border);
+    opacity: 0;
+    transition: var(--transition);
+    pointer-events: none;
+    white-space: nowrap;
+    font-family: var(--font-mono);
+}
+
+.scale-planet:hover::after {
+    opacity: 1;
+}
+
+.scale-labels {
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    padding: 0 2%;
+}
+
+.scale-tip {
+    text-align: center;
+    color: var(--text-muted);
+    margin-top: 0.8rem;
+    font-size: 0.8rem;
+}
+
+/* Gravedad */
+.mass-visualization {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: rgba(0, 20, 40, 0.2);
+    border-radius: 6px;
+    border: 1px solid var(--metal-border);
+}
+
+.mass-object {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.mass-object span {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+}
+
+.mass-circle {
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--screen-cyan), var(--screen-blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 0.7rem;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+}
+
+.force-arrow {
+    font-family: var(--font-title);
+    color: var(--screen-amber);
+    font-weight: 700;
+    font-size: 1rem;
+    animation: forcePulse 2s ease infinite;
+}
+
+@keyframes forcePulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+}
+
+.gravity-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.input-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.input-row label {
+    min-width: 100px;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+}
+
+.input-row input[type="range"] {
+    flex: 1;
+    accent-color: var(--screen-cyan);
+}
+
+.input-row span {
+    min-width: 70px;
+    color: var(--screen-cyan);
+    font-weight: 600;
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+}
+
+.gravity-result {
+    text-align: center;
+    padding: 0.8rem;
+    background: rgba(0, 212, 255, 0.05);
+    border-radius: 6px;
+    border: 1px solid var(--metal-border);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.1);
+}
+
+.formula {
+    display: block;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-bottom: 0.3rem;
+}
+
+.result {
+    font-family: var(--font-title);
+    color: var(--screen-cyan);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+/* Datos Curiosos */
+.facts-carousel {
+    position: relative;
+    min-height: 180px;
+    margin-bottom: 1rem;
+}
+
+.fact-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    text-align: center;
+}
+
+.fact-slide.active {
+    opacity: 1;
+}
+
+.fact-content {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    background: var(--metal-dark);
+    border: 1px solid var(--metal-border);
+    border-radius: 8px;
+    box-shadow: inset 0 0 20px var(--shadow-deep);
+}
+
+.fact-number {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    color: var(--screen-amber);
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    text-shadow: 0 0 10px rgba(255, 170, 0, 0.3);
+}
+
+.fact-slide p {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.carousel-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.carousel-controls button {
+    background: var(--metal-dark);
+    border: 1px solid var(--metal-border);
+    color: var(--screen-cyan);
+    width: 35px;
+    height: 35px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+}
+
+.carousel-controls button:hover {
+    background: rgba(0, 212, 255, 0.1);
+    border-color: var(--screen-cyan);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+}
+
+.carousel-dots {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--metal-dark);
+    border: 1px solid var(--metal-border);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.dot.active {
+    background: var(--screen-amber);
+    border-color: var(--screen-amber);
+    box-shadow: 0 0 8px var(--screen-amber);
+}
+
+/* =============================================
+   FOOTER - PANEL INFERIOR DE NAVE
+   ============================================= */
+.footer {
+    background: var(--metal-mid);
+    border-top: 2px solid var(--metal-border);
+    padding: 2rem 2rem 1rem;
+    position: relative;
+}
+
+.footer-panel {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-title);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.footer-highlight {
+    color: var(--screen-cyan);
+}
+
+.footer-desc {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.footer-section h4 {
+    font-family: var(--font-mono);
+    color: var(--screen-cyan);
+    margin-bottom: 0.8rem;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.4rem;
+}
+
+.footer-section a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: var(--transition);
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+}
+
+.footer-section a:hover {
+    color: var(--screen-cyan);
+}
+
+.footer-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--metal-border);
+}
+
+.bar-segment {
+    width: 20px;
+    height: 3px;
+    background: var(--metal-border);
+    border-radius: 2px;
+}
+
+.bar-segment.active {
+    background: var(--screen-green);
+    box-shadow: 0 0 5px var(--screen-green);
+}
+
+.bar-text {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin: 0 1rem;
+}
+
+/* =============================================
+   ANIMACIONES
+   ============================================= */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+    40% { transform: translateX(-50%) translateY(-8px); }
+    60% { transform: translateX(-50%) translateY(-4px); }
+}
+
+@keyframes planetFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* =============================================
+   CABINA EXTENDIDA - LUZ, TECHO, PILARES, DASHBOARD
+   ============================================= */
+
+/* Luz ambiental interior de la cabina */
+.interior-light {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        repeating-linear-gradient(90deg, transparent 0 130px, rgba(255,255,255,0.02) 130px 131px),
+        radial-gradient(ellipse at 15% 85%, rgba(0,212,255,0.07) 0%, transparent 40%),
+        radial-gradient(ellipse at 85% 15%, rgba(255,170,0,0.05) 0%, transparent 40%),
+        radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0,0,0,0.5) 100%);
+}
+
+/* Techo de la cabina */
+.ceiling-console {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 0.6rem 2rem;
+    background: linear-gradient(180deg, #05080d 0%, var(--metal-light) 100%);
+    border-bottom: 2px solid var(--metal-border);
+    box-shadow: 0 3px 15px var(--shadow-deep);
+    position: relative;
+    z-index: 5;
+}
+
+.ceiling-vent {
+    width: 60px;
+    height: 14px;
+    background: repeating-linear-gradient(90deg, var(--metal-dark) 0 6px, var(--metal-border) 6px 8px);
+    border: 1px solid var(--metal-border);
+    border-radius: 2px;
+    box-shadow: inset 0 1px 3px var(--shadow-deep);
+}
+
+.ceiling-indicators {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.ceiling-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.ceiling-indicator.red {
+    background: var(--led-red);
+    box-shadow: 0 0 6px var(--led-red);
+    animation: blinkLed 3s ease-in-out infinite;
+}
+
+.ceiling-indicator.amber {
+    background: var(--led-amber);
+    box-shadow: 0 0 6px var(--led-amber);
+    animation: blinkLed 2s ease-in-out infinite;
+}
+
+.ceiling-indicator.green {
+    background: var(--led-green);
+    box-shadow: 0 0 6px var(--led-green);
+    animation: blinkLed 1.5s ease-in-out infinite;
+}
+
+.ceiling-text {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+}
+
+/* Parabrisas de la nave con pilares */
+.viewport-shell {
+    position: relative;
+    width: 100%;
+    max-width: 940px;
+}
+
+.viewport-pillar {
+    position: absolute;
+    top: -12px;
+    bottom: -12px;
+    width: 70px;
+    z-index: 20;
+    background: linear-gradient(90deg, var(--metal-dark) 0%, var(--metal-light) 35%, var(--metal-border) 50%, var(--metal-light) 65%, var(--metal-dark) 100%);
+    box-shadow: 0 0 25px var(--shadow-deep);
+    border: 1px solid var(--metal-border);
+}
+
+.pillar-left {
+    left: -58px;
+    border-radius: 20px 0 0 20px;
+}
+
+.pillar-right {
+    right: -58px;
+    border-radius: 0 20px 20px 0;
+}
+
+.viewport-pillar::before,
+.viewport-pillar::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 12px;
+    background: var(--metal-border);
+    border-radius: 50%;
+    box-shadow: inset 0 1px 3px var(--shadow-deep), 0 0 2px var(--metal-shine);
+}
+
+.viewport-pillar::before { top: 18px; }
+.viewport-pillar::after { bottom: 18px; }
+
+/* =============================================
+   HUD DE VIDEOJUEGO - RADAR, ENERGÍA, ALTITUD
+   ============================================= */
+.hud-radar {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    opacity: 0.9;
+}
+
+.radar-screen {
+    position: relative;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 2px solid var(--screen-cyan);
+    background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, rgba(0,40,60,0.4) 100%);
+    box-shadow: 0 0 15px rgba(0,212,255,0.3), inset 0 0 20px rgba(0,212,255,0.1);
+    overflow: hidden;
+}
+
+.radar-sweep {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 45px;
+    height: 45px;
+    background: conic-gradient(from 0deg, rgba(0,212,255,0.4) 0deg, transparent 60deg);
+    transform-origin: 0 0;
+    animation: radarSweep 3s linear infinite;
+}
+
+@keyframes radarSweep {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.radar-ring {
+    position: absolute;
+    border: 1px solid rgba(0,212,255,0.3);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.radar-ring.r1 { width: 30px; height: 30px; }
+.radar-ring.r2 { width: 60px; height: 60px; }
+.radar-ring.r3 { width: 86px; height: 86px; border-color: rgba(0,212,255,0.15); }
+
+.radar-cross {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 1px;
+    background: rgba(0,212,255,0.15);
+}
+
+.radar-cross::after {
+    content: '';
+    position: absolute;
+    top: -44px;
+    left: 50%;
+    width: 1px;
+    height: 90px;
+    background: rgba(0,212,255,0.15);
+}
+
+.radar-blip {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--screen-green);
+    box-shadow: 0 0 6px var(--screen-green);
+    animation: blipPulse 2s ease-in-out infinite;
+}
+
+.radar-blip.b1 { top: 30%; left: 60%; }
+.radar-blip.b2 { top: 60%; left: 35%; animation-delay: 0.7s; }
+.radar-blip.b3 { top: 45%; left: 75%; animation-delay: 1.3s; background: var(--screen-amber); box-shadow: 0 0 6px var(--screen-amber); }
+
+@keyframes blipPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+.radar-label {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: var(--screen-cyan);
+    letter-spacing: 1px;
+    text-shadow: 0 0 5px rgba(0,212,255,0.5);
+}
+
+/* Barra de energía */
+.hud-powerbar {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.3rem;
+}
+
+.powerbar-track {
+    width: 90px;
+    height: 10px;
+    border: 1px solid var(--screen-cyan);
+    border-radius: 5px;
+    background: rgba(0,40,60,0.4);
+    box-shadow: 0 0 10px rgba(0,212,255,0.2), inset 0 0 8px rgba(0,0,0,0.5);
+    overflow: hidden;
+}
+
+.powerbar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--screen-green), var(--screen-cyan));
+    border-radius: 5px;
+    box-shadow: 0 0 8px var(--screen-cyan);
+}
+
+.powerbar-labels {
+    display: flex;
+    justify-content: space-between;
+    width: 90px;
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: var(--screen-cyan);
+}
+
+/* Altitud */
+.hud-altitude {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.altitude-value {
+    font-family: var(--font-title);
+    font-size: 1.2rem;
+    color: var(--screen-cyan);
+    text-shadow: 0 0 10px rgba(0,212,255,0.5);
+}
+
+.altitude-bar {
+    width: 8px;
+    height: 70px;
+    border: 1px solid var(--screen-cyan);
+    border-radius: 4px;
+    background: rgba(0,40,60,0.4);
+    box-shadow: 0 0 10px rgba(0,212,255,0.2);
+    overflow: hidden;
+    position: relative;
+}
+
+.altitude-fill {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(180deg, var(--screen-cyan), var(--screen-green));
+    box-shadow: 0 0 8px var(--screen-cyan);
+}
+
+.altitude-label {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: var(--screen-cyan);
+}
+
+/* Retícula y marcadores de objetivo */
+.crosshair-ticks {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+}
+
+.crosshair-ticks .tick {
+    position: absolute;
+    background: var(--screen-cyan);
+    box-shadow: 0 0 5px var(--screen-cyan);
+}
+
+.tick.t-t { top: 20px; left: 50%; transform: translateX(-50%); width: 2px; height: 15px; }
+.tick.t-b { bottom: 20px; left: 50%; transform: translateX(-50%); width: 2px; height: 15px; }
+.tick.t-l { left: 20px; top: 50%; transform: translateY(-50%); width: 15px; height: 2px; }
+.tick.t-r { right: 20px; top: 50%; transform: translateY(-50%); width: 15px; height: 2px; }
+
+.target-marker {
+    position: absolute;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--screen-green);
+    text-shadow: 0 0 5px var(--screen-green);
+    letter-spacing: 1px;
+    animation: targetPulse 2s ease-in-out infinite;
+}
+
+.target-marker.tm-1 { top: 30%; right: 25%; }
+.target-marker.tm-2 { bottom: 30%; left: 25%; animation-delay: 1s; color: var(--screen-amber); text-shadow: 0 0 5px var(--screen-amber); }
+
+@keyframes targetPulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* Dashboard de vuelo en consola inferior */
+.dashboard-glow {
+    position: absolute;
+    top: -30px;
+    left: 12%;
+    right: 12%;
+    height: 30px;
+    background: linear-gradient(180deg, transparent, rgba(0,212,255,0.12));
+    filter: blur(8px);
+    pointer-events: none;
+}
+
+.dashboard-dial {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    z-index: 10;
+}
+
+.dashboard-dial-left { left: 1.5rem; }
+.dashboard-dial-right { right: 1.5rem; }
+
+.dial-ring {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 3px solid var(--metal-border);
+    background: radial-gradient(circle, var(--metal-dark) 60%, var(--metal-mid) 100%);
+    position: relative;
+    box-shadow: inset 0 0 12px var(--shadow-deep), 0 0 12px rgba(0,212,255,0.12);
+}
+
+.dial-ring::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,212,255,0.2);
+}
+
+.dial-needle {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    width: 2px;
+    height: 26px;
+    background: var(--screen-amber);
+    transform-origin: bottom center;
+    box-shadow: 0 0 6px var(--screen-amber);
+    animation: needleSway 4s ease-in-out infinite;
+}
+
+.dashboard-dial-right .dial-needle {
+    background: var(--screen-cyan);
+    box-shadow: 0 0 6px var(--screen-cyan);
+    animation-delay: 1s;
+}
+
+@keyframes needleSway {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.5); }
+}
+
+.dial-tick {
+    position: absolute;
+    width: 2px;
+    height: 6px;
+    background: var(--metal-border);
+    top: 3px;
+    left: 50%;
+    transform-origin: center 33px;
+}
+
+.dial-tick.t1 { transform: rotate(30deg); }
+.dial-tick.t2 { transform: rotate(90deg); }
+.dial-tick.t3 { transform: rotate(150deg); }
+
+.dial-label {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 1024px) {
+    .main-viewport {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .cockpit-frame {
+        padding-top: 0;
+    }
+    
+    .top-status-panel {
+        padding: 0.4rem 1rem;
+        gap: 0.5rem;
+    }
+    
+    .status-text {
+        font-size: 0.6rem;
+    }
+    
+    .main-viewport {
+        padding: 1rem;
+        min-height: auto;
+    }
+    
+    .viewport-frame {
+        border-width: 6px;
+    }
+    
+    .viewport-pillar {
+        display: none;
+    }
+    
+    .dashboard-dial {
+        display: none;
+    }
+    
+    .hud-radar,
+    .hud-powerbar,
+    .hud-altitude {
+        display: none;
+    }
+    
+    .ceiling-console {
+        gap: 0.8rem;
+        padding: 0.4rem 1rem;
+    }
+    
+    .ceiling-vent {
+        display: none;
+    }
+    
+    .ceiling-text {
+        font-size: 0.55rem;
+    }
+    
+    .viewport-content {
+        padding: 2rem 1rem;
+    }
+    
+    .nav-crosshair {
+        display: none;
+    }
+    
+    .hero-stats {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+    }
+    
+    .console-buttons {
+        gap: 0.8rem;
+    }
+    
+    .btn-housing {
+        width: 100px;
+    }
+    
+    .btn-face {
+        padding: 0.5rem 0.3rem;
+    }
+    
+    .btn-icon {
+        font-size: 1.2rem;
+    }
+    
+    .btn-label {
+        font-size: 0.55rem;
+    }
+    
+    .btn-code {
+        font-size: 0.5rem;
+    }
+    
+    .console-detail {
+        flex-wrap: wrap;
+    }
+    
+    .planet-display {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .planet-sphere {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .tools-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tool-card.wide {
+        grid-column: 1;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .weight-results,
+    .age-results {
+        grid-template-columns: 1fr;
+    }
+    
+    .mass-visualization {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .input-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .input-row label {
+        min-width: auto;
+    }
+    
+    .monitor-section {
+        padding: 1.5rem 1rem;
+    }
+    
+    .astronomers-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1100px) {
+    .astronomers-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
