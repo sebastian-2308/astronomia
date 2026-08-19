@@ -2507,3 +2507,113 @@ body {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* =============================================
+   RESPONSIVE PARA TELÉFONOS
+   ============================================= */
+@media (max-width: 480px) {
+    html { font-size: 14px; }
+
+    /* Panel superior de estado compacto */
+    .top-status-panel {
+        gap: 0.4rem;
+        padding: 0.4rem 0.6rem;
+    }
+    .status-text { font-size: 0.55rem; letter-spacing: 1px; }
+    .status-divider { height: 8px; }
+    #status-coords, #status-temp { display: none; }
+
+    /* Viewport / hero */
+    .main-viewport { padding: 0.5rem; }
+    .viewport-content { padding: 1.5rem 0.5rem; }
+    .viewport-frame { border-width: 4px; border-radius: 10px; }
+    .viewport-badge { font-size: 0.55rem; padding: 0.3rem 0.8rem; letter-spacing: 1px; }
+    .hero-title { font-size: 1.7rem; letter-spacing: 1px; }
+    .hero-subtitle { font-size: 0.8rem; }
+    .hero-stats { gap: 0.5rem; }
+    .stat-panel { padding: 0.8rem; min-width: 100px; }
+    .stat-number { font-size: 1.1rem; }
+
+    /* Techo */
+    .ceiling-console { padding: 0.3rem 0.6rem; gap: 0.5rem; }
+    .ceiling-text { font-size: 0.5rem; }
+
+    /* Consola de botones de navegación */
+    .bottom-console { padding: 1rem 0.5rem; }
+    .console-buttons { gap: 0.5rem; }
+    .btn-housing { width: 88px; }
+    .btn-face { padding: 0.4rem 0.2rem; }
+    .btn-icon { font-size: 1.1rem; margin-bottom: 0.2rem; }
+    .btn-label { font-size: 0.5rem; letter-spacing: 0.5px; }
+    .btn-code { font-size: 0.45rem; }
+    .dashboard-dial { display: none; }
+    .console-detail { padding-top: 0.6rem; gap: 0.5rem; }
+    .detail-line { width: 30px; }
+
+    /* Monitores */
+    .monitor-section { padding: 1rem 0.4rem; }
+    .screen-content { padding: 1.2rem; }
+    .monitor-bezel { padding: 0.4rem 0.8rem; }
+    .monitor-brand { font-size: 0.6rem; letter-spacing: 1px; }
+    .screen-header { padding: 0.4rem 0.6rem; font-size: 0.55rem; flex-wrap: wrap; gap: 0.2rem; }
+    .screen-title { font-size: 0.55rem; letter-spacing: 1px; order: 3; width: 100%; text-align: center; margin-top: 0.2rem; }
+    .screen-id { order: 1; }
+    .screen-status { order: 2; }
+    .section-title { font-size: 1.3rem; }
+    .section-desc { font-size: 0.8rem; margin-bottom: 1.2rem; }
+
+    /* Astrónomos */
+    .astronomer-card { margin-bottom: 0.5rem; }
+    .card-image img { max-height: 160px; object-fit: cover; }
+    .card-content { padding: 0.9rem; }
+    .card-content h3 { font-size: 1rem; }
+    .card-content p { font-size: 0.8rem; }
+
+    /* Sistema solar / selector de planetas */
+    .planet-display { grid-template-columns: 1fr; gap: 1rem; }
+    .planet-sphere { width: 120px; height: 120px; }
+    .planet-info h3 { font-size: 1.1rem; }
+    .planet-stats { grid-template-columns: repeat(2, 1fr); }
+
+    /* Simulación orbital */
+    .sim-controls { flex-direction: column; gap: 0.6rem; padding: 0.8rem; }
+    .sim-speed-wrap { width: 100%; justify-content: center; }
+    .sim-speed-wrap input[type="range"] { width: 100%; max-width: 220px; }
+    .sim-elapsed { font-size: 0.8rem; }
+    .sim-info { white-space: normal; width: 90%; text-align: center; font-size: 0.6rem; bottom: 6px; }
+
+    /* Herramientas */
+    .tools-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .tool-card { padding: 1rem; }
+    .tool-card h3 { font-size: 1rem; }
+    .input-row { flex-direction: column; align-items: stretch; gap: 0.4rem; }
+    .input-row label { min-width: auto; }
+    .weight-results, .age-results { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+    .result-item { padding: 0.7rem; }
+    .result-value { font-size: 1rem; }
+    .result-label { font-size: 0.6rem; }
+
+    /* Semilleros y aprende */
+    .semillero-card { flex-direction: column; padding: 1rem; }
+    .semillero-icon { font-size: 1.5rem; }
+    .concept-card { padding: 1rem; }
+    .fundacite-credit { padding: 1rem; }
+    .fundacite-cta { font-size: 0.7rem; padding: 0.4rem 1rem; }
+
+    /* Datos curiosos */
+    .fact-content { padding: 1.2rem; }
+    .fact-slide p { font-size: 0.85rem; }
+
+    /* Footer */
+    .footer { padding: 1.5rem 1rem 0.8rem; }
+    .footer-content { grid-template-columns: 1fr; gap: 1rem; }
+    .footer-logo { font-size: 1rem; }
+    .footer-desc { font-size: 0.75rem; }
+    .bar-text { font-size: 0.55rem; }
+}
+
+@media (max-width: 360px) {
+    .btn-housing { width: 80px; }
+    .hero-title { font-size: 1.5rem; }
+    .screen-title { font-size: 0.5rem; }
+}
