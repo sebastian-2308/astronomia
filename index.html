@@ -4,1213 +4,925 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Astronomía Fundacite Caracas - Explorando el Universo</title>
+    <meta name="description" content="Portal de divulgación científica de Astronomía Caracas y Fundacite: astrónomos, sistema solar, simulaciones, herramientas interactivas y observación del cielo.">
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Canvas de estrellas (ventana espacial) -->
-    <canvas id="starfield"></canvas>
+    <!-- Fondo estrellado animado -->
+    <canvas id="starfield" aria-hidden="true"></canvas>
 
-    <!-- Luz ambiental de la cabina -->
-    <div class="interior-light"></div>
-
-    <!-- Barra de navegación móvil (menú hamburguesa) -->
-    <div class="mobile-nav">
-        <div class="mobile-nav-bar">
-            <span class="mobile-nav-brand">🛰️ ESTACIÓN ESPACIAL</span>
+    <!-- ============================================
+         BARRA DE NAVEGACIÓN MODERNA
+         ============================================ -->
+    <header class="navbar">
+        <div class="navbar-inner">
+            <a href="#inicio" class="navbar-brand">
+                <span class="brand-logo">🪐</span>
+                <span class="brand-text">Astronomía <span>Fundacite Caracas</span></span>
+            </a>
+            <nav class="nav-links" id="nav-links" aria-label="Navegación principal">
+                <a href="#astronomos" class="console-btn active" data-section="astronomos">Astrónomos</a>
+                <a href="#sistema-solar" class="console-btn" data-section="sistema-solar">Sistema Solar</a>
+                <a href="#simulacion" class="console-btn" data-section="simulacion">Simulación</a>
+                <a href="#herramientas" class="console-btn" data-section="herramientas">Herramientas</a>
+                <a href="#semilleros" class="console-btn" data-section="semilleros">Semilleros</a>
+                <a href="#fundacite" class="console-btn" data-section="fundacite">Aprende</a>
+                <a href="#cielo" class="console-btn" data-section="cielo">Cielo en Vivo</a>
+                <a href="#historia" class="console-btn" data-section="historia">Historia</a>
+                <a href="#datos" class="console-btn" data-section="datos">Datos</a>
+                <a href="#stellarium" class="console-btn" data-section="stellarium">Stellarium</a>
+            </nav>
             <button class="hamburger" aria-label="Abrir menú">
                 <span></span><span></span><span></span>
             </button>
         </div>
-        <nav class="nav-links">
-            <a href="#astronomos" data-section="astronomos">👨‍🚀 Astrónomos</a>
-            <a href="#sistema-solar" data-section="sistema-solar">🪐 Sistema Solar</a>
-            <a href="#simulacion" data-section="simulacion">🛰️ Simulación</a>
-            <a href="#herramientas" data-section="herramientas">🔧 Herramientas</a>
-            <a href="#semilleros" data-section="semilleros">🌟 Semilleros</a>
-            <a href="#fundacite" data-section="fundacite">🌌 Aprende</a>
-            <a href="#cielo" data-section="cielo">🔭 Cielo en Vivo</a>
-            <a href="#historia" data-section="historia">🚀 Historia</a>
-            <a href="#datos" data-section="datos">📡 Datos</a>
-            <a href="#stellarium" data-section="stellarium">🌠 Stellarium</a>
-        </nav>
-    </div>
+    </header>
 
     <!-- ============================================
-         MARCO PRINCIPAL DE CABINA DE NAVE
+         HERO - PORTADA DEL PORTAL
          ============================================ -->
-    <div class="cockpit-frame">
-        
-        <!-- Panel superior de estado -->
-        <div class="top-status-panel">
-            <div class="status-block">
-                <span class="status-led blink-green"></span>
-                <span class="status-text">SISTEMA OPERATIVO</span>
+    <section class="hero" id="inicio">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="hero-badge">ASTRONOMÍA FUNDACITE CARACAS</span>
+            <h1 class="hero-title">Explorando el <span class="gradient-text">Universo</span></h1>
+            <p class="hero-subtitle">Un portal interactivo de divulgación científica: conoce a los astrónomos que transformaron nuestra visión del cosmos, explora el sistema solar, simula órbitas y descubre herramientas para medir el infinito.</p>
+            <div class="hero-actions">
+                <a href="#sistema-solar" class="btn btn-primary">Explorar el Sistema Solar</a>
+                <a href="#simulacion" class="btn btn-ghost">Ver Simulación Orbital</a>
             </div>
-            <div class="status-divider"></div>
-            <span class="status-text status-date" id="status-date">-- / -- / ----</span>
-            <div class="status-divider"></div>
-            <span class="status-text status-clock" id="clock">00:00:00</span>
-            <div class="status-divider"></div>
-            <span class="status-text" id="status-coords">COORD: --, --</span>
-            <div class="status-divider"></div>
-            <span class="status-text" id="status-temp">TEMP: --°C</span>
-            <div class="status-block">
-                <span class="status-led blink-amber"></span>
-                <span class="status-text">TELEMETRÍA</span>
-            </div>
-        </div>
-
-        <!-- ============================================
-             VENTANA/VIEWPORT CENTRAL - HERO
-             ============================================ -->
-        <div class="main-viewport">
-            <div class="viewport-shell">
-            
-            <!-- Contenido del viewport -->
-            <div class="viewport-frame">
-                <div class="viewport-bolt top-left"></div>
-                <div class="viewport-bolt top-right"></div>
-                <div class="viewport-bolt bottom-left"></div>
-                <div class="viewport-bolt bottom-right"></div>
-                <div class="viewport-seal"></div>
-                
-                <!-- Contenido del hero -->
-                <div class="viewport-content" id="inicio">
-                    <div class="viewport-badge">ESTACIÓN ESPACIAL // PUESTO DE CONTROL</div>
-                    <h1 class="hero-title">EXPLORANDO EL <span class="gradient-text">UNIVERSO</span></h1>
-                    <p class="hero-subtitle">Centro de control de astronomía: astrónomos, sistema solar, simulación orbital y herramientas interactivas.</p>
-                    
-                    <div class="hero-instruments">
-                        <div class="analog-clock" id="analog-clock">
-                            <div class="clock-face">
-                                <span class="clock-tick c12"></span><span class="clock-tick c3"></span><span class="clock-tick c6"></span><span class="clock-tick c9"></span>
-                                <div class="clock-hand clock-hour" id="clock-hour"></div>
-                                <div class="clock-hand clock-minute" id="clock-minute"></div>
-                                <div class="clock-hand clock-second" id="clock-second"></div>
-                                <div class="clock-center"></div>
-                            </div>
-                            <div class="clock-label">HORA LOCAL</div>
-                        </div>
-                        <div class="mission-strip">
-                            <div class="mission-title">MISIÓN EN CURSO</div>
-                            <div class="mission-id">EXPLORACIÓN ASTRONÓMICA</div>
-                            <div class="mission-meta">VUELO 001 // ÓRBITA TERRESTRE</div>
-                        </div>
-                    </div>
-                    
-                    <div class="hero-stats">
-                        <div class="stat-panel">
-                            <div class="stat-icon">☀️</div>
-                            <div class="stat-data">
-                                <span class="stat-number">1</span>
-                                <span class="stat-label">ESTRELLA</span>
-                            </div>
-                        </div>
-                        <div class="stat-panel">
-                            <div class="stat-icon">🪐</div>
-                            <div class="stat-data">
-                                <span class="stat-number">8</span>
-                                <span class="stat-label">PLANETAS</span>
-                            </div>
-                        </div>
-                        <div class="stat-panel">
-                            <div class="stat-icon">🌌</div>
-                            <div class="stat-data">
-                                <span class="stat-number">200+</span>
-                                <span class="stat-label">LUNAS</span>
-                            </div>
-                        </div>
-                        <div class="stat-panel">
-                            <div class="stat-icon">🔭</div>
-                            <div class="stat-data">
-                                <span class="stat-number">9</span>
-                                <span class="stat-label">ASTRÓNOMOS</span>
-                            </div>
-                        </div>
+            <div class="hero-stats">
+                <div class="stat-panel">
+                    <span class="stat-icon">☀️</span>
+                    <div class="stat-data">
+                        <span class="stat-number">1</span>
+                        <span class="stat-label">Estrella</span>
                     </div>
                 </div>
-
-                <!-- Reflejo de vidrio -->
-                <div class="viewport-glare"></div>
-            </div>
-            </div>
-        </div>
-
-        <!-- ============================================
-             CONSOLA INFERIOR - BOTONES DE NAVEGACIÓN
-             ============================================ -->
-        <div class="bottom-console">
-            <div class="console-ridge"></div>
-
-            <div class="console-buttons">
-                <a href="#astronomos" class="console-btn active" data-section="astronomos">
-                    <div class="btn-housing">
-                        <div class="btn-light"></div>
-                        <div class="btn-face">
-                            <span class="btn-icon">👨‍🚀</span>
-                            <span class="btn-label">ASTRÓNOMOS</span>
-                            <span class="btn-code">MÓDULO 01</span>
-                        </div>
+                <div class="stat-panel">
+                    <span class="stat-icon">🪐</span>
+                    <div class="stat-data">
+                        <span class="stat-number">8</span>
+                        <span class="stat-label">Planetas</span>
                     </div>
-                </a>
-                
-                <a href="#sistema-solar" class="console-btn" data-section="sistema-solar">
-                    <div class="btn-housing">
-                        <div class="btn-light"></div>
-                        <div class="btn-face">
-                            <span class="btn-icon">🪐</span>
-                            <span class="btn-label">SIST. SOLAR</span>
-                            <span class="btn-code">MÓDULO 02</span>
-                        </div>
-                    </div>
-                </a>
-                
-                <a href="#simulacion" class="console-btn" data-section="simulacion">
-                    <div class="btn-housing">
-                        <div class="btn-light"></div>
-                        <div class="btn-face">
-                            <span class="btn-icon">🛰️</span>
-                            <span class="btn-label">SIMULACIÓN</span>
-                            <span class="btn-code">MÓDULO 03</span>
-                        </div>
-                    </div>
-                </a>
-                
-                <a href="#herramientas" class="console-btn" data-section="herramientas">
-                    <div class="btn-housing">
-                        <div class="btn-light"></div>
-                        <div class="btn-face">
-                            <span class="btn-icon">🔧</span>
-                            <span class="btn-label">HERRAMIENTAS</span>
-                            <span class="btn-code">MÓDULO 04</span>
-                        </div>
-                    </div>
-                </a>
-                
-                <a href="#semilleros" class="console-btn" data-section="semilleros">
-                    <div class="btn-housing">
-                        <div class="btn-light"></div>
-                        <div class="btn-face">
-                            <span class="btn-icon">🌟</span>
-                            <span class="btn-label">SEMILLEROS</span>
-                            <span class="btn-code">MÓDULO 05</span>
-                        </div>
-                    </div>
-                </a>
-                
-                <a href="#fundacite" class="console-btn" data-section="fundacite">
-                    <div class="btn-housing">
-                        <div class="btn-light"></div>
-                        <div class="btn-face">
-                            <span class="btn-icon">🌌</span>
-                            <span class="btn-label">APRENDE</span>
-                            <span class="btn-code">MÓDULO 06</span>
-                        </div>
-                    </div>
-                </a>
-                
-                <a href="#cielo" class="console-btn" data-section="cielo">
-                    <div class="btn-housing">
-                        <div class="btn-light"></div>
-                        <div class="btn-face">
-                            <span class="btn-icon">🔭</span>
-                            <span class="btn-label">CIELO EN VIVO</span>
-                            <span class="btn-code">MÓDULO 07</span>
-                        </div>
-                    </div>
-                </a>
-                
-                <a href="#historia" class="console-btn" data-section="historia">
-                    <div class="btn-housing">
-                        <div class="btn-light"></div>
-                        <div class="btn-face">
-                            <span class="btn-icon">🚀</span>
-                            <span class="btn-label">HISTORIA</span>
-                            <span class="btn-code">MÓDULO 08</span>
-                        </div>
-                    </div>
-                </a>
-                
-                <a href="#datos" class="console-btn" data-section="datos">
-                    <div class="btn-housing">
-                        <div class="btn-light"></div>
-                        <div class="btn-face">
-                            <span class="btn-icon">📡</span>
-                            <span class="btn-label">DATOS</span>
-                            <span class="btn-code">MÓDULO 09</span>
-                        </div>
-                    </div>
-                </a>
-                
-                <a href="#stellarium" class="console-btn" data-section="stellarium">
-                    <div class="btn-housing">
-                        <div class="btn-light"></div>
-                        <div class="btn-face">
-                            <span class="btn-icon">🌠</span>
-                            <span class="btn-label">STELLARIUM</span>
-                            <span class="btn-code">MÓDULO 10</span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="console-detail">
-                <div class="detail-line"></div>
-                <div class="detail-grill">
-                    <div class="grill-hole"></div>
-                    <div class="grill-hole"></div>
-                    <div class="grill-hole"></div>
-                    <div class="grill-hole"></div>
-                    <div class="grill-hole"></div>
-                    <div class="grill-hole"></div>
                 </div>
-                <div class="console-label">SELECCIONA UN MÓDULO</div>
+                <div class="stat-panel">
+                    <span class="stat-icon">🌌</span>
+                    <div class="stat-data">
+                        <span class="stat-number">200+</span>
+                        <span class="stat-label">Lunas</span>
+                    </div>
+                </div>
+                <div class="stat-panel">
+                    <span class="stat-icon">🔭</span>
+                    <div class="stat-data">
+                        <span class="stat-number">9</span>
+                        <span class="stat-label">Astrónomos</span>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+
+        <!-- Panel de datos en vivo -->
+        <div class="live-panel">
+            <div class="analog-clock" id="analog-clock">
+                <div class="clock-face">
+                    <span class="clock-tick c12"></span>
+                    <span class="clock-tick c3"></span>
+                    <span class="clock-tick c6"></span>
+                    <span class="clock-tick c9"></span>
+                    <div class="clock-hand clock-hour" id="clock-hour"></div>
+                    <div class="clock-hand clock-minute" id="clock-minute"></div>
+                    <div class="clock-hand clock-second" id="clock-second"></div>
+                    <div class="clock-center"></div>
+                </div>
+            </div>
+            <div class="live-data">
+                <div class="live-item">
+                    <span class="live-label">Hora local</span>
+                    <span class="live-value" id="clock">00:00:00</span>
+                </div>
+                <div class="live-item">
+                    <span class="live-label">Fecha</span>
+                    <span class="live-value" id="status-date">-- / -- / ----</span>
+                </div>
+                <div class="live-item">
+                    <span class="live-label">Ubicación</span>
+                    <span class="live-value" id="status-coords">COORD: --, --</span>
+                </div>
+                <div class="live-item">
+                    <span class="live-label">Temperatura</span>
+                    <span class="live-value" id="status-temp">TEMP: --°C</span>
+                </div>
+            </div>
+        </div>
+
+        <a href="#astronomos" class="hero-scroll" aria-label="Bajar a la siguiente sección">↓</a>
+    </section>
 
     <!-- ============================================
-         SECCIONES - PANTALLAS/MONITORES DE CABINA
+         SECCIÓN 01 - ASTRÓNOMOS
          ============================================ -->
-
-    <!-- Separador de secciones con barra de progreso -->
-    <div class="section-separator">
-        <div class="sep-line"></div>
-        <div class="sep-light"></div>
-        <div class="sep-line"></div>
-    </div>
-
-    <!-- Astrónomos - Monitor 01 -->
-    <section id="astronomos" class="section monitor-section">
-        <div class="monitor-frame">
-            <div class="monitor-bezel">
-                <div class="monitor-brand">SALA<span>DE CONTROL</span></div>
-                <div class="monitor-led blink-green"></div>
-                <div class="monitor-power">◉</div>
+    <section id="astronomos" class="section">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-eyebrow">01 // Grandes Mentes</span>
+                <h2 class="section-title">Astrónomos que <span class="gradient-text">cambiaron el mundo</span></h2>
+                <p class="section-desc">Grandes mentes que dedicaron su vida a descifrar los secretos del universo.</p>
             </div>
-            <div class="monitor-screen">
-                <div class="screen-header">
-                    <span class="screen-id">MON-01</span>
-                    <span class="screen-title">REGISTRO DE ASTRÓNOMOS</span>
-                    <span class="screen-status">● EN LÍNEA</span>
-                </div>
-                <div class="screen-content">
-                    <div class="container">
-                        <h2 class="section-title">Astrónomos que <span class="gradient-text">Cambiaron el Mundo</span></h2>
-                        <p class="section-desc">Grandes mentes que dedicaron su vida a descifrar los secretos del universo.</p>
-                        
-                        <div class="astronomers-grid">
-                            <div class="astronomer-card">
-                                <div class="card-image">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Justus_Sustermans_-_Portrait_of_Galileo_Galilei%2C_1636.jpg/500px-Justus_Sustermans_-_Portrait_of_Galileo_Galilei%2C_1636.jpg" alt="Galileo Galilei">
-                                </div>
-                                <div class="card-content">
-                                    <h3>Galileo Galilei</h3>
-                                    <span class="years">1564 - 1642</span>
-                                    <p>Pionero de la astronomía observacional. Descubrió las lunas de Júpiter, las fases de Venus y defendió el heliocentrismo.</p>
-                                    <div class="tags">
-                                        <span class="tag">Telescopio</span>
-                                        <span class="tag">Heliocentrismo</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="astronomer-card">
-                                <div class="card-image">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Nikolaus_Kopernikus.jpg/500px-Nikolaus_Kopernikus.jpg" alt="Nicolás Copérnico">
-                                </div>
-                                <div class="card-content">
-                                    <h3>Nicolás Copérnico</h3>
-                                    <span class="years">1473 - 1543</span>
-                                    <p>Revolucionó la astronomía proponiendo que la Tierra y los planetas giran alrededor del Sol.</p>
-                                    <div class="tags">
-                                        <span class="tag">Heliocentrismo</span>
-                                        <span class="tag">Matemáticas</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="astronomer-card">
-                                <div class="card-image">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/JKepler.jpg/500px-JKepler.jpg" alt="Johannes Kepler">
-                                </div>
-                                <div class="card-content">
-                                    <h3>Johannes Kepler</h3>
-                                    <span class="years">1571 - 1630</span>
-                                    <p>Formuló las tres leyes del movimiento planetario, describiendo órbitas elípticas alrededor del Sol.</p>
-                                    <div class="tags">
-                                        <span class="tag">Leyes Planetarias</span>
-                                        <span class="tag">Óptica</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="astronomer-card">
-                                <div class="card-image">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Portrait_of_Sir_Isaac_Newton%2C_1689.jpg/500px-Portrait_of_Sir_Isaac_Newton%2C_1689.jpg" alt="Isaac Newton">
-                                </div>
-                                <div class="card-content">
-                                    <h3>Isaac Newton</h3>
-                                    <span class="years">1643 - 1727</span>
-                                    <p>Descubrió la ley de gravitación universal y explicó el movimiento de los cuerpos celestes.</p>
-                                    <div class="tags">
-                                        <span class="tag">Gravedad</span>
-                                        <span class="tag">Cálculo</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="astronomer-card">
-                                <div class="card-image">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Albert_Einstein_Head_cleaned.jpg/500px-Albert_Einstein_Head_cleaned.jpg" alt="Albert Einstein">
-                                </div>
-                                <div class="card-content">
-                                    <h3>Albert Einstein</h3>
-                                    <span class="years">1879 - 1955</span>
-                                    <p>Revolucionó nuestra comprensión del espacio, tiempo y gravedad con la relatividad general.</p>
-                                    <div class="tags">
-                                        <span class="tag">Relatividad</span>
-                                        <span class="tag">Física Moderna</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="astronomer-card">
-                                <div class="card-image">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Stephen_Hawking.StarChild.jpg" alt="Stephen Hawking">
-                                </div>
-                                <div class="card-content">
-                                    <h3>Stephen Hawking</h3>
-                                    <span class="years">1942 - 2018</span>
-                                    <p>Experto en agujeros negros y radiación de Hawking. Transformó la astrofísica teórica.</p>
-                                    <div class="tags">
-                                        <span class="tag">Agujeros Negros</span>
-                                        <span class="tag">Cosmología</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="astronomer-card">
-                                <div class="card-image">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Studio_portrait_photograph_of_Edwin_Powell_Hubble_%28cropped%29.JPG/500px-Studio_portrait_photograph_of_Edwin_Powell_Hubble_%28cropped%29.JPG" alt="Edwin Hubble">
-                                </div>
-                                <div class="card-content">
-                                    <h3>Edwin Hubble</h3>
-                                    <span class="years">1889 - 1953</span>
-                                    <p>Demostró que el universo se expande y que las galaxias se alejan unas de otras.</p>
-                                    <div class="tags">
-                                        <span class="tag">Expansión Universal</span>
-                                        <span class="tag">Galaxias</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="astronomer-card">
-                                <div class="card-image">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/8d/Carl_Sagan_Planetary_Society_cropped.png" alt="Carl Sagan">
-                                </div>
-                                <div class="card-content">
-                                    <h3>Carl Sagan</h3>
-                                    <span class="years">1934 - 1996</span>
-                                    <p>Astrónomo y divulgador científico. Popularizó la astronomía con "Cosmos".</p>
-                                    <div class="tags">
-                                        <span class="tag">Divulgación</span>
-                                        <span class="tag">Búsqueda SETI</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="astronomer-card">
-                                <div class="card-image">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Vera_Rubin.jpg" alt="Vera Rubin">
-                                </div>
-                                <div class="card-content">
-                                    <h3>Vera Rubin</h3>
-                                    <span class="years">1928 - 2016</span>
-                                    <p>Astrónoma pionera en el estudio de la rotación de las galaxias. Su trabajo demostró la existencia de la materia oscura.</p>
-                                    <div class="tags">
-                                        <span class="tag">Materia Oscura</span>
-                                        <span class="tag">Galaxias</span>
-                                    </div>
-                                </div>
-                            </div>
+            <div class="astronomers-grid">
+                <div class="astronomer-card">
+                    <div class="card-image">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Justus_Sustermans_-_Portrait_of_Galileo_Galilei%2C_1636.jpg/500px-Justus_Sustermans_-_Portrait_of_Galileo_Galilei%2C_1636.jpg" alt="Galileo Galilei">
+                    </div>
+                    <div class="card-content">
+                        <h3>Galileo Galilei</h3>
+                        <span class="years">1564 - 1642</span>
+                        <p>Pionero de la astronomía observacional. Descubrió las lunas de Júpiter, las fases de Venus y defendió el heliocentrismo.</p>
+                        <div class="tags">
+                            <span class="tag">Telescopio</span>
+                            <span class="tag">Heliocentrismo</span>
                         </div>
                     </div>
                 </div>
-                <div class="monitor-scanline"></div>
-            </div>
-            <div class="monitor-stand">
-                <div class="stand-neck"></div>
-                <div class="stand-base"></div>
+
+                <div class="astronomer-card">
+                    <div class="card-image">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Nikolaus_Kopernikus.jpg/500px-Nikolaus_Kopernikus.jpg" alt="Nicolás Copérnico">
+                    </div>
+                    <div class="card-content">
+                        <h3>Nicolás Copérnico</h3>
+                        <span class="years">1473 - 1543</span>
+                        <p>Revolucionó la astronomía proponiendo que la Tierra y los planetas giran alrededor del Sol.</p>
+                        <div class="tags">
+                            <span class="tag">Heliocentrismo</span>
+                            <span class="tag">Matemáticas</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="astronomer-card">
+                    <div class="card-image">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/JKepler.jpg/500px-JKepler.jpg" alt="Johannes Kepler">
+                    </div>
+                    <div class="card-content">
+                        <h3>Johannes Kepler</h3>
+                        <span class="years">1571 - 1630</span>
+                        <p>Formuló las tres leyes del movimiento planetario, describiendo órbitas elípticas alrededor del Sol.</p>
+                        <div class="tags">
+                            <span class="tag">Leyes Planetarias</span>
+                            <span class="tag">Óptica</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="astronomer-card">
+                    <div class="card-image">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Portrait_of_Sir_Isaac_Newton%2C_1689.jpg/500px-Portrait_of_Sir_Isaac_Newton%2C_1689.jpg" alt="Isaac Newton">
+                    </div>
+                    <div class="card-content">
+                        <h3>Isaac Newton</h3>
+                        <span class="years">1643 - 1727</span>
+                        <p>Descubrió la ley de gravitación universal y explicó el movimiento de los cuerpos celestes.</p>
+                        <div class="tags">
+                            <span class="tag">Gravedad</span>
+                            <span class="tag">Cálculo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="astronomer-card">
+                    <div class="card-image">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Albert_Einstein_Head_cleaned.jpg/500px-Albert_Einstein_Head_cleaned.jpg" alt="Albert Einstein">
+                    </div>
+                    <div class="card-content">
+                        <h3>Albert Einstein</h3>
+                        <span class="years">1879 - 1955</span>
+                        <p>Revolucionó nuestra comprensión del espacio, tiempo y gravedad con la relatividad general.</p>
+                        <div class="tags">
+                            <span class="tag">Relatividad</span>
+                            <span class="tag">Física Moderna</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="astronomer-card">
+                    <div class="card-image">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Stephen_Hawking.StarChild.jpg" alt="Stephen Hawking">
+                    </div>
+                    <div class="card-content">
+                        <h3>Stephen Hawking</h3>
+                        <span class="years">1942 - 2018</span>
+                        <p>Experto en agujeros negros y radiación de Hawking. Transformó la astrofísica teórica.</p>
+                        <div class="tags">
+                            <span class="tag">Agujeros Negros</span>
+                            <span class="tag">Cosmología</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="astronomer-card">
+                    <div class="card-image">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Studio_portrait_photograph_of_Edwin_Powell_Hubble_%28cropped%29.JPG/500px-Studio_portrait_photograph_of_Edwin_Powell_Hubble_%28cropped%29.JPG" alt="Edwin Hubble">
+                    </div>
+                    <div class="card-content">
+                        <h3>Edwin Hubble</h3>
+                        <span class="years">1889 - 1953</span>
+                        <p>Demostró que el universo se expande y que las galaxias se alejan unas de otras.</p>
+                        <div class="tags">
+                            <span class="tag">Expansión Universal</span>
+                            <span class="tag">Galaxias</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="astronomer-card">
+                    <div class="card-image">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/8d/Carl_Sagan_Planetary_Society_cropped.png" alt="Carl Sagan">
+                    </div>
+                    <div class="card-content">
+                        <h3>Carl Sagan</h3>
+                        <span class="years">1934 - 1996</span>
+                        <p>Astrónomo y divulgador científico. Popularizó la astronomía con "Cosmos".</p>
+                        <div class="tags">
+                            <span class="tag">Divulgación</span>
+                            <span class="tag">Búsqueda SETI</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="astronomer-card">
+                    <div class="card-image">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Vera_Rubin.jpg" alt="Vera Rubin">
+                    </div>
+                    <div class="card-content">
+                        <h3>Vera Rubin</h3>
+                        <span class="years">1928 - 2016</span>
+                        <p>Astrónoma pionera en el estudio de la rotación de las galaxias. Su trabajo demostró la existencia de la materia oscura.</p>
+                        <div class="tags">
+                            <span class="tag">Materia Oscura</span>
+                            <span class="tag">Galaxias</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Sistema Solar - Monitor 02 -->
-    <section id="sistema-solar" class="section monitor-section">
-        <div class="monitor-frame wide">
-            <div class="monitor-bezel">
-                <div class="monitor-brand">SALA<span>DE CONTROL</span></div>
-                <div class="monitor-led blink-green"></div>
-                <div class="monitor-power">◉</div>
+    <!-- ============================================
+         SECCIÓN 02 - SISTEMA SOLAR
+         ============================================ -->
+    <section id="sistema-solar" class="section">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-eyebrow">02 // Nuestro Vecindario</span>
+                <h2 class="section-title">Nuestro <span class="gradient-text">Sistema Solar</span></h2>
+                <p class="section-desc">Seleccione un cuerpo celeste para ver sus datos orbitales.</p>
             </div>
-            <div class="monitor-screen">
-                <div class="screen-header">
-                    <span class="screen-id">MON-02</span>
-                    <span class="screen-title">SISTEMA DE NAVEGACIÓN PLANETARIA</span>
-                    <span class="screen-status">● EN LÍNEA</span>
+
+            <div class="planet-selector" role="tablist" aria-label="Selector de planetas">
+                <button class="planet-btn active" data-planet="sun" role="tab">SOL</button>
+                <button class="planet-btn" data-planet="mercury" role="tab">MERCURIO</button>
+                <button class="planet-btn" data-planet="venus" role="tab">VENUS</button>
+                <button class="planet-btn" data-planet="earth" role="tab">TIERRA</button>
+                <button class="planet-btn" data-planet="mars" role="tab">MARTE</button>
+                <button class="planet-btn" data-planet="jupiter" role="tab">JÚPITER</button>
+                <button class="planet-btn" data-planet="saturn" role="tab">SATURNO</button>
+                <button class="planet-btn" data-planet="uranus" role="tab">URANO</button>
+                <button class="planet-btn" data-planet="neptune" role="tab">NEPTUNO</button>
+            </div>
+
+            <div class="planet-display">
+                <div class="planet-visual" id="planet-visual">
+                    <div class="planet-sphere sun-sphere"></div>
                 </div>
-                <div class="screen-content">
-                    <div class="container">
-                        <h2 class="section-title">Nuestro <span class="gradient-text">Sistema Solar</span></h2>
-                        <p class="section-desc">Seleccione un cuerpo celeste para ver sus datos orbitales.</p>
-
-                        <div class="planet-selector">
-                            <button class="planet-btn active" data-planet="sun">SOL</button>
-                            <button class="planet-btn" data-planet="mercury">MERCURIO</button>
-                            <button class="planet-btn" data-planet="venus">VENUS</button>
-                            <button class="planet-btn" data-planet="earth">TIERRA</button>
-                            <button class="planet-btn" data-planet="mars">MARTE</button>
-                            <button class="planet-btn" data-planet="jupiter">JÚPITER</button>
-                            <button class="planet-btn" data-planet="saturn">SATURNO</button>
-                            <button class="planet-btn" data-planet="uranus">URANO</button>
-                            <button class="planet-btn" data-planet="neptune">NEPTUNO</button>
-                        </div>
-
-                        <div class="planet-display">
-                            <div class="planet-visual" id="planet-visual">
-                                <div class="planet-sphere sun-sphere"></div>
-                            </div>
-                            <div class="planet-info" id="planet-info">
-                                <h3>El Sol</h3>
-                                <div class="info-grid">
-                                    <div class="info-item"><span class="info-label">Tipo</span><span class="info-value">Estrella (G2V)</span></div>
-                                    <div class="info-item"><span class="info-label">Diámetro</span><span class="info-value">1.392.700 km</span></div>
-                                    <div class="info-item"><span class="info-label">Temperatura</span><span class="info-value">5.500 °C</span></div>
-                                    <div class="info-item"><span class="info-label">Masa</span><span class="info-value">1.989 × 10³⁰ kg</span></div>
-                                    <div class="info-item"><span class="info-label">Edad</span><span class="info-value">4.600 millones años</span></div>
-                                    <div class="info-item"><span class="info-label">Gravedad</span><span class="info-value">274 m/s²</span></div>
-                                </div>
-                                <p class="planet-description">El Sol es la estrella en el centro de nuestro sistema solar. Es una esfera de plasma caliente que proporciona la energía necesaria para la vida en la Tierra.</p>
-                            </div>
-                        </div>
-
-                        <div class="solar-facts">
-                            <div class="fact-card">
-                                <div class="fact-icon">☀️</div>
-                                <h4>DISTANCIA AL SOL</h4>
-                                <p>149.6 millones de km</p>
-                            </div>
-                            <div class="fact-card">
-                                <div class="fact-icon">🌑</div>
-                                <h4>LUNAS CONOCIDAS</h4>
-                                <p>Más de 200 en todo el sistema</p>
-                            </div>
-                            <div class="fact-card">
-                                <div class="fact-icon">☄️</div>
-                                <h4>CINTURÓN DE ASTEROIDES</h4>
-                                <p>Entre Marte y Júpiter</p>
-                            </div>
-                            <div class="fact-card">
-                                <div class="fact-icon">🔭</div>
-                                <h4>VOYAGER 1</h4>
-                                <p>A 24.000 millones de km</p>
-                            </div>
-                        </div>
+                <div class="planet-info" id="planet-info">
+                    <h3>El Sol</h3>
+                    <div class="info-grid">
+                        <div class="info-item"><span class="info-label">Tipo</span><span class="info-value">Estrella (G2V)</span></div>
+                        <div class="info-item"><span class="info-label">Diámetro</span><span class="info-value">1.392.700 km</span></div>
+                        <div class="info-item"><span class="info-label">Temperatura</span><span class="info-value">5.500 °C</span></div>
+                        <div class="info-item"><span class="info-label">Masa</span><span class="info-value">1.989 × 10³⁰ kg</span></div>
+                        <div class="info-item"><span class="info-label">Edad</span><span class="info-value">4.600 millones años</span></div>
+                        <div class="info-item"><span class="info-label">Gravedad</span><span class="info-value">274 m/s²</span></div>
                     </div>
+                    <p class="planet-description">El Sol es la estrella en el centro de nuestro sistema solar. Es una esfera de plasma caliente que proporciona la energía necesaria para la vida en la Tierra.</p>
                 </div>
-                <div class="monitor-scanline"></div>
             </div>
-            <div class="monitor-stand">
-                <div class="stand-neck"></div>
-                <div class="stand-base"></div>
+
+            <div class="solar-facts">
+                <div class="fact-card">
+                    <div class="fact-icon">☀️</div>
+                    <h4>Distancia al Sol</h4>
+                    <p>149.6 millones de km</p>
+                </div>
+                <div class="fact-card">
+                    <div class="fact-icon">🌑</div>
+                    <h4>Lunas conocidas</h4>
+                    <p>Más de 200 en todo el sistema</p>
+                </div>
+                <div class="fact-card">
+                    <div class="fact-icon">☄️</div>
+                    <h4>Cinturón de asteroides</h4>
+                    <p>Entre Marte y Júpiter</p>
+                </div>
+                <div class="fact-card">
+                    <div class="fact-icon">🔭</div>
+                    <h4>Voyager 1</h4>
+                    <p>A 24.000 millones de km</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Simulación Orbital - Monitor 03 -->
-    <section id="simulacion" class="section monitor-section">
-        <div class="monitor-frame wide">
-            <div class="monitor-bezel">
-                <div class="monitor-brand">SALA<span>DE CONTROL</span></div>
-                <div class="monitor-led blink-green"></div>
-                <div class="monitor-power">◉</div>
+    <!-- ============================================
+         SECCIÓN 03 - SIMULACIÓN ORBITAL
+         ============================================ -->
+    <section id="simulacion" class="section">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-eyebrow">03 // Dinámica Celeste</span>
+                <h2 class="section-title">Simulación <span class="gradient-text">Orbital</span></h2>
+                <p class="section-desc">Planetas orbitando el Sol según las leyes de Kepler. Ajusta la velocidad y observa el movimiento real.</p>
             </div>
-            <div class="monitor-screen">
-                <div class="screen-header">
-                    <span class="screen-id">MON-03</span>
-                    <span class="screen-title">SIMULACIÓN ORBITAL DEL SISTEMA SOLAR</span>
-                    <span class="screen-status">● SIMULANDO</span>
-                </div>
-                <div class="screen-content">
-                    <div class="container">
-                        <h2 class="section-title">Simulación <span class="gradient-text">Orbital</span></h2>
-                        <p class="section-desc">Planetas orbitando el Sol según las leyes de Kepler. Ajusta la velocidad y observa el movimiento real.</p>
-                        
-                        <div class="orbital-sim">
-                            <div class="sim-controls">
-                                <button id="sim-play" class="sim-btn">⏸ PAUSAR</button>
-                                <div class="sim-speed-wrap">
-                                    <label for="sim-speed">VELOCIDAD</label>
-                                    <input type="range" id="sim-speed" min="1" max="200" value="50">
-                                    <span id="sim-speed-label">50x</span>
-                                </div>
-                                <span class="sim-elapsed" id="sim-elapsed">AÑO 0.00</span>
-                            </div>
-                            <div class="orbital-canvas-wrap">
-                                <canvas id="orbital-canvas"></canvas>
-                                <div class="sim-info" id="sim-info">Pasa el cursor sobre un planeta para ver sus datos</div>
-                            </div>
-                        </div>
+
+            <div class="orbital-sim">
+                <div class="sim-controls">
+                    <button id="sim-play" class="sim-btn">⏸ PAUSAR</button>
+                    <div class="sim-speed-wrap">
+                        <label for="sim-speed">VELOCIDAD</label>
+                        <input type="range" id="sim-speed" min="1" max="200" value="50">
+                        <span id="sim-speed-label">50x</span>
                     </div>
+                    <span class="sim-elapsed" id="sim-elapsed">AÑO 0.00</span>
                 </div>
-                <div class="monitor-scanline"></div>
-            </div>
-            <div class="monitor-stand">
-                <div class="stand-neck"></div>
-                <div class="stand-base"></div>
+                <div class="orbital-canvas-wrap">
+                    <canvas id="orbital-canvas"></canvas>
+                    <div class="sim-info" id="sim-info">Pasa el cursor sobre un planeta para ver sus datos</div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Herramientas - Monitor 04 -->
-    <section id="herramientas" class="section monitor-section">
-        <div class="monitor-frame wide">
-            <div class="monitor-bezel">
-                <div class="monitor-brand">SALA<span>DE CONTROL</span></div>
-                <div class="monitor-led blink-amber"></div>
-                <div class="monitor-power">◉</div>
+    <!-- ============================================
+         SECCIÓN 04 - HERRAMIENTAS INTERACTIVAS
+         ============================================ -->
+    <section id="herramientas" class="section">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-eyebrow">04 // Laboratorio Digital</span>
+                <h2 class="section-title">Herramientas <span class="gradient-text">Interactivas</span></h2>
+                <p class="section-desc">Sistemas de cálculo gravitacional y conversión de unidades astronómicas.</p>
             </div>
-            <div class="monitor-screen">
-                <div class="screen-header">
-                    <span class="screen-id">MON-04</span>
-                    <span class="screen-title">CONSOLA DE CÁLCULO ORBITAL</span>
-                    <span class="screen-status">● ACTIVO</span>
-                </div>
-                <div class="screen-content">
-                    <div class="container">
-                        <h2 class="section-title">Herramientas <span class="gradient-text">Interactivas</span></h2>
-                        <p class="section-desc">Sistemas de cálculo gravitacional y conversión de unidades astronómicas.</p>
 
-                        <div class="tools-grid">
-                            <div class="tool-card">
-                                <div class="tool-header">
-                                    <h3>⚖️ TU PESO EN OTROS MUNDOS</h3>
-                                    <p>Simulación gravitacional</p>
-                                </div>
-                                <div class="tool-body">
-                                    <div class="input-group">
-                                        <label for="weight-input">PESO TERRESTRE (KG):</label>
-                                        <input type="number" id="weight-input" value="70" min="1" max="500">
-                                    </div>
-                                    <div class="weight-results" id="weight-results">
-                                        <div class="weight-item"><span class="planet-name">Mercurio</span><span class="weight-value" id="weight-mercury">26.5 kg</span></div>
-                                        <div class="weight-item"><span class="planet-name">Venus</span><span class="weight-value" id="weight-venus">63.4 kg</span></div>
-                                        <div class="weight-item"><span class="planet-name">Luna</span><span class="weight-value" id="weight-moon">11.6 kg</span></div>
-                                        <div class="weight-item"><span class="planet-name">Marte</span><span class="weight-value" id="weight-mars">26.5 kg</span></div>
-                                        <div class="weight-item"><span class="planet-name">Júpiter</span><span class="weight-value" id="weight-jupiter">177.1 kg</span></div>
-                                        <div class="weight-item"><span class="planet-name">Saturno</span><span class="weight-value" id="weight-saturn">74.5 kg</span></div>
-                                        <div class="weight-item"><span class="planet-name">Urano</span><span class="weight-value" id="weight-uranus">63.7 kg</span></div>
-                                        <div class="weight-item"><span class="planet-name">Neptuno</span><span class="weight-value" id="weight-neptune">79.8 kg</span></div>
-                                        <div class="weight-item"><span class="planet-name">Plutón</span><span class="weight-value" id="weight-pluto">4.3 kg</span></div>
-                                        <div class="weight-item"><span class="planet-name">Sol</span><span class="weight-value" id="weight-sun">1918 kg</span></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="tool-card">
-                                <div class="tool-header">
-                                    <h3>📏 CONVERSOR DE DISTANCIAS</h3>
-                                    <p>Conversión de unidades astronómicas</p>
-                                </div>
-                                <div class="tool-body">
-                                    <div class="converter">
-                                        <div class="input-group"><label>VALOR:</label><input type="number" id="distance-value" value="1" min="0"></div>
-                                        <div class="input-group">
-                                            <label>DESDE:</label>
-                                            <select id="distance-from">
-                                                <option value="km">KILÓMETROS</option>
-                                                <option value="au">UNIDADES ASTRONÓMICAS</option>
-                                                <option value="ly">AÑOS LUZ</option>
-                                                <option value="pc">PÁRSECS</option>
-                                            </select>
-                                        </div>
-                                        <div class="input-group">
-                                            <label>HASTA:</label>
-                                            <select id="distance-to">
-                                                <option value="km">KILÓMETROS</option>
-                                                <option value="au" selected>UNIDADES ASTRONÓMICAS</option>
-                                                <option value="ly">AÑOS LUZ</option>
-                                                <option value="pc">PÁRSECS</option>
-                                            </select>
-                                        </div>
-                                        <div class="preset-buttons">
-                                            <button class="preset-btn" data-value="384400" data-unit="km">TIERRA-LUNA</button>
-                                            <button class="preset-btn" data-value="1" data-unit="au">TIERRA-SOL</button>
-                                            <button class="preset-btn" data-value="39.5" data-unit="au">SOL-PLUTÓN</button>
-                                            <button class="preset-btn" data-value="4.24" data-unit="ly">PRÓXIMA CENTAURI</button>
-                                        </div>
-                                        <button class="convert-btn" id="convert-distance">CONVERTIR</button>
-                                        <div class="result-box" id="distance-result"><span class="result-number">0.000006684</span><span class="result-unit">UA</span></div>
-                                        <div class="context-info" id="distance-context">Distancia a la Luna: 0.0026 UA</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="tool-card wide">
-                                <div class="tool-header">
-                                    <h3>🌌 ESCALA DEL SISTEMA SOLAR</h3>
-                                    <p>Distancias reales en escala logarítmica</p>
-                                </div>
-                                <div class="tool-body">
-                                    <div class="scale-container" id="scale-container">
-                                        <div class="scale-axis-labels">
-                                            <span>SOL</span>
-                                            <span>10M km</span>
-                                            <span>100M km</span>
-                                            <span>1.000M km</span>
-                                            <span>10.000M km</span>
-                                        </div>
-                                        <div class="scale-track">
-                                            <div class="scale-planet" style="left: 8%" data-name="Mercurio" data-dist="57.9 millones km" title="Mercurio - 57.9 millones km">🪨</div>
-                                            <div class="scale-planet" style="left: 15%" data-name="Venus" data-dist="108.2 millones km" title="Venus - 108.2 millones km">🌕</div>
-                                            <div class="scale-planet" style="left: 19%" data-name="Tierra" data-dist="149.6 millones km" title="Tierra - 149.6 millones km">🌍</div>
-                                            <div class="scale-planet" style="left: 24%" data-name="Marte" data-dist="227.9 millones km" title="Marte - 227.9 millones km">🔴</div>
-                                            <div class="scale-planet" style="left: 47%" data-name="Júpiter" data-dist="778.5 millones km" title="Júpiter - 778.5 millones km">🟠</div>
-                                            <div class="scale-planet" style="left: 61%" data-name="Saturno" data-dist="1.434 millones km" title="Saturno - 1.434 millones km">🪐</div>
-                                            <div class="scale-planet" style="left: 76%" data-name="Urano" data-dist="2.871 millones km" title="Urano - 2.871 millones km">🔵</div>
-                                            <div class="scale-planet" style="left: 86%" data-name="Neptuno" data-dist="4.495 millones km" title="Neptuno - 4.495 millones km">🔵</div>
-                                        </div>
-                                        <div class="scale-labels">
-                                            <span>SOL (0)</span>
-                                            <span>MERCURIO</span>
-                                            <span>TIERRA</span>
-                                            <span>JÚPITER</span>
-                                            <span>NEPTUNO</span>
-                                        </div>
-                                    </div>
-                                    <p class="scale-tip">💡 Las distancias están en escala logarítmica: cada marca multiplica la anterior por 10. Pasa el cursor sobre cada planeta para ver su distancia real.</p>
-                                </div>
-                            </div>
-
-                            <div class="tool-card">
-                                <div class="tool-header">
-                                    <h3>🎂 EDAD EN OTROS MUNDOS</h3>
-                                    <p>Cálculo de años orbitales</p>
-                                </div>
-                                <div class="tool-body">
-                                    <div class="input-group"><label for="age-input">EDAD TERRESTRE (AÑOS):</label><input type="number" id="age-input" value="25" min="0" max="150"></div>
-                                    <div class="age-results" id="age-results">
-                                        <div class="age-item"><span class="planet-name">Mercurio</span><span class="age-value" id="age-mercury">104.2 años</span></div>
-                                        <div class="age-item"><span class="planet-name">Venus</span><span class="age-value" id="age-venus">40.5 años</span></div>
-                                        <div class="age-item"><span class="planet-name">Marte</span><span class="age-value" id="age-mars">13.3 años</span></div>
-                                        <div class="age-item"><span class="planet-name">Júpiter</span><span class="age-value" id="age-jupiter">2.1 años</span></div>
-                                        <div class="age-item"><span class="planet-name">Saturno</span><span class="age-value" id="age-saturn">0.8 años</span></div>
-                                        <div class="age-item"><span class="planet-name">Urano</span><span class="age-value" id="age-uranus">0.3 años</span></div>
-                                        <div class="age-item"><span class="planet-name">Neptuno</span><span class="age-value" id="age-neptune">0.15 años</span></div>
-                                        <div class="age-item"><span class="planet-name">Plutón</span><span class="age-value" id="age-pluto">0.1 años</span></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="tool-card">
-                                <div class="tool-header">
-                                    <h3>🍎 FUERZA GRAVITACIONAL</h3>
-                                    <p>Ley de gravitación universal</p>
-                                </div>
-                                <div class="tool-body">
-                                    <div class="gravity-sim">
-                                        <div class="mass-visualization">
-                                            <div class="mass-object" id="mass1"><div class="mass-circle" style="--size: 60px">M1</div><span>OBJETO 1</span></div>
-                                            <div class="force-arrow" id="force-arrow">← F →</div>
-                                            <div class="mass-object" id="mass2"><div class="mass-circle" style="--size: 60px">M2</div><span>OBJETO 2</span></div>
-                                        </div>
-                                        <div class="gravity-inputs">
-                                            <div class="input-row"><label>MASA 1 (KG):</label><input type="range" id="gravity-m1" min="1" max="1000" value="100"><span id="gravity-m1-val">100 kg</span></div>
-                                            <div class="input-row"><label>MASA 2 (KG):</label><input type="range" id="gravity-m2" min="1" max="1000" value="100"><span id="gravity-m2-val">100 kg</span></div>
-                                            <div class="input-row"><label>DISTANCIA (M):</label><input type="range" id="gravity-r" min="1" max="100" value="10"><span id="gravity-r-val">10 m</span></div>
-                                        </div>
-                                        <div class="gravity-result"><span class="formula">F = G × (m₁ × m₂) / r²</span><span class="result" id="gravity-result">F = 6.67 × 10⁻⁹ N</span></div>
-                                    </div>
-                                </div>
-                            </div>
+            <div class="tools-grid">
+                <!-- Peso en otros mundos -->
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <h3>⚖️ Tu peso en otros mundos</h3>
+                        <p>Simulación gravitacional</p>
+                    </div>
+                    <div class="tool-body">
+                        <div class="input-group">
+                            <label for="weight-input">Peso terrestre (kg):</label>
+                            <input type="number" id="weight-input" value="70" min="1" max="500">
+                        </div>
+                        <div class="weight-results" id="weight-results">
+                            <div class="weight-item"><span class="planet-name">Mercurio</span><span class="weight-value" id="weight-mercury">26.5 kg</span></div>
+                            <div class="weight-item"><span class="planet-name">Venus</span><span class="weight-value" id="weight-venus">63.4 kg</span></div>
+                            <div class="weight-item"><span class="planet-name">Luna</span><span class="weight-value" id="weight-moon">11.6 kg</span></div>
+                            <div class="weight-item"><span class="planet-name">Marte</span><span class="weight-value" id="weight-mars">26.5 kg</span></div>
+                            <div class="weight-item"><span class="planet-name">Júpiter</span><span class="weight-value" id="weight-jupiter">177.1 kg</span></div>
+                            <div class="weight-item"><span class="planet-name">Saturno</span><span class="weight-value" id="weight-saturn">74.5 kg</span></div>
+                            <div class="weight-item"><span class="planet-name">Urano</span><span class="weight-value" id="weight-uranus">63.7 kg</span></div>
+                            <div class="weight-item"><span class="planet-name">Neptuno</span><span class="weight-value" id="weight-neptune">79.8 kg</span></div>
+                            <div class="weight-item"><span class="planet-name">Plutón</span><span class="weight-value" id="weight-pluto">4.3 kg</span></div>
+                            <div class="weight-item"><span class="planet-name">Sol</span><span class="weight-value" id="weight-sun">1918 kg</span></div>
                         </div>
                     </div>
                 </div>
-                <div class="monitor-scanline"></div>
-            </div>
-            <div class="monitor-stand">
-                <div class="stand-neck"></div>
-                <div class="stand-base"></div>
+
+                <!-- Conversor de distancias -->
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <h3>📏 Conversor de distancias</h3>
+                        <p>Conversión de unidades astronómicas</p>
+                    </div>
+                    <div class="tool-body">
+                        <div class="converter">
+                            <div class="input-group">
+                                <label for="distance-value">Valor:</label>
+                                <input type="number" id="distance-value" value="1" min="0">
+                            </div>
+                            <div class="input-group">
+                                <label for="distance-from">Desde:</label>
+                                <select id="distance-from">
+                                    <option value="km">Kilómetros</option>
+                                    <option value="au">Unidades astronómicas</option>
+                                    <option value="ly">Años luz</option>
+                                    <option value="pc">Pársecs</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="distance-to">Hasta:</label>
+                                <select id="distance-to">
+                                    <option value="km">Kilómetros</option>
+                                    <option value="au" selected>Unidades astronómicas</option>
+                                    <option value="ly">Años luz</option>
+                                    <option value="pc">Pársecs</option>
+                                </select>
+                            </div>
+                            <div class="preset-buttons">
+                                <button class="preset-btn" data-value="384400" data-unit="km">Tierra-Luna</button>
+                                <button class="preset-btn" data-value="1" data-unit="au">Tierra-Sol</button>
+                                <button class="preset-btn" data-value="39.5" data-unit="au">Sol-Plutón</button>
+                                <button class="preset-btn" data-value="4.24" data-unit="ly">Próxima Centauri</button>
+                            </div>
+                            <button class="convert-btn" id="convert-distance">Convertir</button>
+                            <div class="result-box" id="distance-result"><span class="result-number">0.000006684</span><span class="result-unit">UA</span></div>
+                            <div class="context-info" id="distance-context">Distancia a la Luna: 0.0026 UA</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Escala del sistema solar -->
+                <div class="tool-card wide">
+                    <div class="tool-header">
+                        <h3>🌌 Escala del sistema solar</h3>
+                        <p>Distancias reales en escala logarítmica</p>
+                    </div>
+                    <div class="tool-body">
+                        <div class="scale-container" id="scale-container">
+                            <div class="scale-axis-labels">
+                                <span>SOL</span>
+                                <span>10M km</span>
+                                <span>100M km</span>
+                                <span>1.000M km</span>
+                                <span>10.000M km</span>
+                            </div>
+                            <div class="scale-track">
+                                <div class="scale-planet" style="left: 8%" data-name="Mercurio" data-dist="57.9 millones km" title="Mercurio - 57.9 millones km">🪨</div>
+                                <div class="scale-planet" style="left: 15%" data-name="Venus" data-dist="108.2 millones km" title="Venus - 108.2 millones km">🌕</div>
+                                <div class="scale-planet" style="left: 19%" data-name="Tierra" data-dist="149.6 millones km" title="Tierra - 149.6 millones km">🌍</div>
+                                <div class="scale-planet" style="left: 24%" data-name="Marte" data-dist="227.9 millones km" title="Marte - 227.9 millones km">🔴</div>
+                                <div class="scale-planet" style="left: 47%" data-name="Júpiter" data-dist="778.5 millones km" title="Júpiter - 778.5 millones km">🟠</div>
+                                <div class="scale-planet" style="left: 61%" data-name="Saturno" data-dist="1.434 millones km" title="Saturno - 1.434 millones km">🪐</div>
+                                <div class="scale-planet" style="left: 76%" data-name="Urano" data-dist="2.871 millones km" title="Urano - 2.871 millones km">🔵</div>
+                                <div class="scale-planet" style="left: 86%" data-name="Neptuno" data-dist="4.495 millones km" title="Neptuno - 4.495 millones km">🔵</div>
+                            </div>
+                            <div class="scale-labels">
+                                <span>SOL (0)</span>
+                                <span>MERCURIO</span>
+                                <span>TIERRA</span>
+                                <span>JÚPITER</span>
+                                <span>NEPTUNO</span>
+                            </div>
+                        </div>
+                        <p class="scale-tip">💡 Las distancias están en escala logarítmica: cada marca multiplica la anterior por 10. Pasa el cursor sobre cada planeta para ver su distancia real.</p>
+                    </div>
+                </div>
+
+                <!-- Edad en otros mundos -->
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <h3>🎂 Edad en otros mundos</h3>
+                        <p>Cálculo de años orbitales</p>
+                    </div>
+                    <div class="tool-body">
+                        <div class="input-group">
+                            <label for="age-input">Edad terrestre (años):</label>
+                            <input type="number" id="age-input" value="25" min="0" max="150">
+                        </div>
+                        <div class="age-results" id="age-results">
+                            <div class="age-item"><span class="planet-name">Mercurio</span><span class="age-value" id="age-mercury">104.2 años</span></div>
+                            <div class="age-item"><span class="planet-name">Venus</span><span class="age-value" id="age-venus">40.5 años</span></div>
+                            <div class="age-item"><span class="planet-name">Marte</span><span class="age-value" id="age-mars">13.3 años</span></div>
+                            <div class="age-item"><span class="planet-name">Júpiter</span><span class="age-value" id="age-jupiter">2.1 años</span></div>
+                            <div class="age-item"><span class="planet-name">Saturno</span><span class="age-value" id="age-saturn">0.8 años</span></div>
+                            <div class="age-item"><span class="planet-name">Urano</span><span class="age-value" id="age-uranus">0.3 años</span></div>
+                            <div class="age-item"><span class="planet-name">Neptuno</span><span class="age-value" id="age-neptune">0.15 años</span></div>
+                            <div class="age-item"><span class="planet-name">Plutón</span><span class="age-value" id="age-pluto">0.1 años</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fuerza gravitacional -->
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <h3>🍎 Fuerza gravitacional</h3>
+                        <p>Ley de gravitación universal</p>
+                    </div>
+                    <div class="tool-body">
+                        <div class="gravity-sim">
+                            <div class="mass-visualization">
+                                <div class="mass-object" id="mass1"><div class="mass-circle" style="--size: 60px">M1</div><span>Objeto 1</span></div>
+                                <div class="force-arrow" id="force-arrow">← F →</div>
+                                <div class="mass-object" id="mass2"><div class="mass-circle" style="--size: 60px">M2</div><span>Objeto 2</span></div>
+                            </div>
+                            <div class="gravity-inputs">
+                                <div class="input-row"><label for="gravity-m1">Masa 1 (kg):</label><input type="range" id="gravity-m1" min="1" max="1000" value="100"><span id="gravity-m1-val">100 kg</span></div>
+                                <div class="input-row"><label for="gravity-m2">Masa 2 (kg):</label><input type="range" id="gravity-m2" min="1" max="1000" value="100"><span id="gravity-m2-val">100 kg</span></div>
+                                <div class="input-row"><label for="gravity-r">Distancia (m):</label><input type="range" id="gravity-r" min="1" max="100" value="10"><span id="gravity-r-val">10 m</span></div>
+                            </div>
+                            <div class="gravity-result"><span class="formula">F = G × (m₁ × m₂) / r²</span><span class="result" id="gravity-result">F = 6.67 × 10⁻⁹ N</span></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Semilleros Científicos - Monitor 05 -->
-    <section id="semilleros" class="section monitor-section">
-        <div class="monitor-frame wide">
-            <div class="monitor-bezel">
-                <div class="monitor-brand">SALA<span>DE CONTROL</span></div>
-                <div class="monitor-led blink-green"></div>
-                <div class="monitor-power">◉</div>
+    <!-- ============================================
+         SECCIÓN 05 - SEMILLEROS CIENTÍFICOS
+         ============================================ -->
+    <section id="semilleros" class="section">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-eyebrow">05 // Formación Científica</span>
+                <h2 class="section-title">Semilleros <span class="gradient-text">Científicos</span></h2>
+                <p class="section-desc">Espacios de formación para jóvenes interesados en la exploración del cosmos y las ciencias del espacio.</p>
             </div>
-            <div class="monitor-screen">
-                <div class="screen-header">
-                    <span class="screen-id">MON-05</span>
-                    <span class="screen-title">SEMILLEROS CIENTÍFICOS EN ASTRONOMÍA</span>
-                    <span class="screen-status">● ACTIVO</span>
-                </div>
-                <div class="screen-content">
-                    <div class="container">
-                        <h2 class="section-title">Semilleros <span class="gradient-text">Científicos</span></h2>
-                        <p class="section-desc">Espacios de formación para jóvenes interesados en la exploración del cosmos y las ciencias del espacio.</p>
-                        
-                        <div class="semilleros-grid">
-                            <div class="semillero-card">
-                                <div class="semillero-icon">🔭</div>
-                                <div class="semillero-content">
-                                    <h3>Observación Astronómica</h3>
-                                    <p>Talleres prácticos de manejo de telescopios, identificación de constelaciones y observación de planetas y estrellas.</p>
-                                    <span class="semillero-tag">NIVEL INICIAL</span>
-                                </div>
-                            </div>
-                            <div class="semillero-card">
-                                <div class="semillero-icon">🌌</div>
-                                <div class="semillero-content">
-                                    <h3>Astrofísica Juvenil</h3>
-                                    <p>Introducción a la física estelar, formación estelar y estudio de las propiedades de las estrellas y galaxias.</p>
-                                    <span class="semillero-tag">NIVEL INTERMEDIO</span>
-                                </div>
-                            </div>
-                            <div class="semillero-card">
-                                <div class="semillero-icon">🛰️</div>
-                                <div class="semillero-content">
-                                    <h3>Exploración Espacial</h3>
-                                    <p>Estudio de las misiones espaciales, tecnología de cohetes, satélites y la exploración robótica del sistema solar.</p>
-                                    <span class="semillero-tag">NIVEL INTERMEDIO</span>
-                                </div>
-                            </div>
-                            <div class="semillero-card">
-                                <div class="semillero-icon">🪐</div>
-                                <div class="semillero-content">
-                                    <h3>Planetología</h3>
-                                    <p>Análisis de la formación planetaria, geología de los planetas rocosos y estudio de los gigantes gaseosos.</p>
-                                    <span class="semillero-tag">NIVEL AVANZADO</span>
-                                </div>
-                            </div>
-                            <div class="semillero-card">
-                                <div class="semillero-icon">💫</div>
-                                <div class="semillero-content">
-                                    <h3>Cosmología</h3>
-                                    <p>Exploración del origen y evolución del universo, el Big Bang, la materia oscura y los agujeros negros.</p>
-                                    <span class="semillero-tag">NIVEL AVANZADO</span>
-                                </div>
-                            </div>
-                            <div class="semillero-card">
-                                <div class="semillero-icon">📡</div>
-                                <div class="semillero-content">
-                                    <h3>Radioastronomía</h3>
-                                    <p>Iniciación al estudio del universo a través de ondas de radio, y la búsqueda de señales cósmicas.</p>
-                                    <span class="semillero-tag">NIVEL AVANZADO</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="semillero-note">
-                            <span class="note-icon">ℹ️</span>
-                            <p>Los semilleros científicos son programas de formación complementaria donde jóvenes desarrollan habilidades de investigación, pensamiento crítico y trabajo en equipo, bajo la guía de profesionales del área.</p>
-                        </div>
+
+            <div class="semilleros-grid">
+                <div class="semillero-card">
+                    <div class="semillero-icon">🔭</div>
+                    <div class="semillero-content">
+                        <h3>Observación Astronómica</h3>
+                        <p>Talleres prácticos de manejo de telescopios, identificación de constelaciones y observación de planetas y estrellas.</p>
+                        <span class="semillero-tag">NIVEL INICIAL</span>
                     </div>
                 </div>
-                <div class="monitor-scanline"></div>
+                <div class="semillero-card">
+                    <div class="semillero-icon">🌌</div>
+                    <div class="semillero-content">
+                        <h3>Astrofísica Juvenil</h3>
+                        <p>Introducción a la física estelar, formación estelar y estudio de las propiedades de las estrellas y galaxias.</p>
+                        <span class="semillero-tag">NIVEL INTERMEDIO</span>
+                    </div>
+                </div>
+                <div class="semillero-card">
+                    <div class="semillero-icon">🛰️</div>
+                    <div class="semillero-content">
+                        <h3>Exploración Espacial</h3>
+                        <p>Estudio de las misiones espaciales, tecnología de cohetes, satélites y la exploración robótica del sistema solar.</p>
+                        <span class="semillero-tag">NIVEL INTERMEDIO</span>
+                    </div>
+                </div>
+                <div class="semillero-card">
+                    <div class="semillero-icon">🪐</div>
+                    <div class="semillero-content">
+                        <h3>Planetología</h3>
+                        <p>Análisis de la formación planetaria, geología de los planetas rocosos y estudio de los gigantes gaseosos.</p>
+                        <span class="semillero-tag">NIVEL AVANZADO</span>
+                    </div>
+                </div>
+                <div class="semillero-card">
+                    <div class="semillero-icon">💫</div>
+                    <div class="semillero-content">
+                        <h3>Cosmología</h3>
+                        <p>Exploración del origen y evolución del universo, el Big Bang, la materia oscura y los agujeros negros.</p>
+                        <span class="semillero-tag">NIVEL AVANZADO</span>
+                    </div>
+                </div>
+                <div class="semillero-card">
+                    <div class="semillero-icon">📡</div>
+                    <div class="semillero-content">
+                        <h3>Radioastronomía</h3>
+                        <p>Iniciación al estudio del universo a través de ondas de radio, y la búsqueda de señales cósmicas.</p>
+                        <span class="semillero-tag">NIVEL AVANZADO</span>
+                    </div>
+                </div>
             </div>
-            <div class="monitor-stand">
-                <div class="stand-neck"></div>
-                <div class="stand-base"></div>
+
+            <div class="semillero-note">
+                <span class="note-icon">ℹ️</span>
+                <p>Los semilleros científicos son programas de formación complementaria donde jóvenes desarrollan habilidades de investigación, pensamiento crítico y trabajo en equipo, bajo la guía de profesionales del área.</p>
             </div>
         </div>
     </section>
 
-    <!-- Astronomía Educativa - Monitor 06 -->
-    <section id="fundacite" class="section monitor-section">
-        <div class="monitor-frame wide">
-            <div class="monitor-bezel">
-                <div class="monitor-brand">SALA<span>DE CONTROL</span></div>
-                <div class="monitor-led blink-amber"></div>
-                <div class="monitor-power">◉</div>
+    <!-- ============================================
+         SECCIÓN 06 - APRENDE ASTRONOMÍA
+         ============================================ -->
+    <section id="fundacite" class="section">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-eyebrow">06 // Divulgación Científica</span>
+                <h2 class="section-title">Aprende <span class="gradient-text">Astronomía</span></h2>
+                <p class="section-desc">Conceptos fundamentales para entender el universo que nos rodea. Una iniciativa de divulgación científica.</p>
             </div>
-            <div class="monitor-screen">
-                <div class="screen-header">
-                    <span class="screen-id">MON-06</span>
-                    <span class="screen-title">ASTRONOMÍA EDUCATIVA - APRENDE EL COSMOS</span>
-                    <span class="screen-status">● ACTIVO</span>
+
+            <div class="astro-concepts">
+                <div class="concept-card">
+                    <span class="concept-icon">🔭</span>
+                    <h4>El Telescopio</h4>
+                    <p>Instrumento que recolecta la luz de objetos lejanos. Los telescopios ópticos, como el Hubble y el James Webb, nos han revelado galaxias a miles de millones de años luz.</p>
                 </div>
-                <div class="screen-content">
-                    <div class="container">
-                        <h2 class="section-title">Aprende <span class="gradient-text">Astronomía</span></h2>
-                        <p class="section-desc">Conceptos fundamentales para entender el universo que nos rodea. Una iniciativa de divulgación científica.</p>
-                        
-                        <div class="astro-concepts">
-                            <div class="concept-card">
-                                <span class="concept-icon">🔭</span>
-                                <h4>El Telescopio</h4>
-                                <p>Instrumento que recolecta la luz de objetos lejanos. Los telescopios ópticos, como el Hubble y el James Webb, nos han revelado galaxias a miles de millones de años luz.</p>
-                            </div>
-                            <div class="concept-card">
-                                <span class="concept-icon">🌍</span>
-                                <h4>La Tierra y la Luna</h4>
-                                <p>Nuestro planeta orbita al Sol a 149.6 millones de km. La Luna, a solo 384,400 km, produce las mareas y estabiliza la inclinación de nuestro eje.</p>
-                            </div>
-                            <div class="concept-card">
-                                <span class="concept-icon">☀️</span>
-                                <h4>El Sol y las Estrellas</h4>
-                                <p>El Sol es una estrella enana amarilla de tipo G2V. Las estrellas se clasifican por su temperatura (O, B, A, F, G, K, M) y su color las delata.</p>
-                            </div>
-                            <div class="concept-card">
-                                <span class="concept-icon">🌌</span>
-                                <h4>Nebulosas y Galaxias</h4>
-                                <p>Las nebulosas son nubes de gas y polvo donde nacen estrellas. Nuestra galaxia, la Vía Láctea, alberga unos 200 mil millones de soles.</p>
-                            </div>
-                            <div class="concept-card">
-                                <span class="concept-icon">🪐</span>
-                                <h4>El Sistema Solar</h4>
-                                <p>Ocho planetas orbitan el Sol: los rocosos interiores (Mercurio a Marte) y los gigantes gaseosos exteriores (Júpiter a Neptuno).</p>
-                            </div>
-                            <div class="concept-card">
-                                <span class="concept-icon">✨</span>
-                                <h4>El Origen del Universo</h4>
-                                <p>Hace unos 13,800 millones de años el universo nació en el Big Bang. Las teorías actuales combinan la relatividad de Einstein y la mecánica cuántica.</p>
-                            </div>
-                            <div class="concept-card">
-                                <span class="concept-icon">📏</span>
-                                <h4>Leyes de Kepler</h4>
-                                <p>Los planetas se mueven en elipses con el Sol en un foco, barren áreas iguales en tiempos iguales, y su período al cuadrado es proporcional al semieje al cubo.</p>
-                            </div>
-                            <div class="concept-card">
-                                <span class="concept-icon">🌠</span>
-                                <h4>Constelaciones</h4>
-                                <p>Agrupaciones aparentes de estrellas. La Osa Mayor, Orión y Crux del Sur son guías para localizar objetos en el cielo nocturno.</p>
-                            </div>
-                            <div class="concept-card">
-                                <span class="concept-icon">🕳️</span>
-                                <h4>Agujeros Negros</h4>
-                                <p>Regiones donde la gravedad es tan intensa que ni la luz escapa. El del centro de nuestra galaxia, Sagitario A*, tiene 4 millones de masas solares.</p>
-                            </div>
-                            <div class="concept-card">
-                                <span class="concept-icon">⚡</span>
-                                <h4>Materia Oscura</h4>
-                                <p>Forma el ~27% del universo pero no emite luz. Se detecta por su gravedad: mantiene unidas a las galaxias que girarían demasiado rápido sin ella.</p>
-                            </div>
-                            <div class="concept-card">
-                                <span class="concept-icon">💥</span>
-                                <h4>Supernovas</h4>
-                                <p>Explosiones de estrellas masivas que brillan más que una galaxia entera. Forjan elementos pesados como el hierro y el oro que dispersan al espacio.</p>
-                            </div>
-                            <div class="concept-card">
-                                <span class="concept-icon">🌌</span>
-                                <h4>Quásares</h4>
-                                <p>Núcleos galácticos extremadamente brillantes alimentados por agujeros negros supermasivos. Algunos son visibles desde el inicio del universo.</p>
-                            </div>
-                            <div class="concept-card">
-                                <span class="concept-icon">🪐</span>
-                                <h4>Exoplanetas</h4>
-                                <p>Planetas que orbitan otras estrellas. Se han confirmado más de 5,000; algunos en la "zona habitable" donde podría existir agua líquida.</p>
-                            </div>
-                            <div class="concept-card">
-                                <span class="concept-icon">🕰️</span>
-                                <h4>Año Luz</h4>
-                                <p>Distancia que recorre la luz en un año: unos 9.46 billones de km. La estrella más cercana, Próxima Centauri, está a 4.2 años luz.</p>
-                            </div>
-                            <div class="concept-card">
-                                <span class="concept-icon">🌑</span>
-                                <h4>Eclipses</h4>
-                                <p>El Sol, la Tierra y la Luna se alinean: el eclipse solar oculta al Sol y el lunar oscurece la Luna al pasar por la sombra de la Tierra.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="fundacite-credit">
-                            <span class="logo-atom">⚛️</span>
-                            <p>Página educativa en representación de <strong>Astronomía Caracas</strong> y <strong>Fundacite</strong>, para la divulgación del conocimiento astronómico.</p>
-                            <a class="fundacite-cta" href="https://campusvirtual.fundacite-caracas.com/" target="_blank">CAMPUS FUNDACITE →</a>
-                        </div>
-                    </div>
+                <div class="concept-card">
+                    <span class="concept-icon">🌍</span>
+                    <h4>La Tierra y la Luna</h4>
+                    <p>Nuestro planeta orbita al Sol a 149.6 millones de km. La Luna, a solo 384,400 km, produce las mareas y estabiliza la inclinación de nuestro eje.</p>
                 </div>
-                <div class="monitor-scanline"></div>
+                <div class="concept-card">
+                    <span class="concept-icon">☀️</span>
+                    <h4>El Sol y las Estrellas</h4>
+                    <p>El Sol es una estrella enana amarilla de tipo G2V. Las estrellas se clasifican por su temperatura (O, B, A, F, G, K, M) y su color las delata.</p>
+                </div>
+                <div class="concept-card">
+                    <span class="concept-icon">🌌</span>
+                    <h4>Nebulosas y Galaxias</h4>
+                    <p>Las nebulosas son nubes de gas y polvo donde nacen estrellas. Nuestra galaxia, la Vía Láctea, alberga unos 200 mil millones de soles.</p>
+                </div>
+                <div class="concept-card">
+                    <span class="concept-icon">🪐</span>
+                    <h4>El Sistema Solar</h4>
+                    <p>Ocho planetas orbitan el Sol: los rocosos interiores (Mercurio a Marte) y los gigantes gaseosos exteriores (Júpiter a Neptuno).</p>
+                </div>
+                <div class="concept-card">
+                    <span class="concept-icon">✨</span>
+                    <h4>El Origen del Universo</h4>
+                    <p>Hace unos 13,800 millones de años el universo nació en el Big Bang. Las teorías actuales combinan la relatividad de Einstein y la mecánica cuántica.</p>
+                </div>
+                <div class="concept-card">
+                    <span class="concept-icon">📏</span>
+                    <h4>Leyes de Kepler</h4>
+                    <p>Los planetas se mueven en elipses con el Sol en un foco, barren áreas iguales en tiempos iguales, y su período al cuadrado es proporcional al semieje al cubo.</p>
+                </div>
+                <div class="concept-card">
+                    <span class="concept-icon">🌠</span>
+                    <h4>Constelaciones</h4>
+                    <p>Agrupaciones aparentes de estrellas. La Osa Mayor, Orión y Crux del Sur son guías para localizar objetos en el cielo nocturno.</p>
+                </div>
+                <div class="concept-card">
+                    <span class="concept-icon">🕳️</span>
+                    <h4>Agujeros Negros</h4>
+                    <p>Regiones donde la gravedad es tan intensa que ni la luz escapa. El del centro de nuestra galaxia, Sagitario A*, tiene 4 millones de masas solares.</p>
+                </div>
+                <div class="concept-card">
+                    <span class="concept-icon">⚡</span>
+                    <h4>Materia Oscura</h4>
+                    <p>Forma el ~27% del universo pero no emite luz. Se detecta por su gravedad: mantiene unidas a las galaxias que girarían demasiado rápido sin ella.</p>
+                </div>
+                <div class="concept-card">
+                    <span class="concept-icon">💥</span>
+                    <h4>Supernovas</h4>
+                    <p>Explosiones de estrellas masivas que brillan más que una galaxia entera. Forjan elementos pesados como el hierro y el oro que dispersan al espacio.</p>
+                </div>
+                <div class="concept-card">
+                    <span class="concept-icon">🌌</span>
+                    <h4>Quásares</h4>
+                    <p>Núcleos galácticos extremadamente brillantes alimentados por agujeros negros supermasivos. Algunos son visibles desde el inicio del universo.</p>
+                </div>
+                <div class="concept-card">
+                    <span class="concept-icon">🪐</span>
+                    <h4>Exoplanetas</h4>
+                    <p>Planetas que orbitan otras estrellas. Se han confirmado más de 5,000; algunos en la "zona habitable" donde podría existir agua líquida.</p>
+                </div>
+                <div class="concept-card">
+                    <span class="concept-icon">🕰️</span>
+                    <h4>Año Luz</h4>
+                    <p>Distancia que recorre la luz en un año: unos 9.46 billones de km. La estrella más cercana, Próxima Centauri, está a 4.2 años luz.</p>
+                </div>
+                <div class="concept-card">
+                    <span class="concept-icon">🌑</span>
+                    <h4>Eclipses</h4>
+                    <p>El Sol, la Tierra y la Luna se alinean: el eclipse solar oculta al Sol y el lunar oscurece la Luna al pasar por la sombra de la Tierra.</p>
+                </div>
             </div>
-            <div class="monitor-stand">
-                <div class="stand-neck"></div>
-                <div class="stand-base"></div>
+
+            <div class="fundacite-credit">
+                <span class="logo-atom">⚛️</span>
+                <p>Página educativa en representación de <strong>Astronomía Caracas</strong> y <strong>Fundacite</strong>, para la divulgación del conocimiento astronómico.</p>
+                <a class="fundacite-cta" href="https://campusvirtual.fundacite-caracas.com/" target="_blank">Campus Fundacite →</a>
             </div>
         </div>
     </section>
 
-    <!-- Cielo en vivo - Monitor 07 -->
-    <section id="cielo" class="section monitor-section">
-        <div class="monitor-frame">
-            <div class="monitor-bezel">
-                <div class="monitor-brand">SALA<span>DE CONTROL</span></div>
-                <div class="monitor-led blink-green"></div>
-                <div class="monitor-power">◉</div>
+    <!-- ============================================
+         SECCIÓN 07 - CIELO EN VIVO
+         ============================================ -->
+    <section id="cielo" class="section">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-eyebrow">07 // Observación Nocturna</span>
+                <h2 class="section-title">Cielo <span class="gradient-text">en Vivo</span></h2>
+                <p class="section-desc">Descubre qué planetas y objetos brillantes puedes observar esta noche según tu ubicación.</p>
             </div>
-            <div class="monitor-screen">
-                <div class="screen-header">
-                    <span class="screen-id">MON-07</span>
-                    <span class="screen-title">CIELO EN VIVO - OBJETOS VISIBLES ESTA NOCHE</span>
-                    <span class="screen-status">● OBSERVANDO</span>
+
+            <div class="sky-widget">
+                <div class="sky-head">
+                    <span class="sky-icon">🔭</span>
+                    <span>Visibilidad nocturna</span>
+                    <span class="sky-loc" id="sky-loc">LOCALIZANDO...</span>
                 </div>
-                <div class="screen-content">
-                    <div class="container">
-                        <h2 class="section-title">Cielo <span class="gradient-text">en Vivo</span></h2>
-                        <p class="section-desc">Descubre qué planetas y objetos brillantes puedes observar esta noche según tu ubicación.</p>
-                        
-                        <div class="sky-widget">
-                            <div class="sky-head">
-                                <span class="sky-icon">🔭</span>
-                                <span>RADAR DE VISIBILIDAD NOCTURNA</span>
-                                <span class="sky-loc" id="sky-loc">LOCALIZANDO...</span>
-                            </div>
-                            <div class="sky-body" id="sky-body">
-                                <div class="sky-loading">Calculando posiciones celestes...</div>
-                            </div>
-                            <div class="sky-foot">
-                                <span>Leyenda: </span>
-                                <span class="sky-dot sky-dot-good"></span> Muy visible
-                                <span class="sky-dot sky-dot-mid"></span> Poco visible
-                                <span class="sky-dot sky-dot-bad"></span> No visible
-                            </div>
-                        </div>
-                    </div>
+                <div class="sky-body" id="sky-body">
+                    <div class="sky-loading">Calculando posiciones celestes...</div>
                 </div>
-                <div class="monitor-scanline"></div>
-            </div>
-            <div class="monitor-stand">
-                <div class="stand-neck"></div>
-                <div class="stand-base"></div>
+                <div class="sky-foot">
+                    <span>Leyenda: </span>
+                    <span class="sky-dot sky-dot-good"></span> Muy visible
+                    <span class="sky-dot sky-dot-mid"></span> Poco visible
+                    <span class="sky-dot sky-dot-bad"></span> No visible
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Historia - Monitor 08 -->
-    <section id="historia" class="section monitor-section">
-        <div class="monitor-frame wide">
-            <div class="monitor-bezel">
-                <div class="monitor-brand">SALA<span>DE CONTROL</span></div>
-                <div class="monitor-led blink-amber"></div>
-                <div class="monitor-power">◉</div>
+    <!-- ============================================
+         SECCIÓN 08 - HISTORIA
+         ============================================ -->
+    <section id="historia" class="section">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-eyebrow">08 // Grandes Hitos</span>
+                <h2 class="section-title">Línea del <span class="gradient-text">Tiempo Espacial</span></h2>
+                <p class="section-desc">Los hitos que nos llevaron de mirar las estrellas a caminar entre ellas.</p>
             </div>
-            <div class="monitor-screen">
-                <div class="screen-header">
-                    <span class="screen-id">MON-08</span>
-                    <span class="screen-title">LÍNEA DEL TIEMPO - HISTORIA DE LA EXPLORACIÓN ESPACIAL</span>
-                    <span class="screen-status">● ARCHIVO</span>
-                </div>
-                <div class="screen-content">
-                    <div class="container">
-                        <h2 class="section-title">Línea del <span class="gradient-text">Tiempo Espacial</span></h2>
-                        <p class="section-desc">Los hitos que nos llevaron de mirar las estrellas a caminar entre ellas.</p>
-                        
-                        <div class="timeline">
-                            <div class="timeline-item">
-                                <div class="tl-year">1957</div>
-                                <div class="tl-content">
-                                    <h4>Sputnik 1</h4>
-                                    <p>La Unión Soviética lanza el primer satélite artificial. Comienza la era espacial.</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="tl-year">1961</div>
-                                <div class="tl-content">
-                                    <h4>Yuri Gagarin</h4>
-                                    <p>Primer humano en orbitar la Tierra a bordo del Vostok 1. Una órbita completa en 108 minutos.</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="tl-year">1969</div>
-                                <div class="tl-content">
-                                    <h4>Apolo 11</h4>
-                                    <p>Neil Armstrong y Buzz Aldrin caminan sobre la Luna. "Un pequeño paso para el hombre...".</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="tl-year">1990</div>
-                                <div class="tl-content">
-                                    <h4>Telescopio Hubble</h4>
-                                    <p>Lanzado en el transbordador Discovery. Revoluciona la astronomía con imágenes sin precedentes.</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="tl-year">2012</div>
-                                <div class="tl-content">
-                                    <h4>Curiosity en Marte</h4>
-                                    <p>El rover Curiosity aterriza en el cráter Gale para buscar señales de vida pasada en Marte.</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="tl-year">2021</div>
-                                <div class="tl-content">
-                                    <h4>Telescopio James Webb</h4>
-                                    <p>El observatorio más potente jamás construido, orbitando a 1.5 millones de km de la Tierra.</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="tl-year">2026</div>
-                                <div class="tl-content">
-                                    <h4>Próximo gran paso</h4>
-                                    <p>Misiones Artemis para volver a la Luna y preparar el camino a Marte con presencia humana.</p>
-                                </div>
-                            </div>
-                        </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="tl-year">1957</div>
+                    <div class="tl-content">
+                        <h4>Sputnik 1</h4>
+                        <p>La Unión Soviética lanza el primer satélite artificial. Comienza la era espacial.</p>
                     </div>
                 </div>
-                <div class="monitor-scanline"></div>
-            </div>
-            <div class="monitor-stand">
-                <div class="stand-neck"></div>
-                <div class="stand-base"></div>
+                <div class="timeline-item">
+                    <div class="tl-year">1961</div>
+                    <div class="tl-content">
+                        <h4>Yuri Gagarin</h4>
+                        <p>Primer humano en orbitar la Tierra a bordo del Vostok 1. Una órbita completa en 108 minutos.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="tl-year">1969</div>
+                    <div class="tl-content">
+                        <h4>Apolo 11</h4>
+                        <p>Neil Armstrong y Buzz Aldrin caminan sobre la Luna. "Un pequeño paso para el hombre...".</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="tl-year">1990</div>
+                    <div class="tl-content">
+                        <h4>Telescopio Hubble</h4>
+                        <p>Lanzado en el transbordador Discovery. Revoluciona la astronomía con imágenes sin precedentes.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="tl-year">2012</div>
+                    <div class="tl-content">
+                        <h4>Curiosity en Marte</h4>
+                        <p>El rover Curiosity aterriza en el cráter Gale para buscar señales de vida pasada en Marte.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="tl-year">2021</div>
+                    <div class="tl-content">
+                        <h4>Telescopio James Webb</h4>
+                        <p>El observatorio más potente jamás construido, orbitando a 1.5 millones de km de la Tierra.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="tl-year">2026</div>
+                    <div class="tl-content">
+                        <h4>Próximo gran paso</h4>
+                        <p>Misiones Artemis para volver a la Luna y preparar el camino a Marte con presencia humana.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Datos Curiosos - Monitor 09 -->
-    <section id="datos" class="section monitor-section">
-        <div class="monitor-frame">
-            <div class="monitor-bezel">
-                <div class="monitor-brand">SALA<span>DE CONTROL</span></div>
-                <div class="monitor-led blink-amber"></div>
-                <div class="monitor-power">◉</div>
+    <!-- ============================================
+         SECCIÓN 09 - DATOS CÓSMICOS
+         ============================================ -->
+    <section id="datos" class="section">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-eyebrow">09 // Curiosidades</span>
+                <h2 class="section-title">Datos <span class="gradient-text">Cósmicos</span></h2>
+                <p class="section-desc">Hechos sorprendentes sobre el universo que nos rodea.</p>
             </div>
-            <div class="monitor-screen">
-                <div class="screen-header">
-                    <span class="screen-id">MON-09</span>
-                    <span class="screen-title">REGISTRO DE DATOS CÓSMICOS</span>
-                    <span class="screen-status">● RECIBIENDO</span>
-                </div>
-                <div class="screen-content">
-                    <div class="container">
-                        <h2 class="section-title">Datos <span class="gradient-text">Cósmicos</span></h2>
-                        <div class="facts-carousel" id="facts-carousel">
-                            <div class="fact-slide active">
-                                <div class="fact-content">
-                                    <span class="fact-number">001</span>
-                                    <p>Un día en Venus dura más que un año en Venus. Tarda 243 días terrestres en girar sobre su eje, pero solo 225 en orbitar el Sol.</p>
-                                </div>
-                            </div>
-                            <div class="fact-slide">
-                                <div class="fact-content">
-                                    <span class="fact-number">002</span>
-                                    <p>El espacio huele a metal caliente y carne a la parrilla, según astronautas que regresaron de caminatas espaciales.</p>
-                                </div>
-                            </div>
-                            <div class="fact-slide">
-                                <div class="fact-content">
-                                    <span class="fact-number">003</span>
-                                    <p>Neptuno ha completado solo 1 órbita alrededor del Sol desde su descubrimiento en 1846. Su año dura 165 años terrestres.</p>
-                                </div>
-                            </div>
-                            <div class="fact-slide">
-                                <div class="fact-content">
-                                    <span class="fact-number">004</span>
-                                    <p>Los neutrones estrellas pueden girar hasta 600 veces por segundo. Una cucharadita de material de estrella de neutrones pesaría 6 mil millones de toneladas.</p>
-                                </div>
-                            </div>
-                            <div class="fact-slide">
-                                <div class="fact-content">
-                                    <span class="fact-number">005</span>
-                                    <p>La luz del Sol tarda 8 minutos y 20 segundos en llegar a la Tierra. Si el Sol desapareciera, no lo sabríamos hasta después.</p>
-                                </div>
-                            </div>
-                            <div class="fact-slide">
-                                <div class="fact-content">
-                                    <span class="fact-number">006</span>
-                                    <p>El agujero negro supermasivo en el centro de nuestra galaxia, Sagitario A*, tiene una masa equivalente a 4 millones de soles.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-controls">
-                            <button id="prev-fact">←</button>
-                            <div class="carousel-dots" id="carousel-dots">
-                                <span class="dot active"></span>
-                                <span class="dot"></span>
-                                <span class="dot"></span>
-                                <span class="dot"></span>
-                                <span class="dot"></span>
-                                <span class="dot"></span>
-                            </div>
-                            <button id="next-fact">→</button>
-                        </div>
+
+            <div class="facts-carousel" id="facts-carousel">
+                <div class="fact-slide active">
+                    <div class="fact-content">
+                        <span class="fact-number">001</span>
+                        <p>Un día en Venus dura más que un año en Venus. Tarda 243 días terrestres en girar sobre su eje, pero solo 225 en orbitar el Sol.</p>
                     </div>
                 </div>
-                <div class="monitor-scanline"></div>
+                <div class="fact-slide">
+                    <div class="fact-content">
+                        <span class="fact-number">002</span>
+                        <p>El espacio huele a metal caliente y carne a la parrilla, según astronautas que regresaron de caminatas espaciales.</p>
+                    </div>
+                </div>
+                <div class="fact-slide">
+                    <div class="fact-content">
+                        <span class="fact-number">003</span>
+                        <p>Neptuno ha completado solo 1 órbita alrededor del Sol desde su descubrimiento en 1846. Su año dura 165 años terrestres.</p>
+                    </div>
+                </div>
+                <div class="fact-slide">
+                    <div class="fact-content">
+                        <span class="fact-number">004</span>
+                        <p>Los neutrones estrellas pueden girar hasta 600 veces por segundo. Una cucharadita de material de estrella de neutrones pesaría 6 mil millones de toneladas.</p>
+                    </div>
+                </div>
+                <div class="fact-slide">
+                    <div class="fact-content">
+                        <span class="fact-number">005</span>
+                        <p>La luz del Sol tarda 8 minutos y 20 segundos en llegar a la Tierra. Si el Sol desapareciera, no lo sabríamos hasta después.</p>
+                    </div>
+                </div>
+                <div class="fact-slide">
+                    <div class="fact-content">
+                        <span class="fact-number">006</span>
+                        <p>El agujero negro supermasivo en el centro de nuestra galaxia, Sagitario A*, tiene una masa equivalente a 4 millones de soles.</p>
+                    </div>
+                </div>
             </div>
-            <div class="monitor-stand">
-                <div class="stand-neck"></div>
-                <div class="stand-base"></div>
+            <div class="carousel-controls">
+                <button id="prev-fact" aria-label="Dato anterior">←</button>
+                <div class="carousel-dots" id="carousel-dots">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+                <button id="next-fact" aria-label="Siguiente dato">→</button>
             </div>
         </div>
     </section>
 
-    <!-- Stellarium - Monitor 10 -->
-    <section id="stellarium" class="section monitor-section">
-        <div class="monitor-frame wide">
-            <div class="monitor-bezel">
-                <div class="monitor-brand">SALA<span>DE CONTROL</span></div>
-                <div class="monitor-led blink-green"></div>
-                <div class="monitor-power">◉</div>
+    <!-- ============================================
+         SECCIÓN 10 - STELLARIUM
+         ============================================ -->
+    <section id="stellarium" class="section">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-eyebrow">10 // Planetario Online</span>
+                <h2 class="section-title">Stellarium <span class="gradient-text">Planetario</span></h2>
+                <p class="section-desc">Explora el cielo en tiempo real desde tu ubicación. Arrastra para desplazarte, haz zoom y descubre estrellas, planetas y constelaciones.</p>
             </div>
-            <div class="monitor-screen">
-                <div class="screen-header">
-                    <span class="screen-id">MON-10</span>
-                    <span class="screen-title">STELLARIUM - PLANETARIO ONLINE</span>
-                    <span class="screen-status">● EN VIVO</span>
-                </div>
-                <div class="screen-content">
-                    <div class="container">
-                        <h2 class="section-title">Stellarium <span class="gradient-text">Planetario</span></h2>
-                        <p class="section-desc">Explora el cielo en tiempo real desde tu ubicación. Arrastra para navegar, haz zoom y descubre estrellas, planetas y constelaciones.</p>
-                        
-                        <div class="stellarium-box">
-                            <iframe class="stellarium-frame" src="https://stellarium-web.org/" title="Stellarium Planetario Online" loading="lazy" allowfullscreen></iframe>
-                            <div class="stellarium-hint">💡 Consejo: desplázate y arrastra el mapa estelar. Usa la rueda del mouse para hacer zoom. <span class="stellarium-rotate">📱 En el teléfono: pon la pantalla en horizontal para ver mejor el planetario.</span></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="monitor-scanline"></div>
-            </div>
-            <div class="monitor-stand">
-                <div class="stand-neck"></div>
-                <div class="stand-base"></div>
+
+            <div class="stellarium-box">
+                <iframe class="stellarium-frame" src="https://stellarium-web.org/" title="Stellarium Planetario Online" loading="lazy" allowfullscreen></iframe>
+                <div class="stellarium-hint">💡 Consejo: desplázate y arrastra el mapa estelar. Usa la rueda del mouse para hacer zoom. <span class="stellarium-rotate">📱 En el teléfono: pon la pantalla en horizontal para ver mejor el planetario.</span></div>
             </div>
         </div>
     </section>
 
-    <!-- Footer - Panel inferior de la nave -->
+    <!-- ============================================
+         FOOTER MODERNO
+         ============================================ -->
     <footer class="footer">
-        <div class="footer-panel">
-            <div class="footer-section">
-                <div class="footer-logo">
-                    <span class="footer-icon">🛰️</span>
-                    <span class="footer-text">ESTACIÓN <span class="footer-highlight">ESPACIAL</span></span>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col footer-about">
+                    <div class="footer-brand">
+                        <span class="footer-logo">🪐</span>
+                        <span class="footer-name">Astronomía <span>Fundacite Caracas</span></span>
+                    </div>
+                    <p class="footer-desc">Portal de divulgación científica en representación de Astronomía Caracas y Fundacite. Contenido educativo, simulaciones orbitales y herramientas interactivas para explorar el cosmos.</p>
                 </div>
-                <p class="footer-desc">Centro de control de astronomía en representación de Astronomía Caracas y Fundacite. Contenido educativo, simulación orbital y herramientas de exploración del cosmos.</p>
+                <div class="footer-col">
+                    <h4>Explorar</h4>
+                    <ul>
+                        <li><a href="#astronomos">Astrónomos</a></li>
+                        <li><a href="#sistema-solar">Sistema Solar</a></li>
+                        <li><a href="#simulacion">Simulación Orbital</a></li>
+                        <li><a href="#herramientas">Herramientas</a></li>
+                        <li><a href="#cielo">Cielo en Vivo</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Fundacite</h4>
+                    <ul>
+                        <li><a href="https://campusvirtual.fundacite-caracas.com/" target="_blank">Campus Virtual</a></li>
+                        <li><a href="https://campusvirtual.fundacite-caracas.com/course/index.php?categoryid=2" target="_blank">Cursos de Astronomía</a></li>
+                        <li><a href="https://campusvirtual.fundacite-caracas.com/course/index.php?categoryid=16" target="_blank">Áreas de Formación</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Aprende</h4>
+                    <ul>
+                        <li><a href="#semilleros">Semilleros Científicos</a></li>
+                        <li><a href="#fundacite">Conceptos de Astronomía</a></li>
+                        <li><a href="#historia">Historia Espacial</a></li>
+                        <li><a href="#datos">Datos Cósmicos</a></li>
+                        <li><a href="#stellarium">Planetario Stellarium</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="footer-section">
-                <h4>FUNDACITE</h4>
-                <ul>
-                    <li><a href="https://campusvirtual.fundacite-caracas.com/" target="_blank">CAMPUS VIRTUAL</a></li>
-                    <li><a href="https://campusvirtual.fundacite-caracas.com/course/index.php?categoryid=2" target="_blank">CURSOS DE ASTRONOMÍA</a></li>
-                    <li><a href="https://campusvirtual.fundacite-caracas.com/course/index.php?categoryid=16" target="_blank">ÁREAS DE FORMACIÓN</a></li>
-                </ul>
-            </div>
-            <div class="footer-bar">
-                <div class="bar-segment"></div>
-                <div class="bar-segment active"></div>
-                <div class="bar-segment"></div>
-                <span class="bar-text">ESTACIÓN ESPACIAL // FUNDACITE</span>
-                <div class="bar-segment"></div>
-                <div class="bar-segment active"></div>
-                <div class="bar-segment"></div>
+            <div class="footer-bottom">
+                <span>© <span id="footer-year">2026</span> Astronomía Fundacite Caracas · Explorando el Universo</span>
+                <span class="footer-heart">Hecho con 🌌 para los futuros astrónomos</span>
             </div>
         </div>
     </footer>
