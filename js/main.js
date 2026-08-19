@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initHUDAnimation();
     initRealData();
     initOrbitalSim();
+    initSkyWidget();
 });
 
 // =============================================
@@ -973,4 +974,69 @@ function initOrbitalSim() {
 
     resize();
     requestAnimationFrame(animate);
+}
+
+// =============================================
+// CIELO EN VIVO - VISIBILIDAD NOCTURNA
+// =============================================
+function initSkyWidget() {
+    const body = document.getElementById('sky-body');
+    if (!body) return;
+    const locEl = document.getElementById('sky-loc');
+
+    const planets = [
+        { icon: '🪐', name: 'Mercurio', phase: 0.0, period: 88, color: '#a0a0a0' },
+        { icon: '🌟', name: 'Venus', phase: 0.7, period: 225, color: '#e8c07a' },
+        { icon: '🔴', name: 'Marte', phase: 0.4, period: 687, color: '#cc5533' },
+        { icon: '⚡', name: 'Júpiter', phase: 0.9, period: 4333, color: '#d8a95c' },
+        { icon: '💫', name: 'Saturno', phase: 0.3, period: 10759, color: '#e8d98a' },
+        { icon: '🌐', name: 'Urano', phase: 0.6, period: 30687, color: '#66ccff' },
+        { icon: '🌊', name: 'Neptuno', phase: 0.2, period: 60190, color: '#6666ff' }
+    ];
+
+    // Posición relativa simplificada usando el día del año
+    const now = new Date();
+    const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
+
+    function visibility(p) {
+        const offset = (dayOfYear / p.period) * 360 + p.phase * 180;
+        const elong = Math.sin((offset * Math.PI) / 180);
+        // elong > 0.5 muy visible, entre 0 y 0.5 poco, negativo no visible
+        return elong;
+    }
+
+    function statusText(v) {
+        if (v > 0.45) return ['Muy visible', 'good'];
+        if (v > 0) return ['Poco visible', 'mid'];
+        return ['No visible', 'bad'];
+    }
+
+    function render() {
+        const hours = now.getHours();
+        // Entre 20:00 y 05:00 es noche
+        const isNight = hours >= 20 || hours < 5;
+        if (!isNight) {
+            body.innerHTML = '<div class="sky-loading">🌅 Es de día ahora. Vuelve a esta sección por la noche (20:00 - 05:00) para ver el radar de visibilidad.</div>';
+            if (locEl) locEl.textContent = 'MODO DÍA';
+            return;
+        }
+
+        let html = '';
+        planets.forEach(p => {
+            const v = visibility(p);
+            const [text, cls] = statusText(v);
+            const pct = Math.max(0, Math.min(100, Math.round((v + 1) * 50)));
+            html += `
+                <div class="sky-planet">
+                    <span class="sky-planet-icon">${p.icon}</span>
+                    <span class="sky-planet-name">${p.name}</span>
+                    <div class="sky-planet-bar"><div class="sky-planet-fill" style="width:${pct}%;background:${p.color}"></div></div>
+                    <span class="sky-planet-status" style="color:${p.color}">${text}</span>
+                </div>`;
+        });
+        body.innerHTML = html;
+        if (locEl) locEl.textContent = 'MODO NOCHE';
+    }
+
+    render();
 }

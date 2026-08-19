@@ -247,13 +247,35 @@
                     </div>
                 </a>
                 
+                <a href="#cielo" class="console-btn" data-section="cielo">
+                    <div class="btn-housing">
+                        <div class="btn-light"></div>
+                        <div class="btn-face">
+                            <span class="btn-icon">🔭</span>
+                            <span class="btn-label">CIELO EN VIVO</span>
+                            <span class="btn-code">NAV-07</span>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="#historia" class="console-btn" data-section="historia">
+                    <div class="btn-housing">
+                        <div class="btn-light"></div>
+                        <div class="btn-face">
+                            <span class="btn-icon">🚀</span>
+                            <span class="btn-label">HISTORIA</span>
+                            <span class="btn-code">NAV-08</span>
+                        </div>
+                    </div>
+                </a>
+                
                 <a href="#datos" class="console-btn" data-section="datos">
                     <div class="btn-housing">
                         <div class="btn-light"></div>
                         <div class="btn-face">
                             <span class="btn-icon">📡</span>
                             <span class="btn-label">DATOS</span>
-                            <span class="btn-code">NAV-07</span>
+                            <span class="btn-code">NAV-09</span>
                         </div>
                     </div>
                 </a>
@@ -896,6 +918,41 @@
                                 <h4>Constelaciones</h4>
                                 <p>Agrupaciones aparentes de estrellas. La Osa Mayor, Orión y Crux del Sur son guías para localizar objetos en el cielo nocturno.</p>
                             </div>
+                            <div class="concept-card">
+                                <span class="concept-icon">🕳️</span>
+                                <h4>Agujeros Negros</h4>
+                                <p>Regiones donde la gravedad es tan intensa que ni la luz escapa. El del centro de nuestra galaxia, Sagitario A*, tiene 4 millones de masas solares.</p>
+                            </div>
+                            <div class="concept-card">
+                                <span class="concept-icon">⚡</span>
+                                <h4>Materia Oscura</h4>
+                                <p>Forma el ~27% del universo pero no emite luz. Se detecta por su gravedad: mantiene unidas a las galaxias que girarían demasiado rápido sin ella.</p>
+                            </div>
+                            <div class="concept-card">
+                                <span class="concept-icon">💥</span>
+                                <h4>Supernovas</h4>
+                                <p>Explosiones de estrellas masivas que brillan más que una galaxia entera. Forjan elementos pesados como el hierro y el oro que dispersan al espacio.</p>
+                            </div>
+                            <div class="concept-card">
+                                <span class="concept-icon">🌌</span>
+                                <h4>Quásares</h4>
+                                <p>Núcleos galácticos extremadamente brillantes alimentados por agujeros negros supermasivos. Algunos son visibles desde el inicio del universo.</p>
+                            </div>
+                            <div class="concept-card">
+                                <span class="concept-icon">🪐</span>
+                                <h4>Exoplanetas</h4>
+                                <p>Planetas que orbitan otras estrellas. Se han confirmado más de 5,000; algunos en la "zona habitable" donde podría existir agua líquida.</p>
+                            </div>
+                            <div class="concept-card">
+                                <span class="concept-icon">🕰️</span>
+                                <h4>Año Luz</h4>
+                                <p>Distancia que recorre la luz en un año: unos 9.46 billones de km. La estrella más cercana, Próxima Centauri, está a 4.2 años luz.</p>
+                            </div>
+                            <div class="concept-card">
+                                <span class="concept-icon">🌑</span>
+                                <h4>Eclipses</h4>
+                                <p>El Sol, la Tierra y la Luna se alinean: el eclipse solar oculta al Sol y el lunar oscurece la Luna al pasar por la sombra de la Tierra.</p>
+                            </div>
                         </div>
                         
                         <div class="fundacite-credit">
@@ -914,7 +971,134 @@
         </div>
     </section>
 
-    <!-- Datos Curiosos - Monitor 07 -->
+    <!-- Cielo en vivo - Monitor 07 -->
+    <section id="cielo" class="section monitor-section">
+        <div class="monitor-frame">
+            <div class="monitor-bezel">
+                <div class="monitor-brand">ASTRO<span>PANTALLA</span></div>
+                <div class="monitor-led blink-green"></div>
+                <div class="monitor-power">◉</div>
+            </div>
+            <div class="monitor-screen">
+                <div class="screen-header">
+                    <span class="screen-id">MON-07</span>
+                    <span class="screen-title">CIELO EN VIVO - OBJETOS VISIBLES ESTA NOCHE</span>
+                    <span class="screen-status">● OBSERVANDO</span>
+                </div>
+                <div class="screen-content">
+                    <div class="container">
+                        <h2 class="section-title">Cielo <span class="gradient-text">en Vivo</span></h2>
+                        <p class="section-desc">Descubre qué planetas y objetos brillantes puedes observar esta noche según tu ubicación.</p>
+                        
+                        <div class="sky-widget">
+                            <div class="sky-head">
+                                <span class="sky-icon">🔭</span>
+                                <span>RADAR DE VISIBILIDAD NOCTURNA</span>
+                                <span class="sky-loc" id="sky-loc">LOCALIZANDO...</span>
+                            </div>
+                            <div class="sky-body" id="sky-body">
+                                <div class="sky-loading">Calculando posiciones celestes...</div>
+                            </div>
+                            <div class="sky-foot">
+                                <span>Leyenda: </span>
+                                <span class="sky-dot sky-dot-good"></span> Muy visible
+                                <span class="sky-dot sky-dot-mid"></span> Poco visible
+                                <span class="sky-dot sky-dot-bad"></span> No visible
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="monitor-scanline"></div>
+            </div>
+            <div class="monitor-stand">
+                <div class="stand-neck"></div>
+                <div class="stand-base"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Historia - Monitor 08 -->
+    <section id="historia" class="section monitor-section">
+        <div class="monitor-frame wide">
+            <div class="monitor-bezel">
+                <div class="monitor-brand">ASTRO<span>PANTALLA</span></div>
+                <div class="monitor-led blink-amber"></div>
+                <div class="monitor-power">◉</div>
+            </div>
+            <div class="monitor-screen">
+                <div class="screen-header">
+                    <span class="screen-id">MON-08</span>
+                    <span class="screen-title">LÍNEA DEL TIEMPO - HISTORIA DE LA EXPLORACIÓN ESPACIAL</span>
+                    <span class="screen-status">● ARCHIVO</span>
+                </div>
+                <div class="screen-content">
+                    <div class="container">
+                        <h2 class="section-title">Línea del <span class="gradient-text">Tiempo Espacial</span></h2>
+                        <p class="section-desc">Los hitos que nos llevaron de mirar las estrellas a caminar entre ellas.</p>
+                        
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="tl-year">1957</div>
+                                <div class="tl-content">
+                                    <h4>Sputnik 1</h4>
+                                    <p>La Unión Soviética lanza el primer satélite artificial. Comienza la era espacial.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="tl-year">1961</div>
+                                <div class="tl-content">
+                                    <h4>Yuri Gagarin</h4>
+                                    <p>Primer humano en orbitar la Tierra a bordo del Vostok 1. Una órbita completa en 108 minutos.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="tl-year">1969</div>
+                                <div class="tl-content">
+                                    <h4>Apolo 11</h4>
+                                    <p>Neil Armstrong y Buzz Aldrin caminan sobre la Luna. "Un pequeño paso para el hombre...".</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="tl-year">1990</div>
+                                <div class="tl-content">
+                                    <h4>Telescopio Hubble</h4>
+                                    <p>Lanzado en el transbordador Discovery. Revoluciona la astronomía con imágenes sin precedentes.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="tl-year">2012</div>
+                                <div class="tl-content">
+                                    <h4>Curiosity en Marte</h4>
+                                    <p>El rover de la NASA aterriza en el cráter Gale para buscar señales de vida pasada en Marte.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="tl-year">2021</div>
+                                <div class="tl-content">
+                                    <h4>Telescopio James Webb</h4>
+                                    <p>El observatorio más potente jamás construido, orbitando a 1.5 millones de km de la Tierra.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="tl-year">2026</div>
+                                <div class="tl-content">
+                                    <h4>Próximo gran paso</h4>
+                                    <p>Misiones Artemis para volver a la Luna y preparar el camino a Marte con presencia humana.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="monitor-scanline"></div>
+            </div>
+            <div class="monitor-stand">
+                <div class="stand-neck"></div>
+                <div class="stand-base"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Datos Curiosos - Monitor 09 -->
     <section id="datos" class="section monitor-section">
         <div class="monitor-frame">
             <div class="monitor-bezel">
@@ -924,7 +1108,7 @@
             </div>
             <div class="monitor-screen">
                 <div class="screen-header">
-                    <span class="screen-id">MON-07</span>
+                    <span class="screen-id">MON-09</span>
                     <span class="screen-title">REGISTRO DE DATOS CÓSMICOS</span>
                     <span class="screen-status">● RECIBIENDO</span>
                 </div>
