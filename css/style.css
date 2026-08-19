@@ -1587,70 +1587,77 @@ body {
 }
 
 /* =============================================
-   FUNDACITE CARACAS
+   ASTRONOMÍA EDUCATIVA
    ============================================= */
-.fundacite-banner {
+.astro-concepts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.concept-card {
+    padding: 1.3rem;
+    background: var(--metal-dark);
+    border: 1px solid var(--metal-border);
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.concept-card:hover {
+    border-color: var(--screen-cyan);
+    box-shadow: 0 0 15px rgba(0,212,255,0.1);
+    transform: translateY(-2px);
+}
+
+.concept-card .concept-icon {
+    font-size: 1.6rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.concept-card h4 {
+    font-family: var(--font-title);
+    font-size: 0.9rem;
+    color: var(--screen-cyan);
+    margin-bottom: 0.4rem;
+}
+
+.concept-card p {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+
+.fundacite-credit {
     display: flex;
     align-items: center;
-    gap: 2rem;
-    padding: 2rem;
+    gap: 1.2rem;
+    padding: 1.2rem 1.5rem;
     background: linear-gradient(135deg, var(--metal-mid) 0%, var(--metal-dark) 100%);
     border: 1px solid var(--metal-border);
     border-radius: 12px;
-    margin-bottom: 2rem;
-    box-shadow: inset 0 0 30px var(--shadow-deep);
+    flex-wrap: wrap;
 }
 
-.fundacite-logo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-width: 160px;
-    padding: 1.2rem;
-    border: 2px solid var(--screen-amber);
-    border-radius: 50%;
-    width: 160px;
-    height: 160px;
-    background: radial-gradient(circle, rgba(255,170,0,0.08) 0%, transparent 70%);
-    flex-shrink: 0;
+.fundacite-credit .logo-atom {
+    font-size: 1.6rem;
 }
 
-.logo-atom {
-    font-size: 2rem;
-}
-
-.logo-text-sm {
-    font-family: var(--font-title);
-    font-size: 0.9rem;
-    color: var(--screen-amber);
-    letter-spacing: 2px;
-}
-
-.logo-city {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
+.fundacite-credit p {
+    flex: 1;
     color: var(--text-muted);
-    letter-spacing: 3px;
-}
-
-.fundacite-desc h3 {
-    font-family: var(--font-title);
-    font-size: 1.2rem;
-    color: var(--screen-cyan);
-    margin-bottom: 0.6rem;
-}
-
-.fundacite-desc p {
-    color: var(--text-muted);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     line-height: 1.6;
-    max-width: 600px;
+    min-width: 200px;
+}
+
+.fundacite-credit strong {
+    color: var(--text-primary);
 }
 
 .fundacite-cta {
     display: inline-block;
-    margin-top: 0.8rem;
     padding: 0.5rem 1.2rem;
     background: rgba(255,170,0,0.12);
     border: 1px solid var(--screen-amber);
@@ -1666,99 +1673,6 @@ body {
 .fundacite-cta:hover {
     background: rgba(255,170,0,0.25);
     box-shadow: 0 0 12px rgba(255,170,0,0.3);
-}
-
-.sub-section-title {
-    font-family: var(--font-title);
-    font-size: 1rem;
-    color: var(--text-primary);
-    margin: 1.5rem 0 1rem;
-    padding-left: 0.8rem;
-    border-left: 3px solid var(--screen-cyan);
-}
-
-.fundacite-courses {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.fundacite-course-card {
-    padding: 1.2rem;
-    background: var(--metal-dark);
-    border: 1px solid var(--metal-border);
-    border-radius: 8px;
-    transition: var(--transition);
-}
-
-.fundacite-course-card:hover {
-    border-color: var(--screen-cyan);
-    box-shadow: 0 0 15px rgba(0,212,255,0.1);
-}
-
-.fundacite-course-card .course-code {
-    display: inline-block;
-    padding: 0.25rem 0.7rem;
-    background: rgba(0,212,255,0.1);
-    border: 1px solid rgba(0,212,255,0.3);
-    border-radius: 3px;
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    color: var(--screen-cyan);
-    margin-bottom: 0.6rem;
-}
-
-.fundacite-course-card h4 {
-    font-family: var(--font-title);
-    font-size: 0.9rem;
-    color: var(--text-primary);
-    margin-bottom: 0.4rem;
-}
-
-.fundacite-course-card p {
-    color: var(--text-muted);
-    font-size: 0.8rem;
-    line-height: 1.5;
-}
-
-.fundacite-features {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-}
-
-.fundacite-feature {
-    text-align: center;
-    padding: 1.2rem;
-    background: var(--metal-dark);
-    border: 1px solid var(--metal-border);
-    border-radius: 8px;
-    transition: var(--transition);
-}
-
-.fundacite-feature:hover {
-    border-color: var(--screen-amber);
-    box-shadow: 0 0 15px rgba(255,170,0,0.1);
-}
-
-.fundacite-feature .feat-icon {
-    font-size: 1.8rem;
-    display: block;
-    margin-bottom: 0.5rem;
-}
-
-.fundacite-feature h4 {
-    font-family: var(--font-title);
-    font-size: 0.85rem;
-    color: var(--screen-amber);
-    margin-bottom: 0.3rem;
-}
-
-.fundacite-feature p {
-    color: var(--text-muted);
-    font-size: 0.75rem;
-    line-height: 1.4;
 }
 
 /* Datos Curiosos */
@@ -2565,15 +2479,11 @@ body {
         grid-template-columns: 1fr;
     }
     
-    .fundacite-features {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .fundacite-courses {
+    .astro-concepts {
         grid-template-columns: 1fr;
     }
     
-    .fundacite-banner {
+    .fundacite-credit {
         flex-direction: column;
         text-align: center;
     }
@@ -2593,7 +2503,7 @@ body {
         grid-template-columns: repeat(2, 1fr);
     }
     
-    .fundacite-features {
+    .astro-concepts {
         grid-template-columns: repeat(2, 1fr);
     }
 }
