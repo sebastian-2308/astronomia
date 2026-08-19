@@ -44,15 +44,22 @@
         
         <!-- Panel superior de estado -->
         <div class="top-status-panel">
-            <div class="status-led blink-green"></div>
-            <span class="status-text">CENTRO DE CONTROL DE MISIÓN</span>
+            <div class="status-block">
+                <span class="status-led blink-green"></span>
+                <span class="status-text">SISTEMA OPERATIVO</span>
+            </div>
             <div class="status-divider"></div>
-            <span class="status-text" id="clock">00:00:00</span>
+            <span class="status-text status-date" id="status-date">-- / -- / ----</span>
+            <div class="status-divider"></div>
+            <span class="status-text status-clock" id="clock">00:00:00</span>
             <div class="status-divider"></div>
             <span class="status-text" id="status-coords">COORD: --, --</span>
             <div class="status-divider"></div>
             <span class="status-text" id="status-temp">TEMP: --°C</span>
-            <div class="status-led blink-amber"></div>
+            <div class="status-block">
+                <span class="status-led blink-amber"></span>
+                <span class="status-text">TELEMETRÍA</span>
+            </div>
         </div>
 
         <!-- ============================================
@@ -74,6 +81,24 @@
                     <div class="viewport-badge">ESTACIÓN ESPACIAL // PUESTO DE CONTROL</div>
                     <h1 class="hero-title">EXPLORANDO EL <span class="gradient-text">UNIVERSO</span></h1>
                     <p class="hero-subtitle">Centro de control de astronomía: astrónomos, sistema solar, simulación orbital y herramientas interactivas.</p>
+                    
+                    <div class="hero-instruments">
+                        <div class="analog-clock" id="analog-clock">
+                            <div class="clock-face">
+                                <span class="clock-tick c12"></span><span class="clock-tick c3"></span><span class="clock-tick c6"></span><span class="clock-tick c9"></span>
+                                <div class="clock-hand clock-hour" id="clock-hour"></div>
+                                <div class="clock-hand clock-minute" id="clock-minute"></div>
+                                <div class="clock-hand clock-second" id="clock-second"></div>
+                                <div class="clock-center"></div>
+                            </div>
+                            <div class="clock-label">HORA LOCAL</div>
+                        </div>
+                        <div class="mission-strip">
+                            <div class="mission-title">MISIÓN EN CURSO</div>
+                            <div class="mission-id">EXPLORACIÓN ASTRONÓMICA</div>
+                            <div class="mission-meta">VUELO 001 // ÓRBITA TERRESTRE</div>
+                        </div>
+                    </div>
                     
                     <div class="hero-stats">
                         <div class="stat-panel">

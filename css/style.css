@@ -1,28 +1,28 @@
 /* =============================================
-   CENTRO DE CONTROL DE MISIÓN - ASTRONOMÍA v4.0
-   Estética de estación espacial y sala de control
+   CENTRO DE COMANDO RETRO-FUTURISTA - ASTRONOMÍA v5.0
+   Estética ministerial profesional con instrumentación retro
    ============================================= */
 
-/* Variables de sala de control */
+/* Variables de instrumentación retro-futurista */
 :root {
-    --metal-dark: #0b1220;
-    --metal-mid: #101a2c;
-    --metal-light: #1b2a45;
-    --metal-border: #2a3d5f;
-    --panel-bg: #0e1726;
-    --screen-bg: #070d18;
-    --screen-green: #3dd68c;
-    --screen-amber: #ffb74d;
-    --screen-blue: #4d8fac;
-    --screen-red: #ff6b6b;
-    --screen-cyan: #58c7ff;
-    --text-primary: #d7e1ee;
-    --text-muted: #8fa3bd;
-    --led-green: #238636;
-    --led-amber: #d29922;
-    --led-red: #da3633;
+    --metal-dark: #0a0e16;
+    --metal-mid: #121826;
+    --metal-light: #1c2536;
+    --metal-border: #33405c;
+    --panel-bg: #0d1320;
+    --screen-bg: #080d16;
+    --screen-green: #4ade80;
+    --screen-amber: #fbbf24;
+    --screen-blue: #60a5fa;
+    --screen-red: #f87171;
+    --screen-cyan: #22d3ee;
+    --text-primary: #e2e8f0;
+    --text-muted: #94a3b8;
+    --led-green: #22c55e;
+    --led-amber: #f59e0b;
+    --led-red: #ef4444;
     --metal-shine: rgba(255,255,255,0.05);
-    --shadow-deep: rgba(0,0,0,0.6);
+    --shadow-deep: rgba(0,0,0,0.7);
     --font-title: 'Orbitron', sans-serif;
     --font-body: 'Exo 2', sans-serif;
     --font-mono: 'Share Tech Mono', 'Courier New', monospace;
@@ -38,8 +38,9 @@ body {
     font-family: var(--font-body);
     background-color: var(--metal-dark);
     background-image:
-        radial-gradient(ellipse at 50% 0%, rgba(88,199,255,0.06) 0%, transparent 60%),
-        linear-gradient(180deg, #0b1220 0%, #0a1424 50%, #0b1220 100%);
+        radial-gradient(ellipse at 50% -10%, rgba(34,211,238,0.08) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 110%, rgba(251,191,36,0.05) 0%, transparent 50%),
+        repeating-linear-gradient(45deg, rgba(255,255,255,0.008) 0 2px, transparent 2px 4px);
     color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
@@ -114,9 +115,29 @@ body {
     letter-spacing: 2px;
 }
 
+.status-block {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status-clock {
+    font-family: var(--font-title);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--screen-cyan);
+    letter-spacing: 3px;
+    text-shadow: 0 0 8px rgba(34,211,238,0.4);
+}
+
+.status-date {
+    color: var(--screen-amber);
+    letter-spacing: 2px;
+}
+
 .status-divider {
     width: 1px;
-    height: 12px;
+    height: 14px;
     background: var(--metal-border);
 }
 
@@ -239,9 +260,134 @@ body {
     font-size: clamp(0.9rem, 2vw, 1.1rem);
     color: var(--text-muted);
     margin-bottom: 2rem;
-    max-width: 500px;
+    max-width: 520px;
     margin-left: auto;
     margin-right: auto;
+}
+
+/* Instrumentación retro-futurista del hero */
+.hero-instruments {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.analog-clock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    flex-shrink: 0;
+}
+
+.clock-face {
+    position: relative;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    border: 4px solid var(--metal-light);
+    background: radial-gradient(circle, #0d1320 55%, #1c2536 100%);
+    box-shadow:
+        inset 0 0 15px var(--shadow-deep),
+        0 0 15px rgba(34,211,238,0.15),
+        0 0 0 1px var(--metal-border);
+}
+
+.clock-tick {
+    position: absolute;
+    width: 2px;
+    height: 8px;
+    background: var(--text-muted);
+    top: 50%;
+    left: 50%;
+    transform-origin: center;
+}
+
+.clock-tick.c12 { transform: translate(-50%, -100%); }
+.clock-tick.c3 { transform: translate(0, -50%); left: auto; right: 4px; }
+.clock-tick.c6 { transform: translate(-50%, 0); top: auto; bottom: 4px; }
+.clock-tick.c9 { transform: translate(-100%, -50%); left: 4px; right: auto; }
+
+.clock-hand {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: 50% 100%;
+    border-radius: 3px;
+}
+
+.clock-hour {
+    width: 3px;
+    height: 24px;
+    background: var(--text-primary);
+}
+
+.clock-minute {
+    width: 2px;
+    height: 34px;
+    background: var(--screen-cyan);
+}
+
+.clock-second {
+    width: 1px;
+    height: 38px;
+    background: var(--screen-amber);
+}
+
+.clock-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--screen-amber);
+    box-shadow: 0 0 6px var(--screen-amber);
+}
+
+.clock-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+}
+
+.mission-strip {
+    text-align: center;
+    padding: 0.8rem 1.5rem;
+    border: 1px solid var(--metal-border);
+    border-left: 3px solid var(--screen-amber);
+    border-radius: 4px;
+    background: linear-gradient(180deg, rgba(28,37,54,0.6) 0%, rgba(18,24,38,0.8) 100%);
+    box-shadow: inset 0 0 15px var(--shadow-deep);
+}
+
+.mission-title {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    color: var(--screen-amber);
+    margin-bottom: 0.2rem;
+}
+
+.mission-id {
+    font-family: var(--font-title);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 1px;
+}
+
+.mission-meta {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-top: 0.2rem;
 }
 
 .hero-stats {
@@ -354,6 +500,22 @@ body {
     transition: var(--transition);
 }
 
+.btn-housing::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 12px;
+    right: 12px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--screen-cyan), transparent);
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.btn-housing:hover::before {
+    opacity: 0.6;
+}
+
 .btn-housing:hover {
     transform: translateY(-2px);
     box-shadow: 
@@ -363,10 +525,14 @@ body {
 }
 
 .console-btn.active .btn-housing {
-    border-color: var(--screen-green);
+    border-color: var(--screen-amber);
     box-shadow: 
-        0 0 15px rgba(0, 255, 136, 0.2),
+        0 0 15px rgba(251,191,36,0.2),
         inset 0 1px 0 var(--metal-shine);
+}
+
+.console-btn.active .btn-housing::before {
+    opacity: 0.8;
 }
 
 .btn-light {
@@ -381,8 +547,8 @@ body {
 }
 
 .console-btn.active .btn-light {
-    background: var(--screen-green);
-    box-shadow: 0 0 8px var(--screen-green);
+    background: var(--screen-amber);
+    box-shadow: 0 0 8px var(--screen-amber);
 }
 
 .btn-face {
@@ -505,7 +671,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.6rem 1.2rem;
+    padding: 0.7rem 1.2rem;
     background: linear-gradient(180deg, var(--metal-light) 0%, var(--metal-mid) 100%);
     border: 2px solid var(--metal-border);
     border-bottom: none;
@@ -515,9 +681,18 @@ body {
 
 .monitor-brand {
     font-family: var(--font-title);
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--text-muted);
-    letter-spacing: 2px;
+    letter-spacing: 3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.monitor-brand::before {
+    content: '◆';
+    color: var(--screen-amber);
+    font-size: 0.6rem;
 }
 
 .monitor-brand span {
@@ -566,7 +741,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 1rem;
-    background: rgba(0, 20, 40, 0.5);
+    background: linear-gradient(90deg, rgba(34,211,238,0.06) 0%, rgba(10,13,22,0.5) 30%, rgba(10,13,22,0.5) 100%);
     border-bottom: 1px solid var(--metal-border);
     font-family: var(--font-mono);
     font-size: 0.65rem;
@@ -2780,6 +2955,13 @@ body {
     .viewport-badge { font-size: 0.55rem; padding: 0.3rem 0.8rem; letter-spacing: 1px; }
     .hero-title { font-size: 1.7rem; letter-spacing: 1px; }
     .hero-subtitle { font-size: 0.8rem; }
+    .hero-instruments { gap: 1rem; margin-bottom: 1.2rem; }
+    .clock-face { width: 78px; height: 78px; }
+    .clock-minute { height: 28px; }
+    .clock-second { height: 30px; }
+    .clock-hour { height: 20px; }
+    .mission-strip { padding: 0.6rem 1rem; }
+    .mission-id { font-size: 0.85rem; }
     .hero-stats { gap: 0.5rem; }
     .stat-panel { padding: 0.8rem; min-width: 100px; }
     .stat-number { font-size: 1.1rem; }

@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initRealData();
     initOrbitalSim();
     initSkyWidget();
+    initAnalogClock();
 });
 
 // =============================================
@@ -1056,4 +1057,28 @@ function initSkyWidget() {
     }
 
     render();
+}
+
+// =============================================
+// RELOJ ANALÓGICO DEL HERO
+// =============================================
+function initAnalogClock() {
+    const hourHand = document.getElementById('clock-hour');
+    const minuteHand = document.getElementById('clock-minute');
+    const secondHand = document.getElementById('clock-second');
+    if (!hourHand || !minuteHand || !secondHand) return;
+
+    function updateClock() {
+        const now = new Date();
+        const sec = now.getSeconds();
+        const min = now.getMinutes();
+        const hr = now.getHours() % 12;
+        secondHand.style.transform = `rotate(${sec * 6}deg)`;
+        minuteHand.style.transform = `rotate(${min * 6 + sec * 0.1}deg)`;
+        hourHand.style.transform = `rotate(${hr * 30 + min * 0.5}deg)`;
+        const dateEl = document.getElementById('status-date');
+        if (dateEl) dateEl.textContent = now.toLocaleDateString('es-ES');
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
 }
