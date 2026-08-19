@@ -1,23 +1,23 @@
 /* =============================================
-   CABINA DE NAVE ESPACIAL - ASTRONOMÍA v3.0
-   Diseño industrial de estación de comando
+   CENTRO DE CONTROL DE MISIÓN - ASTRONOMÍA v4.0
+   Estética de estación espacial y sala de control
    ============================================= */
 
-/* Variables industriales de nave */
+/* Variables de sala de control */
 :root {
-    --metal-dark: #0d1117;
-    --metal-mid: #161b22;
-    --metal-light: #21262d;
-    --metal-border: #30363d;
-    --panel-bg: #11161d;
-    --screen-bg: #0a0f16;
-    --screen-green: #00ff88;
-    --screen-amber: #ffaa00;
+    --metal-dark: #0b1220;
+    --metal-mid: #101a2c;
+    --metal-light: #1b2a45;
+    --metal-border: #2a3d5f;
+    --panel-bg: #0e1726;
+    --screen-bg: #070d18;
+    --screen-green: #3dd68c;
+    --screen-amber: #ffb74d;
     --screen-blue: #4d8fac;
-    --screen-red: #ff3333;
-    --screen-cyan: #00d4ff;
-    --text-primary: #c9d1d9;
-    --text-muted: #8b949e;
+    --screen-red: #ff6b6b;
+    --screen-cyan: #58c7ff;
+    --text-primary: #d7e1ee;
+    --text-muted: #8fa3bd;
     --led-green: #238636;
     --led-amber: #d29922;
     --led-red: #da3633;
@@ -37,6 +37,9 @@ html { scroll-behavior: smooth; font-size: 16px; }
 body {
     font-family: var(--font-body);
     background-color: var(--metal-dark);
+    background-image:
+        radial-gradient(ellipse at 50% 0%, rgba(88,199,255,0.06) 0%, transparent 60%),
+        linear-gradient(180deg, #0b1220 0%, #0a1424 50%, #0b1220 100%);
     color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
@@ -125,7 +128,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2rem 220px;
+    padding: 2rem;
     position: relative;
     min-height: 60vh;
 }
@@ -134,13 +137,14 @@ body {
     position: relative;
     width: 100%;
     max-width: 900px;
-    border: 12px solid var(--metal-light);
-    border-radius: 20px;
-    background: var(--metal-mid);
+    border: 10px solid var(--metal-light);
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(10,20,40,0.6) 0%, var(--metal-mid) 100%);
     box-shadow: 
-        inset 0 0 30px var(--shadow-deep),
-        0 0 40px var(--shadow-deep),
-        inset 0 0 0 2px var(--metal-border);
+        inset 0 0 40px var(--shadow-deep),
+        0 0 50px var(--shadow-deep),
+        inset 0 0 0 1px var(--metal-border),
+        0 0 0 1px var(--metal-border);
     overflow: hidden;
 }
 
@@ -180,80 +184,6 @@ body {
     border-radius: 12px;
     pointer-events: none;
     z-index: 5;
-}
-
-/* Mira de navegación */
-.nav-crosshair {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 200px;
-    height: 200px;
-    z-index: 3;
-    pointer-events: none;
-    opacity: 0.3;
-}
-
-.crosshair-h,
-.crosshair-v {
-    position: absolute;
-    background: var(--screen-cyan);
-    box-shadow: 0 0 5px var(--screen-cyan);
-}
-
-.crosshair-h {
-    width: 100%;
-    height: 1px;
-    top: 50%;
-    left: 0;
-}
-
-.crosshair-v {
-    width: 1px;
-    height: 100%;
-    left: 50%;
-    top: 0;
-}
-
-.crosshair-center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 8px;
-    height: 8px;
-    border: 1px solid var(--screen-cyan);
-    border-radius: 50%;
-    box-shadow: 0 0 5px var(--screen-cyan);
-}
-
-.crosshair-ring {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 120px;
-    height: 120px;
-    border: 1px dashed var(--screen-cyan);
-    border-radius: 50%;
-    animation: rotateRing 20s linear infinite;
-}
-
-@keyframes rotateRing {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-.distance-marker {
-    position: absolute;
-    bottom: -25px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    color: var(--screen-cyan);
-    white-space: nowrap;
 }
 
 /* Contenido del viewport */
@@ -317,8 +247,8 @@ body {
 .hero-stats {
     display: flex;
     justify-content: center;
-    gap: 2rem;
-    margin-bottom: 2rem;
+    gap: 1.2rem;
+    margin-bottom: 1.5rem;
     flex-wrap: wrap;
 }
 

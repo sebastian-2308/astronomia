@@ -18,7 +18,7 @@
     <!-- Barra de navegación móvil (menú hamburguesa) -->
     <div class="mobile-nav">
         <div class="mobile-nav-bar">
-            <span class="mobile-nav-brand">🚀 ASTRONOMÍA</span>
+            <span class="mobile-nav-brand">🛰️ ESTACIÓN ESPACIAL</span>
             <button class="hamburger" aria-label="Abrir menú">
                 <span></span><span></span><span></span>
             </button>
@@ -42,10 +42,10 @@
          ============================================ -->
     <div class="cockpit-frame">
         
-        <!-- Panel superior con alertas y estado -->
+        <!-- Panel superior de estado -->
         <div class="top-status-panel">
             <div class="status-led blink-green"></div>
-            <span class="status-text">SISTEMA OPERATIVO</span>
+            <span class="status-text">CENTRO DE CONTROL DE MISIÓN</span>
             <div class="status-divider"></div>
             <span class="status-text" id="clock">00:00:00</span>
             <div class="status-divider"></div>
@@ -55,63 +55,13 @@
             <div class="status-led blink-amber"></div>
         </div>
 
-        <!-- Panel del techo de la cabina -->
-        <div class="ceiling-console">
-            <div class="ceiling-vent"></div>
-            <div class="ceiling-indicators">
-                <div class="ceiling-indicator red"></div>
-                <div class="ceiling-indicator amber"></div>
-                <div class="ceiling-indicator green"></div>
-                <span class="ceiling-text">COMPARTIMIENTO DE TRIPULACIÓN // TECHO</span>
-            </div>
-            <div class="ceiling-vent"></div>
-        </div>
-
         <!-- ============================================
              VENTANA/VIEWPORT CENTRAL - HERO
              ============================================ -->
         <div class="main-viewport">
-            <!-- Parabrisas de la nave con pilares -->
             <div class="viewport-shell">
-                <div class="viewport-pillar pillar-left"></div>
-                <div class="viewport-pillar pillar-right"></div>
             
-            <!-- HUD de videojuego: radar de navegación -->
-            <div class="hud-radar">
-                <div class="radar-screen">
-                    <div class="radar-sweep"></div>
-                    <div class="radar-ring r1"></div>
-                    <div class="radar-ring r2"></div>
-                    <div class="radar-ring r3"></div>
-                    <div class="radar-cross"></div>
-                    <div class="radar-blip b1"></div>
-                    <div class="radar-blip b2"></div>
-                    <div class="radar-blip b3"></div>
-                </div>
-                <div class="radar-label">RADAR DE OBJETIVOS</div>
-            </div>
-
-            <!-- HUD: barra de energía lateral -->
-            <div class="hud-powerbar">
-                <div class="powerbar-track">
-                    <div class="powerbar-fill" style="width: 68%"></div>
-                </div>
-                <div class="powerbar-labels">
-                    <span>ENERGÍA</span>
-                    <span id="power-value">68%</span>
-                </div>
-            </div>
-
-            <!-- HUD: indicador de altitud -->
-            <div class="hud-altitude">
-                <div class="altitude-value" id="altitude-value">0 M</div>
-                <div class="altitude-bar">
-                    <div class="altitude-fill" style="height: 45%"></div>
-                </div>
-                <div class="altitude-label">ALTITUD</div>
-            </div>
-
-            <!-- Marco metálico de la ventana -->
+            <!-- Contenido del viewport -->
             <div class="viewport-frame">
                 <div class="viewport-bolt top-left"></div>
                 <div class="viewport-bolt top-right"></div>
@@ -119,56 +69,41 @@
                 <div class="viewport-bolt bottom-right"></div>
                 <div class="viewport-seal"></div>
                 
-                <!-- Mira de navegación -->
-                <div class="nav-crosshair">
-                    <div class="crosshair-h"></div>
-                    <div class="crosshair-v"></div>
-                    <div class="crosshair-center"></div>
-                    <div class="crosshair-ring"></div>
-                    <div class="crosshair-ticks">
-                        <span class="tick t-t"></span>
-                        <span class="tick t-b"></span>
-                        <span class="tick t-l"></span>
-                        <span class="tick t-r"></span>
-                    </div>
-                    <div class="distance-marker">DISTANCIA: 149.6M KM</div>
-                    <div class="target-marker tm-1">▲ OBJETIVO 01</div>
-                    <div class="target-marker tm-2">◆ OBJETIVO 02</div>
-                </div>
-
-                <!-- Contenido del viewport -->
+                <!-- Contenido del hero -->
                 <div class="viewport-content" id="inicio">
-                    <div class="viewport-badge">CAMPUS VIRTUAL FUNDACITE CARACAS // ASTRONOMÍA</div>
+                    <div class="viewport-badge">ESTACIÓN ESPACIAL // PUESTO DE CONTROL</div>
                     <h1 class="hero-title">EXPLORANDO EL <span class="gradient-text">UNIVERSO</span></h1>
-                    <p class="hero-subtitle">Página de astronomía del Campus Virtual Fundacite Caracas. Aprende sobre astrónomos, el sistema solar y el cosmos con herramientas interactivas.</p>
+                    <p class="hero-subtitle">Centro de control de astronomía: astrónomos, sistema solar, simulación orbital y herramientas interactivas.</p>
                     
                     <div class="hero-stats">
                         <div class="stat-panel">
-                            <div class="stat-icon">◉</div>
+                            <div class="stat-icon">☀️</div>
                             <div class="stat-data">
-                                <span class="stat-number">100B+</span>
-                                <span class="stat-label">GALAXIAS REG.</span>
+                                <span class="stat-number">1</span>
+                                <span class="stat-label">ESTRELLA</span>
                             </div>
                         </div>
                         <div class="stat-panel">
-                            <div class="stat-icon">◎</div>
+                            <div class="stat-icon">🪐</div>
                             <div class="stat-data">
-                                <span class="stat-number">93B</span>
-                                <span class="stat-label">AÑOS LUZ MAX</span>
+                                <span class="stat-number">8</span>
+                                <span class="stat-label">PLANETAS</span>
                             </div>
                         </div>
                         <div class="stat-panel">
-                            <div class="stat-icon">∞</div>
+                            <div class="stat-icon">🌌</div>
                             <div class="stat-data">
-                                <span class="stat-number">∞</span>
-                                <span class="stat-label">MISTERIOS</span>
+                                <span class="stat-number">200+</span>
+                                <span class="stat-label">LUNAS</span>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="viewport-warning">
-                        <span class="warning-icon">⚠</span>
-                        <span>OBJETOS CELESTES DETECTADOS: 8 PLANETAS, 1 ESTRELLA, 200+ LUNAS</span>
+                        <div class="stat-panel">
+                            <div class="stat-icon">🔭</div>
+                            <div class="stat-data">
+                                <span class="stat-number">9</span>
+                                <span class="stat-label">ASTRÓNOMOS</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -183,24 +118,6 @@
              ============================================ -->
         <div class="bottom-console">
             <div class="console-ridge"></div>
-            <div class="dashboard-glow"></div>
-
-            <!-- Dials del dashboard de vuelo -->
-            <div class="dashboard-dial dashboard-dial-left">
-                <div class="dial-ring">
-                    <div class="dial-needle" style="transform: rotate(-35deg)"></div>
-                    <span class="dial-tick t1"></span><span class="dial-tick t2"></span><span class="dial-tick t3"></span>
-                </div>
-                <span class="dial-label">VELOCIDAD</span>
-            </div>
-
-            <div class="dashboard-dial dashboard-dial-right">
-                <div class="dial-ring">
-                    <div class="dial-needle" style="transform: rotate(15deg)"></div>
-                    <span class="dial-tick t1"></span><span class="dial-tick t2"></span><span class="dial-tick t3"></span>
-                </div>
-                <span class="dial-label">ENERGÍA</span>
-            </div>
 
             <div class="console-buttons">
                 <a href="#astronomos" class="console-btn active" data-section="astronomos">
@@ -209,7 +126,7 @@
                         <div class="btn-face">
                             <span class="btn-icon">👨‍🚀</span>
                             <span class="btn-label">ASTRÓNOMOS</span>
-                            <span class="btn-code">NAV-01</span>
+                            <span class="btn-code">MÓDULO 01</span>
                         </div>
                     </div>
                 </a>
@@ -220,7 +137,7 @@
                         <div class="btn-face">
                             <span class="btn-icon">🪐</span>
                             <span class="btn-label">SIST. SOLAR</span>
-                            <span class="btn-code">NAV-02</span>
+                            <span class="btn-code">MÓDULO 02</span>
                         </div>
                     </div>
                 </a>
@@ -231,7 +148,7 @@
                         <div class="btn-face">
                             <span class="btn-icon">🛰️</span>
                             <span class="btn-label">SIMULACIÓN</span>
-                            <span class="btn-code">NAV-03</span>
+                            <span class="btn-code">MÓDULO 03</span>
                         </div>
                     </div>
                 </a>
@@ -242,7 +159,7 @@
                         <div class="btn-face">
                             <span class="btn-icon">🔧</span>
                             <span class="btn-label">HERRAMIENTAS</span>
-                            <span class="btn-code">NAV-04</span>
+                            <span class="btn-code">MÓDULO 04</span>
                         </div>
                     </div>
                 </a>
@@ -253,7 +170,7 @@
                         <div class="btn-face">
                             <span class="btn-icon">🌟</span>
                             <span class="btn-label">SEMILLEROS</span>
-                            <span class="btn-code">NAV-05</span>
+                            <span class="btn-code">MÓDULO 05</span>
                         </div>
                     </div>
                 </a>
@@ -264,7 +181,7 @@
                         <div class="btn-face">
                             <span class="btn-icon">🌌</span>
                             <span class="btn-label">APRENDE</span>
-                            <span class="btn-code">NAV-06</span>
+                            <span class="btn-code">MÓDULO 06</span>
                         </div>
                     </div>
                 </a>
@@ -275,7 +192,7 @@
                         <div class="btn-face">
                             <span class="btn-icon">🔭</span>
                             <span class="btn-label">CIELO EN VIVO</span>
-                            <span class="btn-code">NAV-07</span>
+                            <span class="btn-code">MÓDULO 07</span>
                         </div>
                     </div>
                 </a>
@@ -286,7 +203,7 @@
                         <div class="btn-face">
                             <span class="btn-icon">🚀</span>
                             <span class="btn-label">HISTORIA</span>
-                            <span class="btn-code">NAV-08</span>
+                            <span class="btn-code">MÓDULO 08</span>
                         </div>
                     </div>
                 </a>
@@ -297,7 +214,7 @@
                         <div class="btn-face">
                             <span class="btn-icon">📡</span>
                             <span class="btn-label">DATOS</span>
-                            <span class="btn-code">NAV-09</span>
+                            <span class="btn-code">MÓDULO 09</span>
                         </div>
                     </div>
                 </a>
@@ -308,7 +225,7 @@
                         <div class="btn-face">
                             <span class="btn-icon">🌠</span>
                             <span class="btn-label">STELLARIUM</span>
-                            <span class="btn-code">NAV-10</span>
+                            <span class="btn-code">MÓDULO 10</span>
                         </div>
                     </div>
                 </a>
@@ -324,7 +241,7 @@
                     <div class="grill-hole"></div>
                     <div class="grill-hole"></div>
                 </div>
-                <div class="console-label">CONSOLA DE NAVEGACIÓN PRINCIPAL</div>
+                <div class="console-label">SELECCIONA UN MÓDULO</div>
             </div>
         </div>
     </div>
@@ -344,7 +261,7 @@
     <section id="astronomos" class="section monitor-section">
         <div class="monitor-frame">
             <div class="monitor-bezel">
-                <div class="monitor-brand">ASTRO<span>PANTALLA</span></div>
+                <div class="monitor-brand">SALA<span>DE CONTROL</span></div>
                 <div class="monitor-led blink-green"></div>
                 <div class="monitor-power">◉</div>
             </div>
@@ -510,7 +427,7 @@
     <section id="sistema-solar" class="section monitor-section">
         <div class="monitor-frame wide">
             <div class="monitor-bezel">
-                <div class="monitor-brand">ASTRO<span>PANTALLA</span></div>
+                <div class="monitor-brand">SALA<span>DE CONTROL</span></div>
                 <div class="monitor-led blink-green"></div>
                 <div class="monitor-power">◉</div>
             </div>
@@ -592,7 +509,7 @@
     <section id="simulacion" class="section monitor-section">
         <div class="monitor-frame wide">
             <div class="monitor-bezel">
-                <div class="monitor-brand">ASTRO<span>PANTALLA</span></div>
+                <div class="monitor-brand">SALA<span>DE CONTROL</span></div>
                 <div class="monitor-led blink-green"></div>
                 <div class="monitor-power">◉</div>
             </div>
@@ -637,7 +554,7 @@
     <section id="herramientas" class="section monitor-section">
         <div class="monitor-frame wide">
             <div class="monitor-bezel">
-                <div class="monitor-brand">ASTRO<span>PANTALLA</span></div>
+                <div class="monitor-brand">SALA<span>DE CONTROL</span></div>
                 <div class="monitor-led blink-amber"></div>
                 <div class="monitor-power">◉</div>
             </div>
@@ -810,7 +727,7 @@
     <section id="semilleros" class="section monitor-section">
         <div class="monitor-frame wide">
             <div class="monitor-bezel">
-                <div class="monitor-brand">ASTRO<span>PANTALLA</span></div>
+                <div class="monitor-brand">SALA<span>DE CONTROL</span></div>
                 <div class="monitor-led blink-green"></div>
                 <div class="monitor-power">◉</div>
             </div>
@@ -895,7 +812,7 @@
     <section id="fundacite" class="section monitor-section">
         <div class="monitor-frame wide">
             <div class="monitor-bezel">
-                <div class="monitor-brand">ASTRO<span>PANTALLA</span></div>
+                <div class="monitor-brand">SALA<span>DE CONTROL</span></div>
                 <div class="monitor-led blink-amber"></div>
                 <div class="monitor-power">◉</div>
             </div>
@@ -1008,7 +925,7 @@
     <section id="cielo" class="section monitor-section">
         <div class="monitor-frame">
             <div class="monitor-bezel">
-                <div class="monitor-brand">ASTRO<span>PANTALLA</span></div>
+                <div class="monitor-brand">SALA<span>DE CONTROL</span></div>
                 <div class="monitor-led blink-green"></div>
                 <div class="monitor-power">◉</div>
             </div>
@@ -1054,7 +971,7 @@
     <section id="historia" class="section monitor-section">
         <div class="monitor-frame wide">
             <div class="monitor-bezel">
-                <div class="monitor-brand">ASTRO<span>PANTALLA</span></div>
+                <div class="monitor-brand">SALA<span>DE CONTROL</span></div>
                 <div class="monitor-led blink-amber"></div>
                 <div class="monitor-power">◉</div>
             </div>
@@ -1135,7 +1052,7 @@
     <section id="datos" class="section monitor-section">
         <div class="monitor-frame">
             <div class="monitor-bezel">
-                <div class="monitor-brand">ASTRO<span>PANTALLA</span></div>
+                <div class="monitor-brand">SALA<span>DE CONTROL</span></div>
                 <div class="monitor-led blink-amber"></div>
                 <div class="monitor-power">◉</div>
             </div>
@@ -1213,7 +1130,7 @@
     <section id="stellarium" class="section monitor-section">
         <div class="monitor-frame wide">
             <div class="monitor-bezel">
-                <div class="monitor-brand">ASTRO<span>PANTALLA</span></div>
+                <div class="monitor-brand">SALA<span>DE CONTROL</span></div>
                 <div class="monitor-led blink-green"></div>
                 <div class="monitor-power">◉</div>
             </div>
@@ -1248,10 +1165,10 @@
         <div class="footer-panel">
             <div class="footer-section">
                 <div class="footer-logo">
-                    <span class="footer-icon">🚀</span>
-                    <span class="footer-text">ASTRONOMÍA <span class="footer-highlight">CARACAS</span></span>
+                    <span class="footer-icon">🛰️</span>
+                    <span class="footer-text">ESTACIÓN <span class="footer-highlight">ESPACIAL</span></span>
                 </div>
-                <p class="footer-desc">En representación de Astronomía Caracas y Fundacite. Contenido educativo, simulación orbital y herramientas de exploración del cosmos.</p>
+                <p class="footer-desc">Centro de control de astronomía en representación de Astronomía Caracas y Fundacite. Contenido educativo, simulación orbital y herramientas de exploración del cosmos.</p>
             </div>
             <div class="footer-section">
                 <h4>FUNDACITE</h4>
@@ -1265,7 +1182,7 @@
                 <div class="bar-segment"></div>
                 <div class="bar-segment active"></div>
                 <div class="bar-segment"></div>
-                <span class="bar-text">ASTRONOMÍA CARACAS // FUNDACITE</span>
+                <span class="bar-text">ESTACIÓN ESPACIAL // FUNDACITE</span>
                 <div class="bar-segment"></div>
                 <div class="bar-segment active"></div>
                 <div class="bar-segment"></div>
