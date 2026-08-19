@@ -1896,6 +1896,13 @@ body {
     background: rgba(0, 30, 60, 0.4);
 }
 
+.stellarium-rotate {
+    display: block;
+    margin-top: 0.4rem;
+    color: var(--screen-cyan);
+    font-weight: 700;
+}
+
 /* Datos Curiosos */
 .facts-carousel {
     position: relative;
