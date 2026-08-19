@@ -2553,6 +2553,96 @@ body {
 }
 
 /* =============================================
+   BARRA DE NAVEGACIÓN MÓVIL (MENÚ HAMBURGUESA)
+   ============================================= */
+.mobile-nav {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-nav {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+    }
+
+    .mobile-nav-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.7rem 1rem;
+        background: linear-gradient(180deg, var(--metal-light) 0%, var(--metal-mid) 100%);
+        border-bottom: 2px solid var(--metal-border);
+        box-shadow: 0 2px 10px var(--shadow-deep);
+    }
+
+    .mobile-nav-brand {
+        font-family: var(--font-title);
+        font-size: 0.8rem;
+        color: var(--screen-cyan);
+        letter-spacing: 1px;
+    }
+
+    .hamburger {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        background: transparent;
+        border: 1px solid var(--metal-border);
+        border-radius: 4px;
+        padding: 0.5rem 0.6rem;
+        cursor: pointer;
+    }
+
+    .hamburger span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: var(--screen-cyan);
+        transition: var(--transition);
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        background: rgba(10, 16, 26, 0.98);
+        border-bottom: 2px solid var(--metal-border);
+        max-height: 70vh;
+        overflow-y: auto;
+        box-shadow: 0 8px 20px var(--shadow-deep);
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links a {
+        padding: 0.9rem 1.2rem;
+        color: var(--text-primary);
+        text-decoration: none;
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+    }
+
+    .nav-links a:last-child {
+        border-bottom: none;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+        background: rgba(0,212,255,0.08);
+        color: var(--screen-cyan);
+    }
+}
+
+/* =============================================
    RESPONSIVE
    ============================================= */
 @media (max-width: 1024px) {
@@ -2563,7 +2653,7 @@ body {
 
 @media (max-width: 768px) {
     .cockpit-frame {
-        padding-top: 0;
+        padding-top: 52px;
     }
     
     .top-status-panel {

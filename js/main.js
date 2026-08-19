@@ -154,12 +154,23 @@ function initClock() {
 function initConsoleButtons() {
     const buttons = document.querySelectorAll('.console-btn');
     const sections = document.querySelectorAll('section[id]');
+    const mobileLinks = document.querySelectorAll('.nav-links a');
     
     // Click en botón
     buttons.forEach(btn => {
         btn.addEventListener('click', (e) => {
             buttons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+        });
+    });
+    
+    // Click en enlaces del menú móvil -> cierra el menú
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            const navLinks = document.querySelector('.nav-links');
+            if (navLinks) navLinks.classList.remove('active');
+            mobileLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
         });
     });
     
@@ -177,6 +188,12 @@ function initConsoleButtons() {
                     btn.classList.remove('active');
                     if (btn.dataset.section === sectionId) {
                         btn.classList.add('active');
+                    }
+                });
+                mobileLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.dataset.section === sectionId) {
+                        link.classList.add('active');
                     }
                 });
             }
