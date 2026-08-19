@@ -4,24 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Astronomía Fundacite Caracas - Explorando el Universo</title>
-    <meta name="description" content="Portal de divulgación científica de Astronomía Caracas y Fundacite: astrónomos, sistema solar, simulaciones, herramientas interactivas y observación del cielo.">
+    <meta name="description" content="Museo griego de astronomía: portal de divulgación científica de Astronomía Caracas y Fundacite con astrónomos clásicos y modernos, sistema solar, simulaciones orbitales, herramientas interactivas y observación del cielo.">
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Cutive+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Fondo estrellado animado -->
+    <!-- Lienzo de estrellas (mantenido por compatibilidad con el JS) -->
     <canvas id="starfield" aria-hidden="true"></canvas>
 
     <!-- ============================================
-         BARRA DE NAVEGACIÓN MODERNA
+         PÓRTICO DE ENTRADA - NAVBAR
          ============================================ -->
     <header class="navbar">
         <div class="navbar-inner">
             <a href="#inicio" class="navbar-brand">
-                <span class="brand-logo">🪐</span>
-                <span class="brand-text">Astronomía <span>Fundacite Caracas</span></span>
+                <span class="brand-logo" aria-hidden="true">🏛️</span>
+                <span class="brand-text">Museo de Astronomía <span>Fundacite Caracas</span></span>
             </a>
             <nav class="nav-links" id="nav-links" aria-label="Navegación principal">
                 <a href="#astronomos" class="console-btn active" data-section="astronomos">Astrónomos</a>
@@ -42,80 +42,101 @@
     </header>
 
     <!-- ============================================
-         HERO - PORTADA DEL PORTAL
+         HERO - FACHADA DEL MUSEO (TEMPLO GRIEGO)
          ============================================ -->
     <section class="hero" id="inicio">
-        <div class="hero-overlay"></div>
+        <div class="hero-halo" aria-hidden="true"></div>
+
         <div class="hero-content">
-            <span class="hero-badge">ASTRONOMÍA FUNDACITE CARACAS</span>
-            <h1 class="hero-title">Explorando el <span class="gradient-text">Universo</span></h1>
-            <p class="hero-subtitle">Un portal interactivo de divulgación científica: conoce a los astrónomos que transformaron nuestra visión del cosmos, explora el sistema solar, simula órbitas y descubre herramientas para medir el infinito.</p>
+            <div class="temple-facade">
+                <div class="pediment">
+                    <span class="acroterion star8" aria-hidden="true"></span>
+                    <span class="acroterion acroterion-l star8" aria-hidden="true"></span>
+                    <span class="acroterion acroterion-r star8" aria-hidden="true"></span>
+                </div>
+                <div class="frieze-band">
+                    <span class="hero-badge">🏛️ MUSEO DE ASTRONOMÍA · FUNDACITE CARACAS</span>
+                </div>
+                <div class="tympanum">
+                    <h1 class="hero-title">Explorando el <span class="gradient-text">Universo</span></h1>
+                    <p class="hero-subtitle">Entre los mármoles de un templo clásico, el cosmos abre sus puertas: conoce a los astrónomos griegos que sembraron la ciencia y a las mentes que transformaron nuestra visión del cielo, explora el sistema solar, simula las órbitas y descubre herramientas para medir el infinito.</p>
+                </div>
+                <div class="columns-row" aria-hidden="true">
+                    <div class="column"><span class="cap"></span><span class="shaft"></span><span class="base"></span></div>
+                    <div class="column"><span class="cap"></span><span class="shaft"></span><span class="base"></span></div>
+                    <div class="column"><span class="cap"></span><span class="shaft"></span><span class="base"></span></div>
+                    <div class="column"><span class="cap"></span><span class="shaft"></span><span class="base"></span></div>
+                </div>
+                <div class="crepidoma" aria-hidden="true"><span></span><span></span></div>
+            </div>
+
             <div class="hero-actions">
                 <a href="#sistema-solar" class="btn btn-primary">Explorar el Sistema Solar</a>
                 <a href="#simulacion" class="btn btn-ghost">Ver Simulación Orbital</a>
             </div>
+
             <div class="hero-stats">
                 <div class="stat-panel">
-                    <span class="stat-icon">☀️</span>
+                    <span class="stat-icon" aria-hidden="true">☀️</span>
                     <div class="stat-data">
                         <span class="stat-number">1</span>
                         <span class="stat-label">Estrella</span>
                     </div>
                 </div>
                 <div class="stat-panel">
-                    <span class="stat-icon">🪐</span>
+                    <span class="stat-icon" aria-hidden="true">🪐</span>
                     <div class="stat-data">
                         <span class="stat-number">8</span>
                         <span class="stat-label">Planetas</span>
                     </div>
                 </div>
                 <div class="stat-panel">
-                    <span class="stat-icon">🌌</span>
+                    <span class="stat-icon" aria-hidden="true">🌌</span>
                     <div class="stat-data">
                         <span class="stat-number">200+</span>
                         <span class="stat-label">Lunas</span>
                     </div>
                 </div>
                 <div class="stat-panel">
-                    <span class="stat-icon">🔭</span>
+                    <span class="stat-icon" aria-hidden="true">🔭</span>
                     <div class="stat-data">
                         <span class="stat-number">9</span>
                         <span class="stat-label">Astrónomos</span>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Panel de datos en vivo -->
-        <div class="live-panel">
-            <div class="analog-clock" id="analog-clock">
-                <div class="clock-face">
-                    <span class="clock-tick c12"></span>
-                    <span class="clock-tick c3"></span>
-                    <span class="clock-tick c6"></span>
-                    <span class="clock-tick c9"></span>
-                    <div class="clock-hand clock-hour" id="clock-hour"></div>
-                    <div class="clock-hand clock-minute" id="clock-minute"></div>
-                    <div class="clock-hand clock-second" id="clock-second"></div>
-                    <div class="clock-center"></div>
+            <!-- Estela con los datos en vivo -->
+            <div class="live-panel">
+                <div class="analog-clock" id="analog-clock">
+                    <div class="clock-face">
+                        <span class="clock-tick c12"></span>
+                        <span class="clock-tick c3"></span>
+                        <span class="clock-tick c6"></span>
+                        <span class="clock-tick c9"></span>
+                        <div class="clock-hand clock-hour" id="clock-hour"></div>
+                        <div class="clock-hand clock-minute" id="clock-minute"></div>
+                        <div class="clock-hand clock-second" id="clock-second"></div>
+                        <div class="clock-center"></div>
+                    </div>
                 </div>
-            </div>
-            <div class="live-data">
-                <div class="live-item">
-                    <span class="live-label">Hora local</span>
-                    <span class="live-value" id="clock">00:00:00</span>
-                </div>
-                <div class="live-item">
-                    <span class="live-label">Fecha</span>
-                    <span class="live-value" id="status-date">-- / -- / ----</span>
-                </div>
-                <div class="live-item">
-                    <span class="live-label">Ubicación</span>
-                    <span class="live-value" id="status-coords">COORD: --, --</span>
-                </div>
-                <div class="live-item">
-                    <span class="live-label">Temperatura</span>
-                    <span class="live-value" id="status-temp">TEMP: --°C</span>
+                <div class="live-data">
+                    <div class="live-item">
+                        <span class="live-label">Hora local</span>
+                        <span class="live-value" id="clock">00:00:00</span>
+                    </div>
+                    <div class="live-item">
+                        <span class="live-label">Fecha</span>
+                        <span class="live-value" id="status-date">-- / -- / ----</span>
+                    </div>
+                    <div class="live-item">
+                        <span class="live-label">Ubicación</span>
+                        <span class="live-value" id="status-coords">COORD: --, --</span>
+                    </div>
+                    <div class="live-item">
+                        <span class="live-label">Temperatura</span>
+                        <span class="live-value" id="status-temp">TEMP: --°C</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -124,16 +145,110 @@
     </section>
 
     <!-- ============================================
-         SECCIÓN 01 - ASTRÓNOMOS
+         SALA I - ASTRÓNOMOS
          ============================================ -->
     <section id="astronomos" class="section">
         <div class="container">
             <div class="section-head">
-                <span class="section-eyebrow">01 // Grandes Mentes</span>
+                <span class="section-eyebrow">Sala I · La Galería de los Sabios</span>
                 <h2 class="section-title">Astrónomos que <span class="gradient-text">cambiaron el mundo</span></h2>
-                <p class="section-desc">Grandes mentes que dedicaron su vida a descifrar los secretos del universo.</p>
+                <p class="section-desc">Desde los filósofos de la Antigua Grecia hasta las mentes modernas: los guardianes de la sabiduría celeste que dedicaron su vida a descifrar los secretos del universo.</p>
             </div>
             <div class="astronomers-grid">
+
+                <!-- GRANDES SABIOS DE LA ANTIGÜEDAD -->
+                <div class="astronomer-card greek">
+                    <div class="card-image bust">
+                        <span class="bust-emoji" aria-hidden="true">🏛️</span>
+                        <span class="bust-plaque">BUSTO HELÉNICO</span>
+                    </div>
+                    <div class="card-content">
+                        <span class="greek-badge">CLÁSICO</span>
+                        <h3>Tales de Mileto</h3>
+                        <span class="years">c. 624 – 546 a. C.</span>
+                        <p>Considerado el primer científico y astrónomo de Occidente. Predijo el eclipse solar del 585 a. C. y enseñó que la naturaleza se explica con la razón, no con el mito.</p>
+                        <div class="tags">
+                            <span class="tag">Geometría</span>
+                            <span class="tag">Astronomía presocrática</span>
+                            <span class="tag">Eclipses</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="astronomer-card greek">
+                    <div class="card-image bust">
+                        <span class="bust-emoji" aria-hidden="true">🏛️</span>
+                        <span class="bust-plaque">BUSTO HELÉNICO</span>
+                    </div>
+                    <div class="card-content">
+                        <span class="greek-badge">CLÁSICO</span>
+                        <h3>Aristóteles</h3>
+                        <span class="years">384 – 322 a. C.</span>
+                        <p>Defendió la esfericidad de la Tierra observando la sombra curva de los eclipses y la circumpolaridad de las estrellas. Su modelo geocéntrico dominó el pensamiento durante siglos.</p>
+                        <div class="tags">
+                            <span class="tag">Geocentrismo</span>
+                            <span class="tag">Esfericidad de la Tierra</span>
+                            <span class="tag">Física</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="astronomer-card greek">
+                    <div class="card-image bust">
+                        <span class="bust-emoji" aria-hidden="true">🏛️</span>
+                        <span class="bust-plaque">BUSTO HELÉNICO</span>
+                    </div>
+                    <div class="card-content">
+                        <span class="greek-badge">CLÁSICO</span>
+                        <h3>Aristarco de Samos</h3>
+                        <span class="years">c. 310 – 230 a. C.</span>
+                        <p>El "Copérnico de la Antigüedad": propuso que la Tierra y los planetas orbitan el Sol, 1.800 años antes que Copérnico, e intentó medir las distancias relativas del Sol y la Luna.</p>
+                        <div class="tags">
+                            <span class="tag">Heliocentrismo</span>
+                            <span class="tag">Cosmología</span>
+                            <span class="tag">Mediciones</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="astronomer-card greek">
+                    <div class="card-image bust">
+                        <span class="bust-emoji" aria-hidden="true">🏛️</span>
+                        <span class="bust-plaque">BUSTO HELÉNICO</span>
+                    </div>
+                    <div class="card-content">
+                        <span class="greek-badge">CLÁSICO</span>
+                        <h3>Hiparco de Nicea</h3>
+                        <span class="years">c. 190 – 120 a. C.</span>
+                        <p>Compiló el primer catálogo de estrellas con más de 850 astros, descubrió la precesión de los equinoccios y fundó la trigonometría para medir el cielo.</p>
+                        <div class="tags">
+                            <span class="tag">Catálogo estelar</span>
+                            <span class="tag">Precesión</span>
+                            <span class="tag">Trigonometría</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="astronomer-card greek">
+                    <div class="card-image bust">
+                        <span class="bust-emoji" aria-hidden="true">🏛️</span>
+                        <span class="bust-plaque">BUSTO HELÉNICO</span>
+                    </div>
+                    <div class="card-content">
+                        <span class="greek-badge">CLÁSICO</span>
+                        <h3>Claudio Ptolomeo</h3>
+                        <span class="years">c. 100 – 170 d. C.</span>
+                        <p>Autor del Almagesto, el gran tratado que sistematizó el modelo geocéntrico con epiciclos y fue la referencia de la astronomía durante más de 1.400 años.</p>
+                        <div class="tags">
+                            <span class="tag">Almagesto</span>
+                            <span class="tag">Geocentrismo</span>
+                            <span class="tag">Cartografía</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- GRANDES MENTES MODERNAS -->
                 <div class="astronomer-card">
                     <div class="card-image">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Justus_Sustermans_-_Portrait_of_Galileo_Galilei%2C_1636.jpg/500px-Justus_Sustermans_-_Portrait_of_Galileo_Galilei%2C_1636.jpg" alt="Galileo Galilei">
@@ -273,14 +388,14 @@
     </section>
 
     <!-- ============================================
-         SECCIÓN 02 - SISTEMA SOLAR
+         SALA II - SISTEMA SOLAR
          ============================================ -->
     <section id="sistema-solar" class="section">
         <div class="container">
             <div class="section-head">
-                <span class="section-eyebrow">02 // Nuestro Vecindario</span>
+                <span class="section-eyebrow">Sala II · Nuestro Vecindario Cósmico</span>
                 <h2 class="section-title">Nuestro <span class="gradient-text">Sistema Solar</span></h2>
-                <p class="section-desc">Seleccione un cuerpo celeste para ver sus datos orbitales.</p>
+                <p class="section-desc">Seleccione un cuerpo celeste para ver sus datos orbitales grabados en esta sala del museo.</p>
             </div>
 
             <div class="planet-selector" role="tablist" aria-label="Selector de planetas">
@@ -339,14 +454,14 @@
     </section>
 
     <!-- ============================================
-         SECCIÓN 03 - SIMULACIÓN ORBITAL
+         SALA III - SIMULACIÓN ORBITAL
          ============================================ -->
     <section id="simulacion" class="section">
         <div class="container">
             <div class="section-head">
-                <span class="section-eyebrow">03 // Dinámica Celeste</span>
+                <span class="section-eyebrow">Sala III · La Mecánica Celeste</span>
                 <h2 class="section-title">Simulación <span class="gradient-text">Orbital</span></h2>
-                <p class="section-desc">Planetas orbitando el Sol según las leyes de Kepler. Ajusta la velocidad y observa el movimiento real.</p>
+                <p class="section-desc">Planetas orbitando el Sol según las leyes de Kepler. Ajusta la velocidad y observa el movimiento real de los astros.</p>
             </div>
 
             <div class="orbital-sim">
@@ -368,14 +483,14 @@
     </section>
 
     <!-- ============================================
-         SECCIÓN 04 - HERRAMIENTAS INTERACTIVAS
+         SALA IV - HERRAMIENTAS INTERACTIVAS
          ============================================ -->
     <section id="herramientas" class="section">
         <div class="container">
             <div class="section-head">
-                <span class="section-eyebrow">04 // Laboratorio Digital</span>
+                <span class="section-eyebrow">Sala IV · El Taller del Astrónomo</span>
                 <h2 class="section-title">Herramientas <span class="gradient-text">Interactivas</span></h2>
-                <p class="section-desc">Sistemas de cálculo gravitacional y conversión de unidades astronómicas.</p>
+                <p class="section-desc">Sistemas de cálculo gravitacional y conversión de unidades astronómicas, como los que usaban los sabios para medir el cielo.</p>
             </div>
 
             <div class="tools-grid">
@@ -536,12 +651,12 @@
     </section>
 
     <!-- ============================================
-         SECCIÓN 05 - SEMILLEROS CIENTÍFICOS
+         SALA V - SEMILLEROS CIENTÍFICOS
          ============================================ -->
     <section id="semilleros" class="section">
         <div class="container">
             <div class="section-head">
-                <span class="section-eyebrow">05 // Formación Científica</span>
+                <span class="section-eyebrow">Sala V · La Academia de Jóvenes Astrónomos</span>
                 <h2 class="section-title">Semilleros <span class="gradient-text">Científicos</span></h2>
                 <p class="section-desc">Espacios de formación para jóvenes interesados en la exploración del cosmos y las ciencias del espacio.</p>
             </div>
@@ -605,12 +720,12 @@
     </section>
 
     <!-- ============================================
-         SECCIÓN 06 - APRENDE ASTRONOMÍA
+         SALA VI - APRENDE ASTRONOMÍA
          ============================================ -->
     <section id="fundacite" class="section">
         <div class="container">
             <div class="section-head">
-                <span class="section-eyebrow">06 // Divulgación Científica</span>
+                <span class="section-eyebrow">Sala VI · La Biblioteca del Conocimiento</span>
                 <h2 class="section-title">Aprende <span class="gradient-text">Astronomía</span></h2>
                 <p class="section-desc">Conceptos fundamentales para entender el universo que nos rodea. Una iniciativa de divulgación científica.</p>
             </div>
@@ -702,12 +817,12 @@
     </section>
 
     <!-- ============================================
-         SECCIÓN 07 - CIELO EN VIVO
+         SALA VII - CIELO EN VIVO
          ============================================ -->
     <section id="cielo" class="section">
         <div class="container">
             <div class="section-head">
-                <span class="section-eyebrow">07 // Observación Nocturna</span>
+                <span class="section-eyebrow">Sala VII · La Terraza de Observación</span>
                 <h2 class="section-title">Cielo <span class="gradient-text">en Vivo</span></h2>
                 <p class="section-desc">Descubre qué planetas y objetos brillantes puedes observar esta noche según tu ubicación.</p>
             </div>
@@ -732,12 +847,12 @@
     </section>
 
     <!-- ============================================
-         SECCIÓN 08 - HISTORIA
+         SALA VIII - HISTORIA
          ============================================ -->
     <section id="historia" class="section">
         <div class="container">
             <div class="section-head">
-                <span class="section-eyebrow">08 // Grandes Hitos</span>
+                <span class="section-eyebrow">Sala VIII · La Crónica del Cosmos</span>
                 <h2 class="section-title">Línea del <span class="gradient-text">Tiempo Espacial</span></h2>
                 <p class="section-desc">Los hitos que nos llevaron de mirar las estrellas a caminar entre ellas.</p>
             </div>
@@ -797,12 +912,12 @@
     </section>
 
     <!-- ============================================
-         SECCIÓN 09 - DATOS CÓSMICOS
+         SALA IX - DATOS CÓSMICOS
          ============================================ -->
     <section id="datos" class="section">
         <div class="container">
             <div class="section-head">
-                <span class="section-eyebrow">09 // Curiosidades</span>
+                <span class="section-eyebrow">Sala IX · El Gabinete de Curiosidades</span>
                 <h2 class="section-title">Datos <span class="gradient-text">Cósmicos</span></h2>
                 <p class="section-desc">Hechos sorprendentes sobre el universo que nos rodea.</p>
             </div>
@@ -861,12 +976,12 @@
     </section>
 
     <!-- ============================================
-         SECCIÓN 10 - STELLARIUM
+         SALA X - STELLARIUM
          ============================================ -->
     <section id="stellarium" class="section">
         <div class="container">
             <div class="section-head">
-                <span class="section-eyebrow">10 // Planetario Online</span>
+                <span class="section-eyebrow">Sala X · El Planetario</span>
                 <h2 class="section-title">Stellarium <span class="gradient-text">Planetario</span></h2>
                 <p class="section-desc">Explora el cielo en tiempo real desde tu ubicación. Arrastra para desplazarte, haz zoom y descubre estrellas, planetas y constelaciones.</p>
             </div>
@@ -879,17 +994,18 @@
     </section>
 
     <!-- ============================================
-         FOOTER MODERNO
+         FOOTER - PÓRTICO DE SALIDA
          ============================================ -->
     <footer class="footer">
+        <div class="footer-frieze" aria-hidden="true"></div>
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col footer-about">
                     <div class="footer-brand">
-                        <span class="footer-logo">🪐</span>
+                        <span class="footer-logo">🏛️</span>
                         <span class="footer-name">Astronomía <span>Fundacite Caracas</span></span>
                     </div>
-                    <p class="footer-desc">Portal de divulgación científica en representación de Astronomía Caracas y Fundacite. Contenido educativo, simulaciones orbitales y herramientas interactivas para explorar el cosmos.</p>
+                    <p class="footer-desc">Museo virtual de astronomía en representación de Astronomía Caracas y Fundacite. Contenido educativo, simulaciones orbitales y herramientas interactivas para explorar el cosmos.</p>
                 </div>
                 <div class="footer-col">
                     <h4>Explorar</h4>
