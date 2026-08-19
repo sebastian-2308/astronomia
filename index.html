@@ -14,6 +14,16 @@
     <!-- Lienzo de estrellas (mantenido por compatibilidad con el JS) -->
     <canvas id="starfield" aria-hidden="true"></canvas>
 
+    <!-- Columnas del templo nocturno (decoración de ambiente) -->
+    <div class="temple-columns" aria-hidden="true">
+        <div class="decor-column col-left">
+            <span class="decor-cap"></span><span class="decor-shaft"></span><span class="decor-base"></span>
+        </div>
+        <div class="decor-column col-right">
+            <span class="decor-cap"></span><span class="decor-shaft"></span><span class="decor-base"></span>
+        </div>
+    </div>
+
     <!-- ============================================
          PÓRTICO DE ENTRADA - NAVBAR
          ============================================ -->
@@ -25,6 +35,7 @@
             </a>
             <nav class="nav-links" id="nav-links" aria-label="Navegación principal">
                 <a href="#astronomos" class="console-btn active" data-section="astronomos">Astrónomos</a>
+                <a href="#venezuela" class="console-btn" data-section="venezuela">Venezuela</a>
                 <a href="#sistema-solar" class="console-btn" data-section="sistema-solar">Sistema Solar</a>
                 <a href="#simulacion" class="console-btn" data-section="simulacion">Simulación</a>
                 <a href="#herramientas" class="console-btn" data-section="herramientas">Herramientas</a>
@@ -46,6 +57,18 @@
          ============================================ -->
     <section class="hero" id="inicio">
         <div class="hero-halo" aria-hidden="true"></div>
+
+        <!-- Estrellas de 8 puntas y lauros de ambiente -->
+        <div class="hero-decor" aria-hidden="true">
+            <span class="star8 star-decor d1"></span>
+            <span class="star8 star-decor d2"></span>
+            <span class="star8 star-decor d3"></span>
+            <span class="star8 star-decor d4"></span>
+            <span class="star8 star-decor d5"></span>
+            <span class="laurel l1">🌿</span>
+            <span class="laurel l2">🌿</span>
+            <span class="laurel l3">🏛️</span>
+        </div>
 
         <div class="hero-content">
             <div class="temple-facade">
@@ -388,12 +411,86 @@
     </section>
 
     <!-- ============================================
-         SALA II - SISTEMA SOLAR
+         SALA II - ASTRONOMÍA VENEZOLANA
+         ============================================ -->
+    <section id="venezuela" class="section">
+        <div class="container">
+            <div class="section-head">
+                <span class="section-eyebrow">Sala II · La Astronomía en Venezuela</span>
+                <h2 class="section-title">Astronomía <span class="gradient-text">Venezolana</span></h2>
+                <p class="section-desc">Desde los observatorios de la época colonial hasta los cielos de Caracas: la huella venezolana en el estudio del cosmos. 🇻🇪</p>
+            </div>
+
+            <div class="venezuela-grid">
+                <!-- Observatorio Cajigal -->
+                <div class="venezuela-card">
+                    <span class="ven-icon" aria-hidden="true">🏛️</span>
+                    <span class="ven-year">Desde 1888 · Caracas</span>
+                    <h3>El Observatorio Cajigal</h3>
+                    <p>Fundado en Caracas en 1888 y bautizado en honor al científico Juan Manuel Cagigal —por eso también se escribe Observatorio Cagigal—, es uno de los observatorios astronómicos más antiguos de América. Desde allí se observó el cielo, se calculó el meridiano venezolano y se registró el clima del país.</p>
+                    <span class="ven-tag">Historia</span>
+                </div>
+
+                <!-- Eduardo Röhl -->
+                <div class="venezuela-card">
+                    <span class="ven-icon" aria-hidden="true">🌟</span>
+                    <span class="ven-year">1891 – 1959</span>
+                    <h3>Eduardo Röhl</h3>
+                    <p>Ingeniero, geógrafo y astrónomo venezolano, pionero de la astronomía moderna en el país. Dirigió el Observatorio Cagigal, estudió cometas y eclipses, y dedicó su vida a medir el cielo y a divulgar la ciencia desde Venezuela.</p>
+                    <span class="ven-tag">Pionero</span>
+                </div>
+
+                <!-- Fundacite y la educación -->
+                <div class="venezuela-card">
+                    <span class="ven-icon" aria-hidden="true">⚛️</span>
+                    <span class="ven-year">Hoy · Aulas y campus virtual</span>
+                    <h3>Fundacite y la divulgación</h3>
+                    <p>La Fundación para el Desarrollo de la Ciencia y la Tecnología acerca la astronomía a la educación venezolana: cursos, campus virtuales, talleres y material didáctico que llevan el cielo a escuelas y comunidades de todo el país.</p>
+                    <span class="ven-tag">Divulgación</span>
+                </div>
+
+                <!-- El cielo de Venezuela -->
+                <div class="venezuela-card">
+                    <span class="ven-icon" aria-hidden="true">🌌</span>
+                    <span class="ven-year">Latitud 10,5° N</span>
+                    <h3>El cielo de Venezuela</h3>
+                    <p>Desde las latitudes venezolanas se divisan estrellas del hemisferio norte y, hacia el sur, la brillante Cruz del Sur se asoma baja sobre el horizonte. Los cielos de los Llanos y las costas tropicales ofrecen noches claras para la observación.</p>
+                    <span class="ven-tag">Observación</span>
+                </div>
+
+                <!-- Waraira Repano -->
+                <div class="venezuela-card">
+                    <span class="ven-icon" aria-hidden="true">⛰️</span>
+                    <span class="ven-year">Parque nacional · Caracas</span>
+                    <h3>El Waraira Repano, el Ávila</h3>
+                    <p>El cerro El Ávila, Waraira Repano en voces originarias, es el mirador natural de Caracas. Elevado sobre el resplandor de la ciudad, sus cumbres son un punto de referencia para observar planetas, la Vía Láctea y las lluvias de estrellas.</p>
+                    <span class="ven-tag">Mirador</span>
+                </div>
+
+                <!-- Semilleros científicos -->
+                <div class="venezuela-card">
+                    <span class="ven-icon" aria-hidden="true">🌱</span>
+                    <span class="ven-year">Vocaciones · Jóvenes astrónomos</span>
+                    <h3>Semilleros en astronomía</h3>
+                    <p>Los semilleros científicos siembran vocaciones astronómicas: niñas, niños y jóvenes aprenden a manejar telescopios, reconocer constelaciones y participar en proyectos de ciencia ciudadana mirando el cielo de su propio país.</p>
+                    <span class="ven-tag">Vocaciones</span>
+                </div>
+            </div>
+
+            <div class="venezuela-note">
+                <span class="note-icon">🇻🇪</span>
+                <p>La observación del cielo venezolano sigue viva: Fundacite acompaña a los futuros astrónomos con semilleros, cursos y su campus virtual. <a href="https://campusvirtual.fundacite-caracas.com/" target="_blank">Descubre más →</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SALA III - SISTEMA SOLAR
          ============================================ -->
     <section id="sistema-solar" class="section">
         <div class="container">
             <div class="section-head">
-                <span class="section-eyebrow">Sala II · Nuestro Vecindario Cósmico</span>
+                <span class="section-eyebrow">Sala III · Nuestro Vecindario Cósmico</span>
                 <h2 class="section-title">Nuestro <span class="gradient-text">Sistema Solar</span></h2>
                 <p class="section-desc">Seleccione un cuerpo celeste para ver sus datos orbitales grabados en esta sala del templo.</p>
             </div>
@@ -454,12 +551,12 @@
     </section>
 
     <!-- ============================================
-         SALA III - SIMULACIÓN ORBITAL
+         SALA IV - SIMULACIÓN ORBITAL
          ============================================ -->
     <section id="simulacion" class="section">
         <div class="container">
             <div class="section-head">
-                <span class="section-eyebrow">Sala III · La Mecánica Celeste</span>
+                <span class="section-eyebrow">Sala IV · La Mecánica Celeste</span>
                 <h2 class="section-title">Simulación <span class="gradient-text">Orbital</span></h2>
                 <p class="section-desc">Planetas orbitando el Sol según las leyes de Kepler. Ajusta la velocidad y observa el movimiento real de los astros.</p>
             </div>
@@ -483,12 +580,12 @@
     </section>
 
     <!-- ============================================
-         SALA IV - HERRAMIENTAS INTERACTIVAS
+         SALA V - HERRAMIENTAS INTERACTIVAS
          ============================================ -->
     <section id="herramientas" class="section">
         <div class="container">
             <div class="section-head">
-                <span class="section-eyebrow">Sala IV · El Taller del Astrónomo</span>
+                <span class="section-eyebrow">Sala V · El Taller del Astrónomo</span>
                 <h2 class="section-title">Herramientas <span class="gradient-text">Interactivas</span></h2>
                 <p class="section-desc">Sistemas de cálculo gravitacional y conversión de unidades astronómicas, como los que usaban los sabios para medir el cielo.</p>
             </div>
@@ -651,12 +748,12 @@
     </section>
 
     <!-- ============================================
-         SALA V - SEMILLEROS CIENTÍFICOS
+         SALA VI - SEMILLEROS CIENTÍFICOS
          ============================================ -->
     <section id="semilleros" class="section">
         <div class="container">
             <div class="section-head">
-                <span class="section-eyebrow">Sala V · La Academia de Jóvenes Astrónomos</span>
+                <span class="section-eyebrow">Sala VI · La Academia de Jóvenes Astrónomos</span>
                 <h2 class="section-title">Semilleros <span class="gradient-text">Científicos</span></h2>
                 <p class="section-desc">Espacios de formación para jóvenes interesados en la exploración del cosmos y las ciencias del espacio.</p>
             </div>
@@ -720,12 +817,12 @@
     </section>
 
     <!-- ============================================
-         SALA VI - APRENDE ASTRONOMÍA
+         SALA VII - APRENDE ASTRONOMÍA
          ============================================ -->
     <section id="fundacite" class="section">
         <div class="container">
             <div class="section-head">
-                <span class="section-eyebrow">Sala VI · La Biblioteca del Conocimiento</span>
+                <span class="section-eyebrow">Sala VII · La Biblioteca del Conocimiento</span>
                 <h2 class="section-title">Aprende <span class="gradient-text">Astronomía</span></h2>
                 <p class="section-desc">Conceptos fundamentales para entender el universo que nos rodea. Una iniciativa de divulgación científica.</p>
             </div>
@@ -817,12 +914,12 @@
     </section>
 
     <!-- ============================================
-         SALA VII - CIELO EN VIVO
+         SALA VIII - CIELO EN VIVO
          ============================================ -->
     <section id="cielo" class="section">
         <div class="container">
             <div class="section-head">
-                <span class="section-eyebrow">Sala VII · La Terraza de Observación</span>
+                <span class="section-eyebrow">Sala VIII · La Terraza de Observación</span>
                 <h2 class="section-title">Cielo <span class="gradient-text">en Vivo</span></h2>
                 <p class="section-desc">Descubre qué planetas y objetos brillantes puedes observar esta noche según tu ubicación.</p>
             </div>
@@ -847,12 +944,12 @@
     </section>
 
     <!-- ============================================
-         SALA VIII - HISTORIA
+         SALA IX - HISTORIA
          ============================================ -->
     <section id="historia" class="section">
         <div class="container">
             <div class="section-head">
-                <span class="section-eyebrow">Sala VIII · La Crónica del Cosmos</span>
+                <span class="section-eyebrow">Sala IX · La Crónica del Cosmos</span>
                 <h2 class="section-title">Línea del <span class="gradient-text">Tiempo Espacial</span></h2>
                 <p class="section-desc">Los hitos que nos llevaron de mirar las estrellas a caminar entre ellas.</p>
             </div>
@@ -912,12 +1009,12 @@
     </section>
 
     <!-- ============================================
-         SALA IX - DATOS CÓSMICOS
+         SALA X - DATOS CÓSMICOS
          ============================================ -->
     <section id="datos" class="section">
         <div class="container">
             <div class="section-head">
-                <span class="section-eyebrow">Sala IX · El Gabinete de Curiosidades</span>
+                <span class="section-eyebrow">Sala X · El Gabinete de Curiosidades</span>
                 <h2 class="section-title">Datos <span class="gradient-text">Cósmicos</span></h2>
                 <p class="section-desc">Hechos sorprendentes sobre el universo que nos rodea.</p>
             </div>
@@ -976,12 +1073,12 @@
     </section>
 
     <!-- ============================================
-         SALA X - STELLARIUM
+         SALA XI - STELLARIUM
          ============================================ -->
     <section id="stellarium" class="section">
         <div class="container">
             <div class="section-head">
-                <span class="section-eyebrow">Sala X · El Planetario</span>
+                <span class="section-eyebrow">Sala XI · El Planetario</span>
                 <h2 class="section-title">Stellarium <span class="gradient-text">Planetario</span></h2>
                 <p class="section-desc">Explora el cielo en tiempo real desde tu ubicación. Arrastra para desplazarte, haz zoom y descubre estrellas, planetas y constelaciones.</p>
             </div>
@@ -1011,6 +1108,7 @@
                     <h4>Explorar</h4>
                     <ul>
                         <li><a href="#astronomos">Astrónomos</a></li>
+                        <li><a href="#venezuela">Astronomía Venezolana</a></li>
                         <li><a href="#sistema-solar">Sistema Solar</a></li>
                         <li><a href="#simulacion">Simulación Orbital</a></li>
                         <li><a href="#herramientas">Herramientas</a></li>

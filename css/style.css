@@ -339,6 +339,8 @@ button {
 }
 
 .hero-content {
+    position: relative;
+    z-index: 1;
     max-width: 980px;
     width: 100%;
     animation: heroFadeIn 1s ease both;
@@ -2382,9 +2384,258 @@ input[type="range"]::-moz-range-thumb {
 }
 
 /* ============================================================
-   RESPONSIVE - INTERMEDIO (<= 1150px)
+   DECORACIÓN GRIEGA - COLUMNAS LATERALES DEL TEMPLO NOCTURNO
    ============================================================ */
-@media (max-width: 1150px) {
+.temple-columns {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.decor-column {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 56px;
+    display: flex;
+    flex-direction: column;
+    opacity: 0.4;
+    filter: drop-shadow(0 0 22px rgba(0, 0, 0, 0.55));
+}
+
+.decor-column .decor-cap {
+    height: 36px;
+    flex-shrink: 0;
+    position: relative;
+    background: linear-gradient(180deg, var(--marble-3), var(--marble-2));
+    border: 2px solid var(--gold);
+    border-radius: 4px;
+    box-shadow: inset 0 -8px 14px rgba(0, 0, 0, 0.35);
+}
+
+.decor-column .decor-cap::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -7px;
+    transform: translateX(-50%);
+    width: 70%;
+    height: 7px;
+    background: linear-gradient(180deg, var(--gold-light), var(--gold-dark));
+    border-radius: 2px;
+}
+
+.decor-column .decor-shaft {
+    flex: 1;
+    background: repeating-linear-gradient(90deg,
+        var(--marble-3) 0 7px, var(--marble-2) 7px 8px,
+        var(--marble) 8px 16px);
+    border-left: 1px solid rgba(212, 175, 55, 0.35);
+    border-right: 1px solid rgba(212, 175, 55, 0.35);
+}
+
+.decor-column .decor-base {
+    height: 34px;
+    flex-shrink: 0;
+    background: linear-gradient(180deg, var(--marble-3), var(--marble-2));
+    border: 2px solid var(--gold);
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    box-shadow: inset 0 10px 16px rgba(0, 0, 0, 0.35);
+}
+
+.decor-column.col-left { left: 10px; }
+.decor-column.col-right { right: 10px; }
+
+/* ============================================================
+   HERO - ESTRELLAS DE 8 PUNTAS Y LAUROS DE AMBIENTE
+   ============================================================ */
+.hero-decor {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.hero-decor .star8 {
+    position: absolute;
+    opacity: 0.28;
+    animation: twinkle 3.2s ease-in-out infinite;
+}
+
+.hero-decor .star8::before,
+.hero-decor .star8::after {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
+}
+
+.star-decor.d1 { width: 14px; height: 14px; top: 16%; left: 10%; animation-delay: 0.2s; }
+.star-decor.d2 { width: 10px; height: 10px; top: 26%; right: 12%; animation-delay: 0.8s; }
+.star-decor.d3 { width: 18px; height: 18px; bottom: 22%; left: 16%; animation-delay: 1.4s; }
+.star-decor.d4 { width: 9px; height: 9px; bottom: 30%; right: 18%; animation-delay: 0.5s; }
+.star-decor.d5 { width: 12px; height: 12px; top: 54%; left: 46%; animation-delay: 1.9s; }
+
+.hero-decor .laurel {
+    position: absolute;
+    font-size: 34px;
+    opacity: 0.16;
+    filter: grayscale(0.4);
+}
+
+.hero-decor .laurel.l1 { top: 14%; right: 24%; transform: rotate(-12deg); }
+.hero-decor .laurel.l2 { bottom: 18%; left: 30%; transform: rotate(10deg); }
+.hero-decor .laurel.l3 { top: 40%; left: 7%; font-size: 30px; opacity: 0.12; }
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.12; transform: scale(0.9); }
+    50% { opacity: 0.4; transform: scale(1.1); }
+}
+
+/* ============================================================
+   SECCIONES - FRISO DE GRECAS (MEANDRO GRIEGO) ARRIBA Y ABAJO
+   ============================================================ */
+.section::before,
+.section::after {
+    content: '';
+    display: block;
+    height: 14px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath fill='none' stroke='%23d4af37' stroke-width='2' d='M2 20 h12 V10 h-6 v4 h2 v-2 h2 v6 h-8 V4 h14 v8 h2 v8 h4'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-size: 24px 24px;
+    opacity: 0.38;
+}
+
+.section::before {
+    margin-bottom: 46px;
+}
+
+.section::after {
+    margin-top: 46px;
+}
+
+/* ============================================================
+   ASTRONOMÍA VENEZOLANA - SALA II
+   ============================================================ */
+.venezuela-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.venezuela-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 26px 24px;
+    background: var(--surface-panel);
+    border: 1px solid var(--line-strong);
+    border-top: 4px solid var(--gold);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+    transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+
+.venezuela-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-style: solid;
+    border-width: 0 36px 36px 0;
+    border-color: transparent var(--gold) transparent transparent;
+    opacity: 0.16;
+    pointer-events: none;
+}
+
+.venezuela-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--gold);
+    box-shadow: var(--shadow-card);
+}
+
+.venezuela-card .ven-icon {
+    display: inline-block;
+    font-size: 30px;
+    margin-bottom: 12px;
+    filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.4));
+}
+
+.venezuela-card .ven-year {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--gold-deep);
+    margin-bottom: 10px;
+}
+
+.venezuela-card h3 {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    margin-bottom: 8px;
+}
+
+.venezuela-card p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+    margin-bottom: 16px;
+    flex: 1;
+}
+
+.venezuela-card .ven-tag {
+    align-self: flex-start;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    background: rgba(212, 175, 55, 0.10);
+    border: 1px solid rgba(212, 175, 55, 0.45);
+    padding: 4px 12px;
+    border-radius: 3px;
+}
+
+.venezuela-note {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin-top: 28px;
+    padding: 20px 24px;
+    background: linear-gradient(120deg, var(--marble-3), var(--marble-2));
+    border: 1px solid var(--gold-light);
+    border-left: 4px solid var(--gold-dark);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+}
+
+.venezuela-note p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+}
+
+.venezuela-note a {
+    color: var(--blue);
+    font-weight: 600;
+}
+
+.venezuela-note a:hover {
+    color: var(--gold-deep);
+}
+
+/* ============================================================
+   RESPONSIVE - INTERMEDIO (<= 1320px)
+   ============================================================ */
+@media (max-width: 1320px) {
     .nav-links .console-btn {
         font-size: 11px;
         padding: 7px 8px;
@@ -2392,6 +2643,41 @@ input[type="range"]::-moz-range-thumb {
 
     .nav-links {
         gap: 1px;
+    }
+}
+
+/* ============================================================
+   RESPONSIVE - INTERMEDIO (<= 1150px)
+   ============================================================ */
+@media (max-width: 1150px) {
+    .nav-links .console-btn {
+        font-size: 10px;
+        padding: 6px 7px;
+        letter-spacing: 0.02em;
+    }
+
+    .nav-links {
+        gap: 0;
+    }
+
+    .decor-column {
+        width: 42px;
+        opacity: 0.26;
+    }
+}
+
+/* ============================================================
+   RESPONSIVE - TABLETS EN HORIZONTAL (menú con scroll si falta espacio)
+   ============================================================ */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .nav-links {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .nav-links::-webkit-scrollbar {
+        display: none;
     }
 }
 
@@ -2404,6 +2690,10 @@ input[type="range"]::-moz-range-thumb {
     }
 
     .semilleros-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .venezuela-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 
@@ -2527,6 +2817,14 @@ input[type="range"]::-moz-range-thumb {
     .semilleros-grid,
     .tools-grid {
         grid-template-columns: 1fr;
+    }
+
+    .venezuela-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .temple-columns {
+        display: none;
     }
 
     .tool-card.wide {
