@@ -677,15 +677,17 @@ body {
 
 .card-image {
     width: 100%;
-    height: 200px;
+    height: 230px;
     overflow: hidden;
     border-bottom: 1px solid var(--metal-border);
+    background: var(--panel-bg);
 }
 
 .card-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center 20%;
     filter: grayscale(30%);
     transition: var(--transition);
 }
@@ -2812,13 +2814,22 @@ body {
 
     /* Astrónomos */
     .astronomer-card { margin-bottom: 0.5rem; }
-    .card-image img { max-height: 160px; object-fit: cover; }
+    .card-image { height: 200px; }
+    .card-image img { max-height: none; height: 100%; object-fit: cover; object-position: center 20%; }
     .card-content { padding: 0.9rem; }
     .card-content h3 { font-size: 1rem; }
     .card-content p { font-size: 0.8rem; }
 
     /* Sistema solar / selector de planetas */
     .planet-display { grid-template-columns: 1fr; gap: 1rem; }
+
+    /* Escala del sistema solar */
+    .scale-container { overflow-x: auto; padding: 1rem 0; }
+    .scale-track { min-width: 520px; height: 50px; }
+    .scale-planet { font-size: 1.2rem; }
+    .scale-axis-labels { min-width: 520px; padding: 0; }
+    .scale-labels { min-width: 520px; padding: 0; }
+    .scale-tip { font-size: 0.7rem; }
     .planet-sphere { width: 120px; height: 120px; }
     .planet-info h3 { font-size: 1.1rem; }
     .planet-stats { grid-template-columns: repeat(2, 1fr); }
