@@ -78,9 +78,15 @@ body {
         200px 200px, 240px 240px, 210px 210px, 190px 190px,
         230px 230px, 220px 220px, 205px 205px, 250px 250px,
         100% 100%, 100% 100%;
-    background-attachment: fixed;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+}
+
+/* El fondo fijo solo en escritorio: en móviles provoca repintados por frame */
+@media (hover: hover) and (pointer: fine) and (min-width: 1025px) {
+    body {
+        background-attachment: fixed;
+    }
 }
 
 a {
@@ -758,6 +764,8 @@ button {
     z-index: 1;
     padding: 92px 0;
     background: linear-gradient(180deg, rgba(26, 37, 67, 0.35), transparent 12%);
+    content-visibility: auto;
+    contain-intrinsic-size: auto 1200px;
 }
 
 .section:nth-of-type(even) {
@@ -993,7 +1001,7 @@ button {
     border: 1px solid var(--line-strong);
     background: var(--surface-panel);
     box-shadow: var(--shadow-soft);
-    transition: all var(--transition);
+    transition: color var(--transition), background-color var(--transition), border-color var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 
 .planet-btn:hover {
@@ -1442,7 +1450,7 @@ button {
     background: var(--blue-tint);
     border: 1px solid rgba(127, 179, 230, 0.4);
     border-radius: 4px;
-    transition: all var(--transition);
+    transition: color var(--transition), background-color var(--transition), border-color var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 
 .preset-btn:hover {
@@ -2188,7 +2196,7 @@ input[type="range"]::-moz-range-thumb {
     border: 1px solid var(--gold);
     border-radius: 50%;
     box-shadow: var(--shadow-soft);
-    transition: all var(--transition);
+    transition: color var(--transition), background-color var(--transition), border-color var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 
 .carousel-controls button:hover {
@@ -2208,7 +2216,7 @@ input[type="range"]::-moz-range-thumb {
     border-radius: 50%;
     background: var(--line-strong);
     cursor: pointer;
-    transition: all var(--transition);
+    transition: color var(--transition), background-color var(--transition), border-color var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 
 .dot.active {
@@ -3037,5 +3045,27 @@ input[type="range"]::-moz-range-thumb {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
+    }
+}
+
+/* ============================================================
+   RENDIMIENTO - AHORRO DE BATERÍA EN MÓVIL
+   Las animaciones infinitas (brillo del sol, titileo de estrellas,
+   flecha rebotando) se detienen en pantallas táctiles pequeñas.
+   ============================================================ */
+@media (max-width: 768px) {
+    .sun-sphere,
+    .hero-decor .star8,
+    .hero-scroll {
+        animation: none !important;
+    }
+
+    /* Sombras gigantes cuestan memoria de GPU en equipos modestos */
+    .planet-sphere::after {
+        box-shadow: 0 0 30px rgba(212, 175, 55, 0.25);
+    }
+
+    .sun-sphere {
+        box-shadow: inset -30px -24px 55px rgba(120, 40, 0, 0.4), 0 0 40px rgba(255, 190, 60, 0.45);
     }
 }

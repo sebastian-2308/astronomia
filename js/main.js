@@ -26,6 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // =============================================
 function initStarfield() {
     const canvas = document.getElementById('starfield');
+    if (!canvas) return;
+    // El lienzo está oculto con CSS: no gastar CPU animándolo
+    if (getComputedStyle(canvas).display === 'none') return;
     const ctx = canvas.getContext('2d');
     
     let width, height;
@@ -680,6 +683,7 @@ function initFactsCarousel() {
     const dots = document.querySelectorAll('.dot');
     const prevBtn = document.getElementById('prev-fact');
     const nextBtn = document.getElementById('next-fact');
+    if (!slides.length || !prevBtn || !nextBtn) return;
     let currentSlide = 0;
     let autoPlayInterval;
     
@@ -719,14 +723,27 @@ function initFactsCarousel() {
     });
     
     function startAutoPlay() {
+        stopAutoPlay();
         autoPlayInterval = setInterval(nextSlide, 5000);
     }
-    
+
+    function stopAutoPlay() {
+        if (autoPlayInterval) clearInterval(autoPlayInterval);
+    }
+
     function resetAutoPlay() {
-        clearInterval(autoPlayInterval);
         startAutoPlay();
     }
-    
+
+    // No gastar CPU cambiando slides con la pestaña en segundo plano
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            stopAutoPlay();
+        } else {
+            startAutoPlay();
+        }
+    });
+
     startAutoPlay();
 }
 
@@ -923,7 +940,25 @@ function initOrbitalSim() {
             if (elapsedEl) elapsedEl.textContent = 'AÑO ' + year.toFixed(2);
         }
         draw();
-        requestAnimationFrame(animate);
+        rafId = requestAnimationFrame(animate);
+    }
+
+    // El bucle solo corre con la sección visible y la pestaña activa
+    let rafId = null;
+    let sectionVisible = false;
+
+    function startLoop() {
+        if (rafId === null && sectionVisible && !document.hidden) {
+            lastTime = performance.now();
+            rafId = requestAnimationFrame(animate);
+        }
+    }
+
+    function stopLoop() {
+        if (rafId !== null) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+        }
     }
 
     // Controles
@@ -979,19 +1014,34 @@ function initOrbitalSim() {
             : 'Toca un planeta para ver sus datos';
     }, { passive: false });
 
-    // Reajustar cuando la sección se vuelve visible
+    // Reajustar cuando la sección se vuelve visible (con debounce)
+    let resizeTimer = null;
+    const onResize = () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(resize, 150);
+    };
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) resize();
+            sectionVisible = entry.isIntersecting;
+            if (sectionVisible) {
+                resize();
+                startLoop();
+            } else {
+                stopLoop();
+            }
         });
-    });
+    }, { threshold: 0.05 });
     const sec = document.getElementById('simulacion');
     if (sec) observer.observe(sec);
 
-    window.addEventListener('resize', () => resize());
+    window.addEventListener('resize', onResize);
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) stopLoop(); else startLoop();
+    });
 
     resize();
-    requestAnimationFrame(animate);
+    startLoop();
 }
 
 // =============================================
