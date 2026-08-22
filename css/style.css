@@ -2642,6 +2642,120 @@ input[type="range"]::-moz-range-thumb {
 }
 
 /* ============================================================
+   PERIÓDICO - SALA RAÍCES INDÍGENAS DEL CIELO
+   Hoja de papel envejecido con tinta oscura, a dos columnas.
+   ============================================================ */
+.newspaper {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 40px clamp(20px, 5vw, 56px) 46px;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(255, 250, 235, 0.5), transparent 55%),
+        var(--marble-light);
+    color: #241d12;
+    border-top: 6px double var(--gold);
+    border-bottom: 6px double var(--gold);
+    box-shadow: var(--shadow-card);
+}
+
+.np-masthead {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-align: center;
+    text-transform: uppercase;
+    color: #6b5a35;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(36, 29, 18, 0.35);
+}
+
+.np-headline {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(1.8rem, 5.4vw, 2.7rem);
+    line-height: 1.12;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: #1c1610;
+    margin-top: 24px;
+}
+
+.np-subhead {
+    font-style: italic;
+    font-size: clamp(17px, 2.4vw, 20px);
+    line-height: 1.5;
+    text-align: center;
+    color: #4a3d26;
+    max-width: 640px;
+    margin: 14px auto 0;
+}
+
+.np-dateline {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: #6b5a35;
+    margin-top: 22px;
+    padding: 10px 0;
+    border-top: 1px solid rgba(36, 29, 18, 0.35);
+    border-bottom: 3px double rgba(36, 29, 18, 0.45);
+}
+
+.np-figure {
+    margin: 26px 0 20px;
+}
+
+.np-figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid rgba(36, 29, 18, 0.35);
+    filter: sepia(0.28) contrast(1.02);
+}
+
+.np-figure figcaption {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: #6b5a35;
+    padding-top: 9px;
+}
+
+.np-body {
+    column-count: 2;
+    column-gap: 36px;
+    column-rule: 1px solid rgba(36, 29, 18, 0.18);
+    font-size: 16.5px;
+    line-height: 1.72;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+}
+
+.np-body p {
+    margin-bottom: 15px;
+}
+
+.np-body p:last-child {
+    margin-bottom: 0;
+}
+
+.np-lead::first-letter {
+    float: left;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 3.6em;
+    line-height: 0.82;
+    padding: 6px 10px 0 0;
+    color: var(--terra);
+}
+
+/* ============================================================
    RESPONSIVE - INTERMEDIO (<= 1320px)
    ============================================================ */
 @media (max-width: 1320px) {
@@ -2905,6 +3019,18 @@ input[type="range"]::-moz-range-thumb {
 
     .fact-number {
         font-size: 48px;
+    }
+
+    /* Periódico a una columna en pantallas pequeñas */
+    .np-body {
+        column-count: 1;
+        text-align: left;
+        -webkit-hyphens: none;
+        hyphens: none;
+    }
+
+    .newspaper {
+        padding-bottom: 34px;
     }
 }
 
